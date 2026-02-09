@@ -6,3 +6,7 @@
 /public/storage
 /.env
 .phpunit.result.cache
+
+# Large archives (do not commit)
+atlas.zip
+_public_html.zip

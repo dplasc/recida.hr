@@ -19,7 +19,7 @@ if ($hostname == '127.0.0.1:8000' || str_contains($script_name, 'valet/')) {
  
 
 } else {
-    $asset_url = str_replace("index.php", "", $script_name) . 'public';
+    $asset_url = env('ASSET_URL');
    
 }
 

@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 14px;
+}
+
+.install-body {
+  height: 100vh;
+  /* overflow: hidden; */
+  overflow-x: hidden;
+  background-color: #fafafa;
+}
+.card {
+  border: 0;
+}
+.card-body {
+  padding: 10px 30px;
+}
+.page-title {
+  margin: 20px 0;
+  background: #f7f7f9;
+  border-radius: 6px;
+  text-align: center;
+  padding: 13px;
+}
+.page-title h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.ins-p-1 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+.ins-p-2 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  margin-top: 20px;
+}
+.ins-point ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ins-point ul li {
+  display: flex;
+  align-items: center;
+  border: 1px solid #dbdfeb;
+  width: 261px;
+  padding: 7px 10px;
+  border-radius: 6px;
+}
+.ins-point ul li span {
+  font-size: 14px;
+}
+.dot {
+  height: 8px;
+  width: 8px;
+  background: #17c653;
+  border-radius: 50px;
+  margin-right: 5px;
+}
+.ins-back {
+  padding: 10px 24px 10px 24px;
+  border-radius: 6px;
+  background-color: #F7F7F9;
+  border: 1px solid #E4E7F1;
+  text-decoration: none;
+  color: #6D718C;
+}
+.ins-btn {
+  padding: 10px 24px 10px 24px;
+  border-radius: 6px;
+  background-color: #1b84ff;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  border: 0;
+}
+.ins-step {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 24px 0 0 0;
+}
+.ins-step li {
+  width: 102px;
+  height: 4px;
+  border-radius: 100px;
+  background: #F2F3F5;
+  margin-bottom: 15px;
+}
+.ins-step li span {
+  opacity: 0;
+  visibility: hidden;
+}
+.ins-step .active {
+  background-color: #1b84ff;
+}
+.spinner-border {
+  height: 24px;
+  width: 24px;
+}
+.form-control {
+  padding: 10px;
+}
+.form-control:focus {
+  box-shadow: 0 0 0 0;
+}

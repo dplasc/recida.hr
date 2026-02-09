@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaBoldRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaBoldRegular.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana Black It';
+    src: url('FONTSPRINGDEMO-JuanaBlackItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaBlackItRegular.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaBlackRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaBlackRegular.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana Bold It';
+    src: url('FONTSPRINGDEMO-JuanaBoldItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaBoldItRegular.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaExtraLightRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaExtraLightRegular.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana ExtraLight It';
+    src: url('FONTSPRINGDEMO-JuanaExtraLightItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaExtraLightItRegular.woff') format('woff');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana Medium It';
+    src: url('FONTSPRINGDEMO-JuanaMediumItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaMediumItRegular.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana SemiBold It';
+    src: url('FONTSPRINGDEMO-JuanaSemiBoldItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaSemiBoldItRegular.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaThinRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaThinRegular.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaSemiBoldRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaSemiBoldRegular.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana It';
+    src: url('FONTSPRINGDEMO-JuanaItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaItRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana Light It';
+    src: url('FONTSPRINGDEMO-JuanaLightItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaLightItRegular.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana Thin It';
+    src: url('FONTSPRINGDEMO-JuanaThinItRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaThinItRegular.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaLightRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaLightRegular.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FONTSPRING DEMO - Juana';
+    src: url('FONTSPRINGDEMO-JuanaMediumRegular.woff2') format('woff2'),
+        url('FONTSPRINGDEMO-JuanaMediumRegular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

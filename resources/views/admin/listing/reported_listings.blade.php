@@ -1,0 +1,171 @@
+@extends('layouts.admin')
+@section('title', get_phrase('Reported Listings'))
+@section('admin_layout')
+<style>
+    .line-25{
+        line-height: 25px;
+    }
+    .fs-14px{
+        line-height: 25px;
+    }
+    .fs-14px b{
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: 6px;
+    }
+</style>
+<div class="ol-card radius-8px">
+    <div class="ol-card-body my-2 py-18px px-20px">
+        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap flex-md-nowrap">
+            <h4 class="title fs-16px">
+                <i class="fi-rr-settings-sliders me-2"></i>
+                {{ get_phrase('Reported Listings') }}
+            </h4>
+        </div>
+    </div>
+</div>
+
+<div class="ol-card mt-3">
+    <div class="ol-card-body p-3">
+        @if(count($reported_listings))
+        <table id="datatable" class="table w-100">
+            <thead>
+                <tr>
+                    <th> {{get_phrase('ID')}} </th>
+                    <th> {{get_phrase('Listings')}} </th>
+                    <th> {{get_phrase('Type')}} </th>
+                    <th> {{get_phrase('Reported by')}} </th>
+                    <th> {{get_phrase('Reason')}} </th>
+                    {{-- <th> {{get_phrase('Report Type')}} </th> --}}
+                    {{-- <th> {{get_phrase('Status')}} </th> --}}
+                    <th> {{get_phrase('Action')}} </th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $num = 1 @endphp
+                @foreach ($reported_listings as $listings)
+                @php
+                
+                $listingType = $listings->type; 
+               
+                if ($listingType == 'beauty') {
+                    $listing = App\Models\BeautyListing::where('id', $listings->listing_id)->first();
+                    //$users = App\Models\User::where('id', $listing->user_id)->first();
+                } elseif ($listingType == 'car') {
+                    $listing = App\Models\CarListing::where('id', $listings->listing_id)->first();
+                   // $users = App\Models\User::where('id', $listing->user_id)->first();
+                } elseif ($listingType == 'hotel') {
+                    $listing = App\Models\HotelListing::where('id', $listings->listing_id)->first();
+                   // $users = App\Models\User::where('id', $listing->user_id)->first();
+                }elseif ($listingType == 'real-estate') {
+                    $listing = App\Models\RealEstateListing::where('id', $listings->listing_id)->first();
+                    //$users = App\Models\User::where('id', $listing->user_id)->first();
+                } elseif ($listingType == 'restaurant') {
+                    $listing = App\Models\RestaurantListing::where('id', $listings->listing_id)->first();
+                    //$users = App\Models\User::where('id', $listing->user_id)->first();
+                } else{
+                    $listing = App\Models\CustomListings::where('id', $listings->listing_id)->first();
+                    
+                }
+                $users = App\Models\User::where('id', $listing->user_id)->first();
+            @endphp    
+                <tr>
+                    <td> {{$num++}} </td>
+                    <td>
+                        <div class="dAdmin_profile d-flex flex-wrap  min-w-200px gap-2">
+                            <div class="dAdmin_profile_name">
+                                <p class="fs-14px mb-1">
+                                    <b>{{get_phrase('Owner: ')}}</b>
+                                    {{$users->name}}</p>
+                                <p class=" fs-14px"> {{$listing ->title}} </p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                            <div class="dAdmin_profile_name">
+                                <p class="fs-14px capitalize">  {{$listing->type}}</p>
+                            </div>
+                        </div> 
+                    </td>
+                    <td> 
+                        <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                            <div class="dAdmin_profile_name">
+                                <p class="fs-14px mb-1"> {{$listings->user_name}}</p>
+                                <p class="fs-14px mb-1"> {{$listings->user_email}}</p>
+                                <p class="fs-14px mb-1">{{$listings->user_phone}}</p>
+                               
+                            </div>
+                        </div>
+                     </td>
+                     <td> 
+                        <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                            <div class="dAdmin_profile_name">
+                                <p class="fs-14px mb-1"><b>{{get_phrase('Report Type : ')}} </b> {{ str_replace('_', ' ', $listings->report_type) }}</p>
+                                <p class="fs-14px report-text line-25">
+                                    <span class="short-text line-25">{{ Str::limit($listings->report, 300) }}</span>  
+                                    @if(strlen($listings->report) > 300)
+                                        <span class="read-more-btn text-primary" style="cursor: pointer;">{{get_phrase('Read More')}}</span>
+                                        <span class="full-text line-25 d-none">{{ $listings->report }}</span>
+                                    @endif
+                                </p>  
+                            </div>
+                        </div>
+                    </td>
+                    {{-- <td>
+                        <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                            <div class="dAdmin_profile_name">
+                                <p class="fs-14px capitalize">{{ str_replace('_', ' ', $listings->report_type) }}</p>
+                            </div>
+                        </div> 
+                    </td> --}}
+                    {{-- <td>
+                        <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                            <div class="dAdmin_profile_name">
+                                @if($listings->status == 1)
+                                <p class="sub-title2 text-12px badge bg-success"> {{get_phrase('Approve')}}</p>
+                                @else
+                                <p class="sub-title2 text-12px badge bg-warning"> {{get_phrase('Pending')}}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </td> --}}
+                  
+                    <td> 
+                        <div class="dropdown ol-icon-dropdown">
+                            <button class="px-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="fi-rr-menu-dots-vertical"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item fs-14px" href="{{route('listing.details',['id'=>$listing->id,'type'=>$listing->type, 'slug'=>$listing->title])}}" target="_blank"> {{get_phrase('View frontend')}} </a></li>
+                              <li><a class="dropdown-item fs-14px"onclick="delete_modal('{{route('admin.listing-global.delete',['type'=>$listing->type, 'listing_id'=>$listing->id])}}')"  href="javascript:void(0);"> {{get_phrase('Listings Delete')}} </a></a></li>
+                              <li><a class="dropdown-item fs-14px" onclick="delete_modal('{{route('admin.report-listing.delete',[ 'id'=>$listings->id])}}')" href="javascript:void(0);"> {{get_phrase('Report Delete')}} </a></a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @else
+            @include('layouts.no_data_found')
+        @endif
+    </div>
+</div>
+
+
+
+@endsection
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.read-more-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                let parent = this.closest('.report-text');
+                let fullText = parent.querySelector('.full-text').textContent;
+                parent.innerHTML = fullText; // Replace content with full text
+            });
+        });
+    });
+</script>

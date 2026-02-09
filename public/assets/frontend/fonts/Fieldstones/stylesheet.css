@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'Fieldstones';
+    src: url('Fieldstones-Bold.woff2') format('woff2'),
+        url('Fieldstones-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    /* font-family: 'Fieldstones ExtBd'; */
+    font-family: 'Fieldstones';
+    src: url('Fieldstones-ExtraBold.woff2') format('woff2'),
+        url('Fieldstones-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    /* font-family: 'Fieldstones SemBd'; */
+    font-family: 'Fieldstones';
+    src: url('Fieldstones-SemiBold.woff2') format('woff2'),
+        url('Fieldstones-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fieldstones';
+    src: url('Fieldstones-Thin.woff2') format('woff2'),
+        url('Fieldstones-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fieldstones';
+    src: url('Fieldstones-Regular.woff2') format('woff2'),
+        url('Fieldstones-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

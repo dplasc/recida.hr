@@ -1,0 +1,1349 @@
+@media all and (min-width: 1400px){
+    .at-user-dropdown{
+        margin-right: 10px;
+    }
+}
+@media all and (max-width: 1399px){
+    /* Real Estate Grid */
+    .reals-bed-bath-sqft {
+        column-gap: 15px;
+    }
+    /* Hotel Grid */
+    .hotelgrid-list-items {
+        column-gap: 5.5px;
+        row-gap: 5.5px;
+    }
+    .hotelgrid-list-items li:not(:last-child) {
+        padding-right: 9.5px;
+    }
+    /* Real Details */
+    .realestate-property-list{
+        column-gap: 20px;
+        justify-content: center;
+    }
+    .realestate-property-list li:not(:last-child){
+        padding-right: 20px;
+    }
+    /* Beauty home page */
+    .ers-title-76px {
+        font-size: 70px;
+    }
+    .ju-title-70px {
+        font-size: 65px;
+    }
+    .bt-banner-wrap{
+        max-width: 480px;
+    }
+    .bt-banner-title-area {
+        max-width: 430px;
+    }
+    .bt-banner-area {
+        min-height: 500px;
+        padding: 140px 0 120px 0;
+    }
+    /* Home page header */
+    .at-home-search-input.highlighted,
+    .at-home-search-input:focus {
+        /* width: 275px; */
+        width: 264px;
+    }
+    .dt-home-search-input.highlighted,
+    .dt-home-search-input:focus {
+        /* width: 274px; */
+        width: 263px;
+    }
+    .ht-home-search-input.highlighted,
+    .ht-home-search-input:focus {
+        /* width: 280px; */
+        width: 269px;
+    }
+    .bt-home-search-input.highlighted,
+    .bt-home-search-input:focus {
+        /* width: 274px; */
+        width: 263px;
+    }
+    .rt-home-search-input.highlighted,
+    .rt-home-search-input:focus {
+        /* width: 280px; */
+        width: 269px;
+    }
+    .ca-home-search-input.highlighted,
+    .ca-home-search-input:focus{
+        /* width: 270px; */
+        width: 259px;
+    }
+    .car-home-search-input.highlighted,
+    .car-home-search-input:focus{
+        /* width: 270px; */
+        width: 259px;
+    }
+    /* kjdsf */
+}
+@media all and (max-width: 1199px){
+    .dm-title-60px {
+        font-size: 55px;
+        line-height: 70px;
+    }
+    /* Header */
+    .header-nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .header-buttons {
+        padding-left: 0;
+    }
+    .header-buttons::after {
+        display: none;
+    }
+    .mobile-menu-btn{
+        display: block;
+    }
+    .header-nav-list > li{
+        width: 100%;
+    }
+    .header-nav-list .first-a {
+        padding: 12px 0 !important;
+        width: 100%;
+    }
+    .have-sub-menu .first-a {
+        justify-content: space-between;
+    }
+    .have-sub-menu{
+        position: inherit;
+    }
+    .have-sub-menu .first-sub-menu {
+        pointer-events: inherit;
+        visibility: visible;
+        opacity: 1;
+        -webkit-transform: rotateX(0deg);
+        -moz-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        padding: 0;
+        position: inherit;
+        border: none;
+        box-shadow: none;
+        transition: inherit;
+        min-width: auto;
+        background: transparent;
+        display: none;
+    }
+    .first-sub-menu a{
+        padding: 10px 0 10px 15px;
+    }
+    .menu-btn-area .offcanvas-xl.offcanvas-end{
+        width: 300px;
+        border: none;
+        box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.1);
+    }
+    .have-sub-menu.active-submenu .first-a {
+        color: var(--darkColor);
+    }
+    .have-sub-menu.active-submenu .first-a > svg path {
+        fill: var(--darkColor);
+    }
+    .have-sub-menu .first-a > svg {
+        transition: .3s;
+    }
+    .have-sub-menu.active-submenu .first-a > svg {
+        transform: rotate(180deg);
+    }
+    .at-home-offcanvas .offcanvas-header .btn-close:focus{
+        box-shadow: none;
+    }
+    .at-home-offcanvas .offcanvas-header .btn-close{
+        height: 13px;
+        width: 13px;
+        background-size: 13px;
+    }
+    .header-offcanvas-logo a{
+        display: block;
+    }
+    /* Real Estate Grid */
+    .sidebar-map-area .map {
+        height: 375px;
+    }
+    /* Car List */
+    .carlist-list-items {
+        column-gap: 35px;
+    }
+    .carlist-list-items li:not(:last-child) {
+        padding-right: 35px;
+    }
+    .carlist-title-bookmark {
+        margin-bottom: 10px;
+    }
+    .carlist-item-price {
+        margin-bottom: 8px;
+        align-items: flex-start !important;
+    }
+    /* Real Estate Details */
+    .realdetails-features-list{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .realdetails-nearby-items{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .realestate-banner-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Restaurent Details */
+    .restdetails-menu-items{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Hotel Details */
+    .hoteldetails-gallery-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Car Details */
+    .carcustomer-review-banners {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Beauty Details */
+    .beauty-team-members {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .beauty-banner-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Restaurant home page */
+    .fi-title-60px {
+        font-size: 55px;
+        line-height: 120%;
+    }
+    .fi-title-48px{
+        font-size: 45px;
+    }
+    .rt-banner-content {
+        max-width: 550px;
+    }
+    .rt-banner-left-shape {
+        max-width: 330px;
+    }
+    .rt-banner-left-shape::after {
+        max-width: 545px;
+    }
+    .rt-banner-right-shape {
+        max-width: 335px;
+    }
+    .rt-banner-right-shape::after {
+        max-width: 545px;
+    }
+    .rt-banner-content::after {
+        right: 24px;
+    }
+    /* Beauty Home Page */
+    .ers-title-76px {
+        font-size: 63px;
+    }
+    .ju-title-70px {
+        font-size: 60px;
+    }
+    .ju-title-44px {
+        font-size: 42px;
+    }
+    .ers-title-44px{
+        font-size: 42px;
+    }
+    .ju-title-90px {
+        font-size: 80px;
+    }
+    .fu-title-90px{
+        font-size: 80px;
+    }
+    .ju-title-54px {
+        font-size: 50px;
+    }
+    .bt-banner-wrap {
+        position: inherit;
+        left: 0;
+        top: 0;
+        transform: translateX(0%) translateY(0%);
+    }
+    .bt-banner-counter-area {
+        flex-direction: row;
+    }
+    .bt-banner-wrap {
+        max-width: 440px;
+        padding-right: 72px;
+    }
+    .bt-banner-play-btn {
+        right: 0px;
+    }
+    .bt-banner-area {
+        align-items: center !important;
+        min-height: auto;
+        padding: 60px 0 0px 0;
+    }
+    /* Home page header */
+    .at-home-menu-button:has(.at-home-search-input.highlighted),
+    .search-focus-active .at-home-menu-button{
+        padding-left: 0px;
+    }
+    .at-home-menu-button:has(.at-home-search-input.highlighted)::after,
+    .search-focus-active .at-home-menu-button::after{
+        display: none;
+    }
+    .at-home-offcanvas.offcanvas-xl.offcanvas-end {
+        width: 300px;
+        border: none;
+        box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.1);
+    }
+    .at-home-offcanvas .btn-close:focus{
+        box-shadow: none;
+    }
+    .at-home-navbar-nav{
+        flex-direction: column;
+        align-items: start;
+    }
+    .at-home-navbar-nav > li {
+        width: 100%;
+    }
+    .at-home-nav-link{
+        padding: 12px 0;
+        /* width: 100%; */
+    }
+    .ht-home-header .ht-home-navbar-nav .at-home-nav-link {
+        color: var(--darkColor) !important;
+    }
+    .ht-home-navbar-nav .at-home-nav-link {
+        color: var(--darkColor) !important;
+    }
+    /* doctor home page */
+    .dt-discount-banner {
+        width: 450px;
+    }
+    .lg-title-64px {
+        font-size: 55px;
+    }
+    .sf-subtitle-34px {
+        font-size: 30px;
+    }
+    .lg-title-56px {
+        font-size: 50px;
+    }
+    /* car home page */
+    .ex-title-100px {
+        font-size: 85px;
+    }
+    .ca-hero-happy-customers {
+        right: 0px;
+    }
+    /* user access */
+    .ua-title-36px {
+        font-size: 34px;
+    }
+    /* kjlsdf */
+    .footer-middle-contact  a svg{
+        display: none;
+    }
+
+}
+@media all and (max-width: 991px){
+    .lg-title-78px {
+        font-size: 40px;
+    }
+    .dm-title-60px {
+        font-size: 50px;
+        line-height: 62px;
+    }
+    .dm-title-36px {
+        font-size: 33px;
+    }
+    .dm-title-30px {
+        font-size: 28px;
+    }
+    .dm-title-26px {
+        font-size: 24px;
+    }
+    /* Header */
+    .header-search-form {
+        display: none;
+    }
+    .header-right-area{
+        width: auto;
+    }
+    /* Footer */
+    .footer-middle-logo {
+        width: 100%;
+    }
+    .footer-middle-logo .info{
+        max-width: 100%;
+    }
+    /* Car List */
+    .carlist-item-price {
+        align-items: center !important;
+    }
+    /* Real Estate Details */
+    .realdetails-features-list{
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .realdetails-nearby-items{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .realestate-banner-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .realdetails-sidebar{
+        margin-bottom: 36px;
+    }
+    .realdetails-3d-wrap {
+        padding: 0 20px;
+    }
+    /* Restaurent Details */
+    .restdetails-menu-items{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Hotel Details */
+    .hoteldetails-gallery-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    /* Car Details */
+    .carcustomer-review-banners {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    /* Beauty Details */
+    .beauty-team-members {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .beauty-banner-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    /* Hotel home page */
+    .ht-search-filter-border{
+        padding-right: 0px;
+    }
+    .ht-search-filter-border::after{
+        display: none;
+    }
+    /* Restaurant home page */
+    .fi-title-60px {
+        font-size: 50px;
+    }
+    .fi-title-48px{
+        font-size: 42px;
+    }
+    .fi-title-30px{
+        font-size: 28px;
+    }
+    .fi-title-36px{
+        font-size: 33px;
+    }
+    .fi-title-24px{
+        font-size: 22px;
+    }
+    .rt-banner-left-shape > img {
+        display: none;
+    }
+    .rt-banner-right-shape > img {
+        display: none;
+    }
+    .rt-banner-right-shape::before{
+        display: none;
+    }
+    .rt-banner-left-shape::after
+    .rt-banner-right-shape::after {
+        max-width: 445px;
+    }
+    .rt-banner-content {
+        max-width: 650px;
+    }
+    .rt-banner-section {
+        padding: 90px 0 80px 0;
+    }
+    .rt-dark-card {
+        padding: 40px 350px 40px 40px;
+    }
+    .rt-dark-cark-img {
+        right: 10px;
+        width: 340px;
+    }
+    /* Beauty Home page */
+    .ers-title-76px {
+        font-size: 55px;
+    }
+    .ju-title-70px {
+        font-size: 55px;
+    }
+    .ju-title-44px {
+        font-size: 40px;
+    }
+    .ers-title-44px{
+        font-size: 40px;
+    }
+    .fs-title-40px {
+        font-size: 38px;
+    }
+    .ers-title-36px {
+        font-size: 34px;
+    }
+    .al-title-32px {
+        font-size: 30px;
+    }
+    .bai-title-26px {
+        font-size: 24px;
+    }
+    .ju-title-90px {
+        font-size: 72px;
+    }
+    .fu-title-90px{
+        font-size: 72px;
+    }
+    .ju-title-54px {
+        font-size: 45px;
+    }
+    .bt-banner-area{
+        flex-direction: column;
+    }
+    .bt-banner-wrap{
+        order: -1;
+        margin-bottom: 30px;
+    }
+    .bt-banner-title-area{
+        max-width: 100%;
+    }
+    /* Home page header */
+    .at-home-login {
+        margin-right: 0px;
+    }
+    /* doctor home page */
+    .dt-discount-banner {
+        width: 400px;
+    }
+    .dt-discount-details {
+        margin-right: 0px;
+    }
+    .lg-title-64px {
+        font-size: 50px;
+    }
+    .sf-subtitle-34px {
+        font-size: 28px;
+    }
+    .sf-title-30px {
+        font-size: 27px;
+    }
+    .lg-title-36px{
+        font-size: 33px;
+    }
+    /* Customer & Agent page */
+    .offcanvas-lg.offcanvas-start.ca-offcanvas {
+        width: 300px;
+        border: none;
+    }
+    .ca-offcanvas {
+        padding: 0;
+        border-radius: 0;
+    }
+    .ca-offcanvas-body {
+        padding: 0 23px 23px 23px;
+    }
+    .ca-offcanvas-header {
+        padding: 23px 23px 0 23px;
+    }
+    /* doctor home page */
+    .lg-title-56px {
+        font-size: 45px;
+    }
+    .banner-support-user-wrap {
+        padding-top: 0;
+        position: inherit;
+        transform: translateX(0);
+        left: 0;
+    }
+    .dt-banner-search-wrap{
+        bottom: 100px;
+    }
+    /* car home page */
+    .ex-title-100px {
+        font-size: 70px;
+    }
+    .ca-hero-happy-customers {
+        position: inherit;
+        justify-content: flex-end;
+    }
+    .car-search-filters{
+        padding: 12px 30px;
+    }
+    /* user access */
+    .ua-title-36px {
+        font-size: 32px;
+    }
+    .ca-title-18px{
+        font-size: 16px;
+    }
+    /* sklfjk */
+    
+}
+@media all and (max-width: 767px){
+    .dm-title-60px {
+        font-size: 45px;
+        line-height: 55px;
+    }
+    .dm-title-36px {
+        font-size: 31px;
+    }
+    .dm-title-30px {
+        font-size: 26px;
+    }
+    .dm-title-26px {
+        font-size: 22px;
+    }
+    /* Header Top */
+    .header-top-area{
+        flex-direction: column;
+        justify-content: center !important;
+    }
+    .header-number-location{
+        justify-content: center;
+    }
+    .header-social-list{
+        justify-content: center;
+    }
+    /* Footer */
+    .footer-bottom-wrap{
+        flex-direction: column;
+        justify-content: center !important;
+    }
+    .footer-bottom-wrap .info{
+        text-align: center;
+    }
+    .footer-bottom-social ul{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    /* Car Grid */
+    .cargrid-list-items {
+        column-gap: 20px;
+    }
+    .cargrid-list-items li:not(:last-child) {
+        padding-right: 20px;
+    }
+    .car-map-area {
+        height: 380px;
+    }
+    /* Car List */
+    .car-list-card {
+        flex-direction: column;
+    }
+    .car-list-slider {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .car-list-slider .list-banner-slider .list-slide-img img{
+        border-radius: 12px 12px 0 0;
+    }
+    .car-list-details {
+        border-radius: 0 0 12px 12px;
+    }
+    /* Real Estate Details */
+    .realdetails-features-list{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .realdetails-nearby-items{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .realestate-banner-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .realdetails-3d-wrap .model-viewer {
+        height: 380px;
+    }
+    .alm-hlist-group {
+        column-gap: 35px;
+    }
+    /* Restaurent Details */
+    .restdetails-menu-items{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Hotel Details */
+    .hotelrent-price-area .save-btn1 {
+        min-width: 120px;
+    }
+    .hotelrent-price-area .share-btn1 {
+        min-width: 120px;
+    }
+    .hoteldetails-gallery-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Car Details */
+    .carcustomer-review-banners {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .cardetails-banner-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Doctor Details */
+    .theme-btn-150 {
+        min-width: 130px;
+    }
+    .white-btn-150 {
+        min-width: 130px;
+    }
+    /* Beauty Details */
+    .beauty-team-members {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .beauty-banner-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    /* Common Pages */
+    .in-title-1{
+        font-size: 42px;
+    }
+    .in-title-2{
+        font-size: 30px;
+    }
+    .in-title-3{
+        font-size: 28px;
+    }
+    /* Hotel home page */
+    .max-md-400px{
+        max-width: 400px;
+    }
+    /* Restaurent home page */
+    .fi-title-60px {
+        font-size: 45px;
+    }
+    .fi-title-48px{
+        font-size: 39px;
+    }
+    .fi-title-48px{
+        font-size: 39px;
+    }
+    .fi-title-30px{
+        font-size: 25px;
+    }
+    .fi-title-36px{
+        font-size: 31px;
+    }
+    .fi-title-26px{
+        font-size: 23px;
+    }
+    .fi-title-24px{
+        font-size: 20px;
+    }
+    .rt-banner-right-shape::after {
+        max-width: 245px;
+        filter: blur(193.5px);
+    }
+    .rt-banner-left-shape::after {
+        max-width: 245px;
+        filter: blur(193.5px);
+    }
+    .rt-banner-section {
+        padding: 80px 0 70px 0;
+    }
+    .rt-dark-card {
+        padding: 40px 300px 40px 40px;
+    }
+    .rt-dark-cark-img {
+        right: 10px;
+        width: 290px;
+        bottom: 0;
+    }
+    /* Beauty home page */
+    .ers-title-76px {
+        font-size: 50px;
+    }
+    .ju-title-70px {
+        font-size: 45px;
+    }
+    .ju-title-44px {
+        font-size: 38px;
+    }
+    .ers-title-44px{
+        font-size: 38px;
+    }
+    .ju-title-24px{
+        font-size: 21px;
+    }
+    .fs-title-40px {
+        font-size: 36px;
+    }
+    .ers-title-36px {
+        font-size: 31px;
+    }
+    .al-title-32px {
+        font-size: 28px;
+    }
+    .bai-title-26px {
+        font-size: 22px;
+    }
+    .ju-title-90px {
+        font-size: 62px;
+    }
+    .fu-title-90px{
+        font-size: 62px;
+    }
+    .ju-title-54px {
+        font-size: 40px;
+    }
+    .bt-banner-play-btn{
+        width: 100px;
+    }
+    .bt-banner-wrap {
+        padding-right: 50px;
+    }
+    .bt-banner-area {
+        padding: 40px 0 0px 0;
+    }
+    /* doctor home page */
+    .dt-discount-banner {
+        max-width: 350px;
+        width: 100%;
+    }
+    .lg-title-64px {
+        font-size: 45px;
+    }
+    .sf-subtitle-34px {
+        font-size: 26px;
+    }
+    .sf-title-30px {
+        font-size: 27px;
+    }
+    .dt-bordered-list {
+        font-size: 19px;
+    }
+    .lg-title-36px{
+        font-size: 30px;
+    }
+    .lg-title-56px {
+        font-size: 40px;
+    }
+    .dt-banner-search-wrap{
+        bottom: 50px;
+    }
+    /* car home page */
+    .ex-title-100px {
+        font-size: 60px;
+    }
+    /* user access */
+    .ua-title-36px {
+        font-size: 39px;
+    }
+    /* ksdjf */
+    .in-title-94px {
+        font-size: 45px;
+    }
+    .eRealEstate {
+        display: none;
+    }
+    .real-title-certification-wrap {
+        padding: 45px 0 80px 0;
+    }
+    .footer-middle-nav {
+        margin-bottom: 12px ;
+    }
+}
+
+@media all and (max-width: 575px){
+    .row-28{
+        --bs-gutter-x: inherit;
+    }
+    .g-28px{
+        --bs-gutter-x: inherit;
+    }
+    .gx-28px{
+        --bs-gutter-x: inherit;
+    }
+    .dm-title-60px {
+        font-size: 38px;
+        line-height: 42px;
+    }
+    .dm-title-36px {
+        font-size: 28px;
+    }
+    .dm-title-30px {
+        font-size: 24px;
+    }
+    .dm-title-26px {
+        font-size: 20px;
+    }
+    .dm-title-20px{
+        font-size: 18px;
+    }
+    /* Header */
+    .header-buttons {
+        column-gap: 10px;
+    }
+    .header-buttons .add-listing-btn {
+        padding: 9px 10px;
+        column-gap: 2px;
+    }
+    .main-header-area {
+        column-gap: 12px;
+    }
+    /* Real Estate Grid */
+    .single-grid-card {
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    /* Real Estate List */
+    .single-list-card {
+        flex-direction: column;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    .reals-list-slider {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    /* Restaurant List */
+    .list-banner-slider .list-slide-img img {
+        border-radius: 12px 12px 0 0;
+    }
+    .restaurant-list-slider {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    /* Hotel List */
+    .hotel-list-slider{
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    /* Doctor List */
+    .doctor-list-slider {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    /* Beauty List */
+    .beauty-list-slider {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    /* Car Grid */
+    .cargrid-list-items {
+        column-gap: 25px;
+    }
+    .cargrid-list-items li:not(:last-child) {
+        padding-right: 25px;
+    }
+    /* Car List */
+    .car-list-card{
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    .carlist-list-items {
+        column-gap: 30px;
+    }
+    .carlist-list-items li:not(:last-child) {
+        padding-right: 30px;
+    }
+    .carlist-title-bookmark {
+        margin-bottom: 12px;
+    }
+    .carlist-item-price {
+        margin-bottom: 12px;
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    .car-list-prices {
+        text-align: left;
+    }
+    /* Real Estate Details */
+    .realdetails-features-list{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .detailstop-title-location1 .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realestate-banner-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .realestate-details-description .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realestate-details-features > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .floor-plans-area .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realdetails-video-area .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realdetails-nearby-area .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .real-3dmodel-area .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .review-title-button .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realdetails-edit-reviews > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .related-product-title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .realdetails-3d-wrap .model-viewer {
+        height: 350px;
+    }
+    /* Comment Reply */
+    .single-comment {
+        column-gap: 10px;
+    }
+    .comment-replies .single-comment {
+        margin-left: 10px;
+    }
+    .comment-replies > li::after {
+        width: 30px;
+    }
+    /* Restaurent Details */
+    .restdetails-menu-items{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .restdetails-nearby-list li{
+        width: calc(100%);
+    }
+    .resdetails-banner-slider .swiper-button-next,
+    .resdetails-banner-slider .swiper-button-prev {
+        width: 50px;
+        height: 50px;
+    }
+    .resdetails-banner-slider .swiper-button-next, 
+    .resdetails-banner-slider .swiper-rtl .swiper-button-prev {
+        right: 12px;
+    }
+    .resdetails-banner-slider .swiper-button-prev, 
+    .resdetails-banner-slider .swiper-rtl .swiper-button-next {
+        left: 12px;
+    }
+    .resdetails-banner-slider .swiper-pagination {
+        bottom: 12px !important;
+    }
+    .restdetails-menu-wrap > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .restaurent-opening-time .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .restaurant-amenities-area .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .restdetails-location-area > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .restdetails-agent-area {
+        flex-direction: column;
+    }
+    .restdetails-agent-area .details{
+        text-align: center;
+    }
+    .restagent-details-listreview .rating{
+        justify-content: center;
+    }
+    .restdetails-agent-header{
+        flex-direction: column;
+    }
+    .restdetails-agent-header .title{
+        text-align: center;
+    }
+    .restopning-time-list li {
+        margin-left: 3px;
+        margin-right: 3px;
+    }
+    .restopning-time-list .day {
+        font-size: 17px;
+    }
+    .restopning-time-list .time {
+        font-size: 17px;
+    }
+    /* Hotel Details */
+    .hotel-details-title .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .hotel-details-gallery .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    /* Car Details */
+    .detailstop-title-prices{
+        flex-direction: column;
+    }
+    .car-detailstop-prices {
+        text-align: left;
+    }
+    .detailstop-share-back{
+        justify-content: start !important;
+    }
+    .carcustomer-review-banners .last-child .see-all {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+    .specification-accordion .accordion-body {
+        flex-direction: column;
+    }
+    .car-seller-informations {
+        flex-direction: column;
+    }
+    /* Doctor Details */
+    .details-doctor-profile {
+        flex-direction: column;
+        row-gap: 16px;
+    }
+    /* Beauty Details */
+    .beauty-team-members {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .beauty-details-services > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .beautydetails-team-members > .title {
+        font-size: 25px;
+        line-height: 33px;
+    }
+    .beauty-banner-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Common Pages */
+    .in-title-1{
+        font-size: 36px;
+    }
+    .in-title-2{
+        font-size: 27px;
+    }
+    .in-title-3{
+        font-size: 25px;
+    }
+    .in-title-4{
+        font-size: 22px;
+    }
+    /* Blog */
+    .at-blog-card{
+        max-width: 350px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    /* Hotel home page */
+    .max-sm-350px {
+        max-width: 350px;
+        width: 100%;
+    }
+    .ht-grid-country-name{
+        font-size: 16px;
+    }
+    /* Restaurent home page */
+    .fi-title-60px {
+        font-size: 40px;
+    }
+    .fi-title-48px{
+        font-size: 35px;
+    }
+    .fi-title-30px{
+        font-size: 23px;
+    }
+    .fi-title-36px{
+        font-size: 28px;
+    }
+    .fi-title-26px{
+        font-size: 20px;
+    }
+    .fi-title-24px{
+        font-size: 18px;
+    }
+    .rt-banner-content::before,
+    .rt-banner-content::after {
+        display: none;
+    }
+    .rt-banner-section {
+        padding: 70px 0 60px 0;
+    }
+    .rt-img-card-country {
+        font-size: 16px;
+    }
+    .rt-dark-card {
+        padding: 255px 40px 40px 40px;
+    }
+    .rt-dark-cark-img {
+        left: 50%;
+        transform: translateX(-50%);
+        top: -33px;
+        width: 310px;
+    }
+    /* Beauty home page */
+    .ers-title-76px {
+        font-size: 45px;
+    }
+    .ju-title-70px {
+        font-size: 40px;
+    }
+    .ju-title-44px {
+        font-size: 35px;
+    }
+    .ers-title-44px{
+        font-size: 35px;
+    }
+    .ju-title-24px{
+        font-size: 19px;
+    }
+    .fs-title-40px {
+        font-size: 34px;
+    }
+    .ers-title-36px {
+        font-size: 28px;
+    }
+    .al-title-32px {
+        font-size: 26px;
+    }
+    .bai-title-26px {
+        font-size: 20px;
+    }
+    .ju-title-90px {
+        font-size: 55px;
+    }
+    .fu-title-90px{
+        font-size: 55px;
+    }
+    .ju-title-54px {
+        font-size: 35px;
+    }
+    .bt-banner-play-btn{
+        width: 80px;
+    }
+    .bt-banner-wrap {
+        padding-right: 40px;
+    }
+    .bt-banner-area {
+        padding: 30px 0 0px 0;
+    }
+    /* Home page header */
+    .at-home-listing-btn {
+        padding: 14px 16px;
+        line-height: 100%;
+        font-size: 14px;
+    }
+    .at-home-search-login-button {
+        column-gap: 10px;
+    }
+    /* doctor home page */
+    .lg-title-64px {
+        font-size: 40px;
+    }
+    .sf-subtitle-34px {
+        font-size: 24px;
+    }
+    .dt-discount-banner {
+        margin-right: 0px;
+        margin-top: 24px;
+    }
+    .sf-title-30px {
+        font-size: 23px;
+    }
+    .dt-bordered-list {
+        font-size: 18px;
+    }
+    .lg-title-36px{
+        font-size: 27px;
+    }
+    .dt-user-card{
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    .lg-title-56px {
+        font-size: 35px;
+    }
+    .banner-support-user-wrap{
+        flex-direction: column;
+        align-items: center !important;
+    }
+    .dt-banner-search-wrap{
+        bottom: -50px;
+    }
+    .dt-menu-banner-wrap{
+        margin-bottom: 180px;
+    }
+    /* car home page */
+    .ex-title-100px {
+        font-size: 50px;
+    }
+    /* user access */
+    .ua-title-36px {
+        font-size: 26px;
+    }
+    .ua-customer-rating {
+        gap: 8px !important;
+    }
+    .ua-customer-rating .al-title-18px {
+        font-size: 16px;
+    }
+    .ua-customer-rating .ua-subtitle2-16px {
+        font-size: 14px;
+    }
+    .in-title2-24px{
+        font-size: 22px;
+    }
+    .ua-verify-input {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+    /* lksdf */
+    .in-title-94px {
+        font-size: 39px;
+    }
+    .footer-middle-nav {
+        margin-bottom: 22px ;
+    }
+}
+
+@media all and (max-width: 450px){
+    /* Real Estate Details */
+    .realdetails-nearby-items{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .tour-type-group.btn-group {
+        flex-direction: column;
+    }
+    .tour-type-group.btn-group .btn{
+        width: 100%;
+    }
+    /* Hotel Details */
+    .hoteldetails-gallery-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .resdetails-slide-img {
+        height: 235px;
+    }
+    /* Car Details */
+    .overview-items-wrap {
+        flex-direction: column;
+    }
+    .carcustomer-review-banners {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .cardetails-banner-list .last-child .see-more {
+        padding: 5px 10px;
+    }
+    /* Beauty home page */
+    .ju-title-90px {
+        font-size: 50px;
+    }
+    .fu-title-90px{
+        font-size: 50px;
+    }
+    /* customer agent */
+    .user-dropdown-toggle{
+        padding: 0;
+    }
+    .user-dropdown-toggle::after{
+        display: none;
+    }
+    /* lksdf */
+}

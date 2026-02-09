@@ -10,3 +10,6 @@
 # Large archives (do not commit)
 atlas.zip
 _public_html.zip
+
+# Installer SQL contains secrets
+/public/assets/install.sql

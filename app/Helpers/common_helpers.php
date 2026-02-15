@@ -331,8 +331,9 @@ if (! function_exists('current_package')) {
              $restaurant = App\Models\RestaurantListing::where('user_id', auth()->user()->id)->count(); 
              $hotel = App\Models\HotelListing::where('user_id', auth()->user()->id)->count(); 
              $real_estate = App\Models\RealEstateListing::where('user_id', auth()->user()->id)->count();
+             $custom = App\Models\CustomListings::where('user_id', auth()->user()->id)->count();
 
-             $totalListing = $beauty +  $car +  $restaurant + $hotel + $real_estate;
+             $totalListing = $beauty + $car + $restaurant + $hotel + $real_estate + $custom;
              if($package_value > $totalListing ){
                 return 1;
              }
@@ -395,6 +396,131 @@ if (! function_exists('has_paid_subscription')) {
 }
 // --- END: POBOLJŠANA FUNKCIJA ZA PREMIUM KORISNIKE ---
 
+/**
+ * Returns the active Pricing (package) for a user based on their latest subscription.
+ * Plan detection: latest subscription by user_id orderBy id desc.
+ * If none or time() > expire_date => null.
+ * Else loads and returns Pricing by package_id.
+ *
+ * @param int|null $user_id User ID (default: auth user)
+ * @return \App\Models\Pricing|null
+ */
+if (! function_exists('getActivePricingForUser')) {
+    function getActivePricingForUser($user_id = null) {
+        if ($user_id === null) {
+            $user_id = auth()->id() ?? null;
+        }
+        if (!$user_id) {
+            return null;
+        }
+        $subscription = \App\Models\Subscription::where('user_id', $user_id)
+            ->where('status', 1)
+            ->orderBy('id', 'DESC')
+            ->first();
+        if (!$subscription || time() > $subscription->expire_date) {
+            return null;
+        }
+        return \App\Models\Pricing::where('id', $subscription->package_id)->first();
+    }
+}
+
+/**
+ * Returns the user's plan key: 'free' or 'premium'.
+ * Plan detection: based on active subscription's package (pricings).
+ * - No subscription or expired => FREE
+ * - pricing.price >= 0.1 => PREMIUM else FREE
+ * Does NOT rely on has_paid_subscription().
+ *
+ * @param int|null $user_id User ID (default: auth user)
+ * @return string 'free'|'premium'
+ */
+if (! function_exists('getUserPlanKey')) {
+    function getUserPlanKey($user_id = null) {
+        $pricing = getActivePricingForUser($user_id);
+        if (!$pricing) {
+            return 'free';
+        }
+        return ((float) $pricing->price) >= 0.1 ? 'premium' : 'free';
+    }
+}
+
+/**
+ * Returns image limits for the user's plan.
+ * Free: max 3 images per listing, 20MB storage.
+ * Premium: max 30 images per listing, 300MB storage.
+ *
+ * @param int|null $user_id User ID (default: auth user)
+ * @return array{max_images: int, quota_bytes: int}
+ */
+if (! function_exists('getUserImageLimits')) {
+    function getUserImageLimits($user_id = null) {
+        $plan = getUserPlanKey($user_id);
+        if ($plan === 'premium') {
+            return ['max_images' => 30, 'quota_bytes' => 300 * 1024 * 1024]; // 300MB
+        }
+        return ['max_images' => 3, 'quota_bytes' => 20 * 1024 * 1024]; // 20MB
+    }
+}
+
+/**
+ * Returns total storage (bytes) used by a user's listing images across all listing types.
+ * Includes: listing images (image column), floor plans (real-estate), og_image, 3d model (real-estate).
+ *
+ * @param int $user_id User ID
+ * @return int Bytes used
+ */
+if (! function_exists('getUserListingStorageUsage')) {
+    function getUserListingStorageUsage($user_id) {
+        $total = 0;
+        $basePath = public_path();
+
+        $listingModels = [
+            \App\Models\BeautyListing::class => ['image', 'og_image'],
+            \App\Models\CarListing::class => ['image', 'og_image'],
+            \App\Models\HotelListing::class => ['image', 'og_image'],
+            \App\Models\RealEstateListing::class => ['image', 'floor_plan', 'og_image', 'model'],
+            \App\Models\RestaurantListing::class => ['image', 'og_image'],
+            \App\Models\CustomListings::class => ['image', 'og_image'],
+        ];
+
+        $pathMap = [
+            'image' => 'uploads/listing-images',
+            'floor_plan' => 'uploads/floor-plan',
+            'og_image' => 'uploads/og_image',
+            'model' => 'uploads/3d',
+        ];
+
+        foreach ($listingModels as $model => $columns) {
+            $listings = $model::where('user_id', $user_id)->get();
+            foreach ($listings as $listing) {
+                foreach ($columns as $col) {
+                    $path = $pathMap[$col] ?? 'uploads/listing-images';
+                    $value = $listing->{$col} ?? null;
+                    if (empty($value)) continue;
+
+                    if ($col === 'floor_plan' || $col === 'image') {
+                        $arr = is_string($value) ? json_decode($value, true) : $value;
+                        if (is_array($arr)) {
+                            foreach ($arr as $file) {
+                                $fp = $basePath . '/' . $path . '/' . $file;
+                                if (is_file($fp)) {
+                                    $total += filesize($fp);
+                                }
+                            }
+                        }
+                    } else {
+                        $fp = $basePath . '/' . $path . '/' . $value;
+                        if (is_file($fp)) {
+                            $total += filesize($fp);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $total;
+    }
+}
 
 // Get Home page Settings Data
 if (! function_exists('get_homepage_settings')) {

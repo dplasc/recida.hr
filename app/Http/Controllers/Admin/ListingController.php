@@ -101,6 +101,45 @@ class ListingController extends Controller
     }
 
     public function listing_store(Request $request, $type){
+        $ownerId = $request->filled('user_id') ? (int) $request->user_id : auth()->id();
+        $limits = getUserImageLimits($ownerId);
+        $maxImages = $limits['max_images'];
+        $quotaBytes = $limits['quota_bytes'];
+        $maxFloorPlan = getUserPlanKey($ownerId) === 'premium' ? 10 : 2;
+
+        $request->validate([
+            'listing_image' => 'nullable|array|max:' . $maxImages,
+            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'listing_floor_plan' => 'nullable|array|max:' . $maxFloorPlan,
+            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+        ]);
+
+        // Enforce storage quota before saving files
+        $newFilesSize = 0;
+        if ($request->hasFile('listing_image')) {
+            foreach ($request->file('listing_image') as $file) {
+                $newFilesSize += $file->getSize();
+            }
+        }
+        if ($request->hasFile('og_image')) {
+            $newFilesSize += $request->file('og_image')->getSize();
+        }
+        if ($request->hasFile('listing_floor_plan')) {
+            foreach ($request->file('listing_floor_plan') as $file) {
+                $newFilesSize += $file->getSize();
+            }
+        }
+        if ($newFilesSize > 0) {
+            $usedBytes = getUserListingStorageUsage($ownerId);
+            if ($usedBytes + $newFilesSize > $quotaBytes) {
+                $allowedMb = $quotaBytes / (1024 * 1024);
+                $usedMb = round($usedBytes / (1024 * 1024), 2);
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'listing_image' => [get_phrase('Storage quota exceeded. Your plan allows ') . $allowedMb . 'MB total. You have used ' . $usedMb . 'MB.'],
+                ]);
+            }
+        }
 
         $data['title'] = sanitize($request->title);
         $data['category'] = sanitize($request->category);
@@ -126,7 +165,7 @@ class ListingController extends Controller
         $data['created_at'] = Carbon::now();
         $data['updated_at'] = Carbon::now();
 
-        $data['user_id'] = user('id');
+        $data['user_id'] = $ownerId;
 
         $contacts = [];
             if(isset($request->name)){
@@ -230,10 +269,11 @@ class ListingController extends Controller
 
         if ($request->hasFile('og_image')) {
             $image = $request->file('og_image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension(); 
-            // $image->storeAs('public\og_image', $imageName);
-            $image->move(public_path('uploads/og_image'), $imageName);
-            $data['og_image'] = $imageName;
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/og_image', $imageName);
+            if ($optimizedFileName) {
+                $data['og_image'] = $optimizedFileName;
+            }
         }
         Session::flash('success', get_phrase('Listing Created successfully!'));
         if(isset($request->is_agent) && $request->is_agent == 1){
@@ -275,7 +315,67 @@ class ListingController extends Controller
     }
 
     public function listing_update(Request $request, $type, $id){
-        
+        $listingModel = $this->getListingModel($type);
+        $listing = $listingModel ? $listingModel::where('id', $id)->first() : null;
+        $ownerId = $listing ? (int) $listing->user_id : auth()->id();
+        $limits = getUserImageLimits($ownerId);
+        $maxImages = $limits['max_images'];
+        $quotaBytes = $limits['quota_bytes'];
+        $maxFloorPlan = getUserPlanKey($ownerId) === 'premium' ? 10 : 2;
+
+        $existingImageCount = 0;
+        $existingFloorPlanCount = 0;
+        if ($listing) {
+            $existingImages = is_string($listing->image ?? null) ? json_decode($listing->image, true) : ($listing->image ?? []);
+            $existingImageCount = is_array($existingImages) ? count($existingImages) : 0;
+            if (isset($listing->floor_plan)) {
+                $existingFloorPlans = is_string($listing->floor_plan) ? json_decode($listing->floor_plan, true) : $listing->floor_plan;
+                $existingFloorPlanCount = is_array($existingFloorPlans) ? count($existingFloorPlans) : 0;
+            }
+        }
+        $remainingImages = max(0, $maxImages - $existingImageCount);
+        $remainingFloorPlans = max(0, $maxFloorPlan - $existingFloorPlanCount);
+
+        if ($remainingImages === 0 && $request->hasFile('listing_image')) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'listing_image' => [get_phrase('You have reached the maximum number of images for your plan.')],
+            ]);
+        }
+
+        $request->validate([
+            'listing_image' => 'nullable|array|max:' . $remainingImages,
+            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'listing_floor_plan' => 'nullable|array|max:' . $remainingFloorPlans,
+            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+        ]);
+
+        // Enforce storage quota before saving files
+        $newFilesSize = 0;
+        if ($request->hasFile('listing_image')) {
+            foreach ($request->file('listing_image') as $file) {
+                $newFilesSize += $file->getSize();
+            }
+        }
+        if ($request->hasFile('og_image')) {
+            $newFilesSize += $request->file('og_image')->getSize();
+        }
+        if ($request->hasFile('listing_floor_plan')) {
+            foreach ($request->file('listing_floor_plan') as $file) {
+                $newFilesSize += $file->getSize();
+            }
+        }
+        if ($newFilesSize > 0) {
+            $usedBytes = getUserListingStorageUsage($ownerId);
+            if ($usedBytes + $newFilesSize > $quotaBytes) {
+                $allowedMb = $quotaBytes / (1024 * 1024);
+                $usedMb = round($usedBytes / (1024 * 1024), 2);
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'listing_image' => [get_phrase('Storage quota exceeded. Your plan allows ') . $allowedMb . 'MB total. You have used ' . $usedMb . 'MB.'],
+                ]);
+            }
+        }
+
         $data['title'] = sanitize($request->title);
         $data['category'] = sanitize($request->category);
         $data['description'] = sanitize($request->description);
@@ -307,10 +407,12 @@ class ListingController extends Controller
         if ($request->hasFile('og_image')) {
             $image = $request->file('og_image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/og_image'), $imageName);
-            $data['og_image'] = $imageName;
+            $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/og_image', $imageName);
+            if ($optimizedFileName) {
+                $data['og_image'] = $optimizedFileName;
+            }
         }
-    
+
         if($request->city){
             $data['city'] = sanitize($request->city);
         }
@@ -514,9 +616,10 @@ class ListingController extends Controller
             if ($request->hasFile('listing_floor_plan')) {
                 foreach ($request->file('listing_floor_plan') as $key => $image) {
                     $floorImage = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
-                    // $image->storeAs('public/floor-plan', $floorImage);
-                    $image->move(public_path('uploads/floor-plan'), $floorImage);
-                    array_push($listing_listing_floor_plan, $floorImage);
+                    $optimizedFileName = \App\Models\FileUploader::uploadOptimizedLarge($image, 'uploads/floor-plan', $floorImage);
+                    if ($optimizedFileName) {
+                        array_push($listing_listing_floor_plan, $optimizedFileName);
+                    }
                 }
                 $data['floor_plan'] = json_encode($listing_listing_floor_plan);
             }else{
@@ -602,6 +705,20 @@ class ListingController extends Controller
         
     }
 
+    /**
+     * Resolve listing model class by type slug.
+     */
+    private function getListingModel(string $type): ?string
+    {
+        $map = [
+            'car' => CarListing::class,
+            'beauty' => BeautyListing::class,
+            'hotel' => HotelListing::class,
+            'real-estate' => RealEstateListing::class,
+            'restaurant' => RestaurantListing::class,
+        ];
+        return $map[$type] ?? CustomListings::class;
+    }
 
     public function listing_image_delete($type, $id, $image){
         if($type == 'car'){
@@ -626,8 +743,9 @@ class ListingController extends Controller
         $imageArray = array_values($imageArray);
         $resultJson = json_encode($imageArray);
         $listing->update(['image'=>$resultJson]);
-        if(file_exists('public/uploads/listing-images/'.$image)){
-            unlink('public/uploads/listing-images/'.$image);
+        $imagePath = public_path('uploads/listing-images/' . $image);
+        if (file_exists($imagePath) && is_file($imagePath)) {
+            unlink($imagePath);
         }
         return 1;
     }
@@ -652,8 +770,9 @@ class ListingController extends Controller
         $imageArray = array_values($imageArray);
         $resultJson = json_encode($imageArray);
         $listing->update(['floor_plan'=>$resultJson]);
-        if(file_exists('public/uploads/floor-plan/'.$image)){
-            unlink('public/uploads/floor-plan/'.$image);
+        $imagePath = public_path('uploads/floor-plan/' . $image);
+        if (file_exists($imagePath) && is_file($imagePath)) {
+            unlink($imagePath);
         }
         return 1;
     }
@@ -693,9 +812,10 @@ class ListingController extends Controller
         }else{
              $listing = CustomListings::where('id', $id);
         }  
-        foreach(json_decode($listing->first()->image) as $listImage){
-            if(file_exists('public/uploads/listing-images/'.$listImage)){
-                unlink('public/uploads/listing-images/'.$listImage);
+        foreach (json_decode($listing->first()->image) ?? [] as $listImage) {
+            $imagePath = public_path('uploads/listing-images/' . $listImage);
+            if (file_exists($imagePath) && is_file($imagePath)) {
+                unlink($imagePath);
             }
         }
         $listing->delete();
@@ -919,7 +1039,8 @@ class ListingController extends Controller
             'person' => 'required|max:100',
             'price' => 'required|max:50',
             'feature' => 'required',
-            'image' => 'required',
+            'image' => 'required|array|max:10',
+            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
         ]);
         $data['title'] = sanitize($request->title);
         $data['person'] = sanitize($request->person);
@@ -932,8 +1053,10 @@ class ListingController extends Controller
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $key => $image) {
                 $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/room-images'), $imageName);
-                array_push($room_image, $imageName);
+                $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/room-images', $imageName);
+                if ($optimizedFileName) {
+                    array_push($room_image, $optimizedFileName);
+                }
             }
         }
         $data['image'] = json_encode($room_image);
@@ -952,6 +1075,8 @@ class ListingController extends Controller
             'person' => 'required|max:100',
             'price' => 'required|max:50',
             'feature' => 'required',
+            'image' => 'nullable|array|max:10',
+            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
         ]);
         $data['title'] = sanitize($request->title);
         $data['person'] = sanitize($request->person);
@@ -963,8 +1088,10 @@ class ListingController extends Controller
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $key => $image) {
                 $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/room-images'), $imageName);
-                array_push($room_image, $imageName);
+                $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/room-images', $imageName);
+                if ($optimizedFileName) {
+                    array_push($room_image, $optimizedFileName);
+                }
             }
             $data['image'] = json_encode($room_image);
         }
@@ -998,7 +1125,7 @@ class ListingController extends Controller
             'title' => 'required|max:50',
             'sub_title' => 'required|max:100',
             'price' => 'required|max:50',
-            'image' => 'required',
+            'image' => 'required|image|mimes:jpeg,jpg,png,webp|max:2048',
         ]);
         $data['title'] = sanitize($request->title);
         $data['sub_title'] = sanitize($request->sub_title);
@@ -1008,9 +1135,10 @@ class ListingController extends Controller
         $data['dis_price'] = $request->dis_price;
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
-            // $request->image->storeAs('public/menu', $imageName);
-            $request->image->move(public_path('uploads/menu'), $imageName);
-            $data['image'] = $imageName;
+            $optimizedFileName = \App\Models\FileUploader::uploadOptimized($request->image, 'uploads/menu', $imageName);
+            if ($optimizedFileName) {
+                $data['image'] = $optimizedFileName;
+            }
         }
         Menu::insert($data);
         Session::flash('success', get_phrase('Listing menu create successful!'));
@@ -1034,6 +1162,7 @@ class ListingController extends Controller
             'title' => 'required|max:50',
             'sub_title' => 'required|max:100',
             'price' => 'required|max:50',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ]);
         $data['title'] = sanitize($request->title);
         $data['sub_title'] = sanitize($request->sub_title);
@@ -1043,10 +1172,13 @@ class ListingController extends Controller
         $menu = Menu::where('id', $id);
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads/menu'), $imageName);
-            $data['image'] = $imageName;
-            if(file_exists('public/uploads/menu/'.$menu->first()->image)){
-                unlink('public/uploads/menu/'.$menu->first()->image);
+            $optimizedFileName = \App\Models\FileUploader::uploadOptimized($request->image, 'uploads/menu', $imageName);
+            if ($optimizedFileName) {
+                $data['image'] = $optimizedFileName;
+                $oldImagePath = public_path('uploads/menu/' . $menu->first()->image);
+                if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
         }
         $menu->update($data);
@@ -1060,8 +1192,9 @@ class ListingController extends Controller
 
     public function listing_menu_delete($prefix, $id, $listing_id){
         $menu = Menu::where('id', $id);
-        if(file_exists('public/uploads/menu/'.$menu->first()->image)){
-            unlink('public/uploads/menu/'.$menu->first()->image);
+        $oldImagePath = public_path('uploads/menu/' . $menu->first()->image);
+        if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+            unlink($oldImagePath);
         }
         $menu->delete();
         Session::flash('success', get_phrase('Listing menu delete successful!'));

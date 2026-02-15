@@ -335,6 +335,8 @@ class FileUploader extends Model
                 $sourceImage = @imagecreatefrompng($tempPath);
             } elseif ($imageType == IMAGETYPE_GIF) {
                 $sourceImage = @imagecreatefromgif($tempPath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                $sourceImage = @imagecreatefromwebp($tempPath);
             } else {
                 // Unsupported image type, fallback to simple move
                 $uploadedFile->move($fullPath, $baseFileName);
@@ -410,6 +412,8 @@ class FileUploader extends Model
             } elseif ($imageType == IMAGETYPE_GIF) {
                 // GIF: save as-is
                 imagegif($newImage, $finalPath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagewebp')) {
+                imagewebp($newImage, $finalPath, 80);
             }
 
             // Clean up memory
@@ -425,8 +429,167 @@ class FileUploader extends Model
                 return $baseFileName;
             } catch (\Exception $fallbackException) {
                 Session::flash('error', get_phrase('Image upload failed.'));
+            return null;
+        }
+    }
+
+    /**
+     * Upload and optimize image with higher resolution for floor plans / large images.
+     *
+     * @param \Illuminate\Http\UploadedFile $uploadedFile
+     * @param string $path Relative path from public (e.g., 'uploads/floor-plan')
+     * @param string $baseFileName
+     * @param int $maxWidth Max width in pixels (default 1600)
+     * @param int $targetKB Target file size in KB for JPEG (default 300)
+     * @return string|null The final filename
+     */
+    public static function uploadOptimizedLarge($uploadedFile, $path, $baseFileName, $maxWidth = 1600, $targetKB = 300)
+    {
+        if (!$uploadedFile) {
+            return null;
+        }
+
+        $fullPath = public_path($path);
+        if (!is_dir($fullPath)) {
+            if (!mkdir($fullPath, 0755, true) && !is_dir($fullPath)) {
+                Session::flash('error', get_phrase('Failed to create upload directory.'));
+                return null;
+            }
+        }
+
+        $finalPath = $fullPath . '/' . $baseFileName;
+
+        if (!extension_loaded('gd')) {
+            try {
+                $uploadedFile->move($fullPath, $baseFileName);
+                return $baseFileName;
+            } catch (\Exception $e) {
+                Session::flash('error', get_phrase('Image upload failed.'));
+                return null;
+            }
+        }
+
+        $tempPath = $uploadedFile->path();
+        $imageInfo = @getimagesize($tempPath);
+
+        if ($imageInfo === false) {
+            try {
+                $uploadedFile->move($fullPath, $baseFileName);
+                return $baseFileName;
+            } catch (\Exception $e) {
+                Session::flash('error', get_phrase('File upload failed.'));
+                return null;
+            }
+        }
+
+        $imageType = $imageInfo[2];
+        $originalWidth = $imageInfo[0];
+        $originalHeight = $imageInfo[1];
+        $maxFileSize = $targetKB * 1024;
+
+        try {
+            if ($originalWidth > $maxWidth) {
+                $newWidth = $maxWidth;
+                $newHeight = (int) ($originalHeight * ($maxWidth / $originalWidth));
+            } else {
+                $newWidth = $originalWidth;
+                $newHeight = $originalHeight;
+            }
+
+            $sourceImage = null;
+            if ($imageType == IMAGETYPE_JPEG) {
+                $sourceImage = @imagecreatefromjpeg($tempPath);
+            } elseif ($imageType == IMAGETYPE_PNG) {
+                $sourceImage = @imagecreatefrompng($tempPath);
+            } elseif ($imageType == IMAGETYPE_GIF) {
+                $sourceImage = @imagecreatefromgif($tempPath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                $sourceImage = @imagecreatefromwebp($tempPath);
+            } else {
+                $uploadedFile->move($fullPath, $baseFileName);
+                return $baseFileName;
+            }
+
+            if ($sourceImage === false) {
+                throw new \Exception('Failed to load image');
+            }
+
+            $newImage = imagecreatetruecolor($newWidth, $newHeight);
+
+            if ($imageType == IMAGETYPE_PNG || $imageType == IMAGETYPE_GIF) {
+                imagealphablending($newImage, false);
+                imagesavealpha($newImage, true);
+                $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
+                imagefilledrectangle($newImage, 0, 0, $newWidth, $newHeight, $transparent);
+            }
+
+            imagecopyresampled(
+                $newImage, $sourceImage,
+                0, 0, 0, 0,
+                $newWidth, $newHeight,
+                $originalWidth, $originalHeight
+            );
+
+            if ($imageType == IMAGETYPE_JPEG) {
+                $minQuality = 50;
+                $maxQuality = 90;
+                $qualityStep = 5;
+                $bestQuality = $maxQuality;
+                $bestBuffer = null;
+                $bestFileSize = null;
+
+                for ($quality = $maxQuality; $quality >= $minQuality; $quality -= $qualityStep) {
+                    ob_start();
+                    imagejpeg($newImage, null, $quality);
+                    $buffer = ob_get_clean();
+                    $fileSize = strlen($buffer);
+
+                    if ($fileSize <= $maxFileSize) {
+                        $bestQuality = $quality;
+                        $bestBuffer = $buffer;
+                        $bestFileSize = $fileSize;
+                        break;
+                    }
+
+                    if ($bestFileSize === null || $fileSize < $bestFileSize) {
+                        $bestQuality = $quality;
+                        $bestBuffer = $buffer;
+                        $bestFileSize = $fileSize;
+                    }
+                }
+
+                if ($bestBuffer !== null) {
+                    file_put_contents($finalPath, $bestBuffer);
+                } else {
+                    imagejpeg($newImage, $finalPath, $bestQuality);
+                }
+            } elseif ($imageType == IMAGETYPE_PNG) {
+                imagepng($newImage, $finalPath, 6);
+            } elseif ($imageType == IMAGETYPE_GIF) {
+                imagegif($newImage, $finalPath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagewebp')) {
+                imagewebp($newImage, $finalPath, 80);
+            } else {
+                $uploadedFile->move($fullPath, $baseFileName);
+                imagedestroy($sourceImage);
+                imagedestroy($newImage);
+                return $baseFileName;
+            }
+
+            imagedestroy($sourceImage);
+            imagedestroy($newImage);
+
+            return $baseFileName;
+
+        } catch (\Exception $e) {
+            try {
+                $uploadedFile->move($fullPath, $baseFileName);
+                return $baseFileName;
+            } catch (\Exception $fallbackException) {
+                Session::flash('error', get_phrase('Image upload failed.'));
                 return null;
             }
         }
     }
+}
 }

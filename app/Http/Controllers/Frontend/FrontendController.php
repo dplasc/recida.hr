@@ -30,12 +30,14 @@ use App\Models\ClaimedListing;
 use App\Models\ReportedListing;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use DB;
 use App\Mail\Mailer;
 
@@ -941,6 +943,10 @@ public function listing_details($type, $id, $slug)
 
     public function claimStore(Request $request){
 
+        $request->validate([
+            'file' => 'required|mimes:jpeg,jpg,png,pdf|max:4096',
+        ]);
+
         $data = $request->all();
         $userId = auth()->user()->id;
 
@@ -951,12 +957,20 @@ public function listing_details($type, $id, $slug)
         $claimListing->description = $data['description'];
         $claimListing->status = 'pending';
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/claim'), $fileName);
-            $claimListing->file = $fileName;
+        $file = $request->file('file');
+        $guessedExt = $file->guessExtension();
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        $ext = $guessedExt ? strtolower($guessedExt) : null;
+
+        if (!$ext || !in_array($ext, $allowedExtensions)) {
+            throw ValidationException::withMessages([
+                'file' => [__('The file type could not be determined or is not allowed.')],
+            ]);
         }
+
+        $fileName = time() . '_' . Str::random(20) . '.' . $ext;
+        $file->move(public_path('uploads/claim'), $fileName);
+        $claimListing->file = $fileName;
 
         $claimListing->save();
 

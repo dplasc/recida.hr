@@ -125,7 +125,10 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'restaurant')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'restaurant', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $listing->is_popular }}</p>
                                 @php
@@ -234,7 +237,10 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'restaurant')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'restaurant', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $listing->is_popular }}</p>
                                 @php

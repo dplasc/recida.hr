@@ -87,6 +87,40 @@ if (!function_exists('get_listing_image_thumb')) {
     }
 }
 
+/**
+ * Return srcset string for listing thumbnail (for use in picture/source or img).
+ * Returns "url 480w" and optionally ", url960 960w" only if 960w file exists.
+ * Structure ready for future 960w variant (filename_960.ext).
+ *
+ * @param string $path Path like 'listing-images/filename.jpg'
+ * @return string e.g. "https://.../filename_thumb.jpg 480w"
+ */
+if (!function_exists('get_listing_image_thumb_srcset')) {
+    function get_listing_image_thumb_srcset($path)
+    {
+        $thumbUrl = get_listing_image_thumb($path);
+        if (empty($path) || !is_string($path)) {
+            return $thumbUrl . ' 480w';
+        }
+        $parts = explode('/', $path, 2);
+        $folder = $parts[0] ?? 'listing-images';
+        $filename = $parts[1] ?? '';
+        if (empty($filename)) {
+            return $thumbUrl . ' 480w';
+        }
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $base = pathinfo($filename, PATHINFO_FILENAME);
+        $thumbBase = $base . '_thumb';
+        $srcset = $thumbUrl . ' 480w';
+        $path960 = public_path('uploads/' . $folder . '/' . $thumbBase . '_960.' . $ext);
+        if (is_file($path960) && file_exists($path960)) {
+            $url960 = asset('uploads/' . $folder . '/' . $thumbBase . '_960.' . $ext);
+            $srcset .= ', ' . $url960 . ' 960w';
+        }
+        return $srcset;
+    }
+}
+
 if (!function_exists('get_user_image')) {
     function get_user_image($url)
     {

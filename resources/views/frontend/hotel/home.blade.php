@@ -138,7 +138,10 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);
@@ -279,7 +282,10 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'hotel')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);

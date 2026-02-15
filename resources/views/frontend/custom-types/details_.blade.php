@@ -121,11 +121,17 @@
                                 @endphp
                                 @if ($key > 0 && $key <= 3)
                                     <li>
+                                        <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 50vw, 240px">
                                         <img class="small-image-view" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160">
+                                    </picture>
                                     </li>
                                 @else
                                     <li class="last-child small-image-view">
+                                        <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 50vw, 240px">
                                         <img src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160">
+                                    </picture>
                                         <a href="javascript:;" class="see-more" data-bs-toggle="modal" data-bs-target="#imageViewModal"> +{{ get_phrase('Show All') }}</a>
                                     </li>
                                 @endif
@@ -530,7 +536,7 @@
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="sing-gallery">
                                     <div class="gallery-head">
-                                        <a class="veno-gallery-img" href="{{ get_all_image('listing-images/' . $image) }}"><img src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160"></a>
+                                        <a class="veno-gallery-img" href="{{ get_all_image('listing-images/' . $image) }}"><picture><source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 50vw, 240px"><img src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160"></picture></a>
                                     </div>
                                     <p>{{ $listing->title }}</p>
                                 </div>
@@ -566,7 +572,10 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{route('listing.details',['type'=>$type, 'id'=>$listings->id, 'slug'=>slugify($listings->title)])}}">
+                                    <picture>
+                                    <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 50vw, 320px">
                                     <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="320" height="220">
+                                </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $listings->is_popular }}</p>
                                 @php

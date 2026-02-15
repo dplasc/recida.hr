@@ -488,7 +488,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $hotelList->id, 'slug' => slugify($hotelList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($hotelList->id, $hotelList->type);
@@ -566,7 +569,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'restaurant', 'id' => $restaurantList->id, 'slug' => slugify($restaurantList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $restaurantList->is_popular }}</p>
                                 @php
@@ -628,7 +634,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'beauty', 'id' => $beautyList->id, 'slug' => slugify($beautyList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $beautyList->is_popular }}</p>
                                 @php
@@ -700,7 +709,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'real-estate', 'id' => $realEsate->id, 'slug' => slugify($realEsate->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 <p class="card-light-text black-light capitalize">{{ $realEsate->status }}</p>
                                 @php
@@ -777,7 +789,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'car', 'id' => $carList->id, 'slug' => slugify($carList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
 
                                 <p class="card-light-text theme-light capitalize">{{ $carList->is_popular }}</p>
@@ -853,7 +868,10 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => $listing->type, 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    <picture>
+                                        <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
+                                    </picture>
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);

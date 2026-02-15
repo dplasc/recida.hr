@@ -71,7 +71,10 @@
                                     <tr class="ca-tr">
                                       <td>
                                           <div class="sm2-banner-wrap">
-                                              <img src="{{get_listing_image_thumb('listing-images/'.(json_decode($listing->image)[0]??0))}}" alt="banner" loading="lazy" decoding="async" width="120" height="80">
+                                              <picture>
+                                              <source srcset="{{ get_listing_image_thumb_srcset('listing-images/'.(json_decode($listing->image)[0]??0)) }}" sizes="(max-width: 768px) 50vw, 120px">
+                                              <img src="{{ get_listing_image_thumb('listing-images/'.(json_decode($listing->image)[0]??0)) }}" alt="banner" loading="lazy" decoding="async" width="120" height="80">
+                                          </picture>
                                           </div>
                                       </td>
                                       <td class="ca-subtitle-14px ca-text-dark min-w-110px">{{$listing->title}}

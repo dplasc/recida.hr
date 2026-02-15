@@ -69,7 +69,10 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{route('listing.details',['type'=>'car', 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
+                                    <picture>
+                                    <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 100vw, 480px">
                                     <img class="card-item-image-list" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
+                                </picture>
                                 </a>
                             </div>
                             <div class="car-list-details position-relative">

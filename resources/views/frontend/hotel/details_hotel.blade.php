@@ -598,7 +598,10 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{route('listing.details',['type'=>$type, 'id'=>$listings->id, 'slug'=>slugify($listings->title)])}}">
+                                    <picture>
+                                    <source srcset="{{ get_listing_image_thumb_srcset('listing-images/' . $image) }}" sizes="(max-width: 768px) 50vw, 320px">
                                     <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="320" height="220">
+                                </picture>
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $listings->is_popular }}</p>
                                 @php

@@ -86,14 +86,13 @@ Route::get('/listings-filter', [FrontendController::class, 'ListingsFilter'])->n
 Route::post('newsletter/subscribe', [FrontendController::class, 'newslater_subscribe'])->name('newsletter.subscribe');
 
 
- // Claim Listing 
- Route::post('claim-listing/store', [FrontendController::class, 'claimListingStore'])->name('claimListingStore');
+// Claim Listing
+Route::post('claim-listing/store', [FrontendController::class, 'claimListingStore'])->name('claimListingStore');
+Route::get('claim-listing/form-show/{type}/{id}', [FrontendController::class, 'claimListingForm'])->name('claimListingForm');
 
- Route::get('claim-listing/form-show/{type}/{id}', [FrontendController::class, 'claimListingForm'])->name('claimListingForm');
-
- //Report Listing
- Route::get('report-listing/form-show/{type}/{id}', [FrontendController::class, 'reportListingForm'])->name('reportListingForm');
- Route::post('report-listing/store', [FrontendController::class, 'reportListingStore'])->name('reportListingStore');
+// Report Listing
+Route::get('report-listing/form-show/{type}/{id}', [FrontendController::class, 'reportListingForm'])->name('reportListingForm');
+Route::post('report-listing/store', [FrontendController::class, 'reportListingStore'])->name('reportListingStore');
 
 
 Route::get('/customer/account', [AgentController::class, 'agent_account'])->name('user.account');
@@ -148,23 +147,22 @@ Route::prefix('{prefix}')->middleware(['auth', 'anyAuth'])->group(function () {
     Route::post('/listing-menu-update/{id}/{listing_id}', [ListingController::class, 'listing_menu_update'])->name('admin.update.listing.menu');
 
     // Route::get('/account', [ProfileController::class, 'user_account'])->name('user.account');
-  
-    // NearBy Location  Admin
-    Route::get('/listing-add-nearBy/{id}', [ListingController::class, 'listing_nearBY'])->name('add-listing-nearBy');
 
+    // NearBy Location Admin
+    Route::get('/listing-add-nearBy/{id}', [ListingController::class, 'listing_nearBY'])->name('add-listing-nearBy');
     Route::post('listing/nearby/location/save', [ListingController::class, 'saveNearByLocation'])->name('saveNearByLocation');
     Route::get('listing/nearby/location/edit/{id}/{page}', [ListingController::class, 'edit_listing_nearBY'])->name('editNearByLocation');
     Route::post('listing/nearby/location/update/{id}', [ListingController::class, 'updateNearByLocation'])->name('updateNearByLocation');
     Route::get('listing/nearby/location/delete/{id}', [ListingController::class, 'deleteNearByLocation'])->name('deleteNearByLocation');
 
 });
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
+Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard'); 
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Admin Product Update
-    Route::post('admin/product/update', [Updater::class, 'update'])->name('admin.product.update'); 
+    Route::post('admin/product/update', [Updater::class, 'update'])->name('admin.product.update');
 
     // category route
     Route::get('/categories/{type}', [CategoryController::class, 'index'])->name('admin.categories');
@@ -428,6 +426,7 @@ Route::controller(InstallController::class)->middleware('CheckDatabaseConnection
     Route::post('install/validate', 'validatePurchaseCode')->name('install.validate');
     Route::any('install/finalizing_setup', 'finalizingSetup')->name('finalizing_setup');
 });
+
 Route::controller(InstallController::class)->group(function () {
     Route::get('install/success', 'success')->name('success');
 });

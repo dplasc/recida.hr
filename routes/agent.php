@@ -19,10 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/agent/subscription', [SubscriptionController::class, 'user_subscription'])->name('user.subscription');
+Route::controller(AgentController::class)->middleware(['auth', 'verified', 'agent'])->group(function () {
 
-Route::controller(AgentController::class)->middleware('auth', 'agent')->group(function () {
-
+    Route::get('/agent/subscription', [SubscriptionController::class, 'user_subscription'])->name('user.subscription');
     Route::get('/agent/booking', 'booking')->name('agent.booking');
     Route::get('/agent/my-listings', 'my_listings')->name('agent.my_listings');
     Route::get('/agent/add-listing', 'add_listing')->name('agent.add.listing');

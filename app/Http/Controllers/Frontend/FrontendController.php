@@ -31,10 +31,13 @@ use App\Models\ReportedListing;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use DB;
+use App\Mail\Mailer;
 
 
 
@@ -801,24 +804,62 @@ public function listing_details($type, $id, $slug)
 
    public function contact_store(Request $request)
    {
-       $request->validate([
-           'name' => 'required|string|max:255',
-           'email' => 'required|email|max:255',
-           'number' => 'required|numeric',
-           'address' => 'required|string|max:255',
+       $data = $request->validate([
+           'name'    => 'required|string|max:190',
+           'email'   => 'required|email|max:190',
+           'number'  => 'nullable|string|max:50',
+           'address' => 'nullable|string|max:255',
            'message' => 'required|string',
        ]);
-       Contact::create([
-           'name' => sanitize($request->name),
-           'email' => sanitize($request->email),
-           'phone' => sanitize($request->number),
-           'address' => sanitize($request->address),
-           'message' => sanitize($request->message),
+   
+       // 1) Save to DB
+       $contact = Contact::create([
+           'name'     => sanitize($data['name']),
+           'email'    => sanitize($data['email']),
+           'phone'    => sanitize($data['number'] ?? ''),
+           'address'  => sanitize($data['address'] ?? ''),
+           'message'  => sanitize($data['message']),
            'has_read' => 0,
-           'replied' => 0,
-       ]);  
-       Session::flash('success', get_phrase('Email Send successfully')); 
-       return redirect()->back();
+           'replied'  => 0,
+       ]);
+   
+       // 2) Recipient
+       $to = get_settings('system_email') ?: config('mail.from.address');
+   
+       if (!$to) {
+           Log::error('Contact form: missing recipient.', ['contact_id' => $contact->id]);
+           Session::flash('error', 'Poruka je spremljena, ali email primatelj nije konfiguriran.');
+           return back();
+       }
+   
+       // 3) Mail payload (Mailer expects subject + description)
+       $mailData = [
+           'subject' => 'Kontakt forma: ' . ($contact->name ?: 'Nepoznat'),
+           'description' =>
+               "Ime: {$contact->name}\n" .
+               "Email: {$contact->email}\n" .
+               "Telefon: " . ($contact->phone ?: '-') . "\n" .
+               "Adresa: " . ($contact->address ?: '-') . "\n\n" .
+               "Poruka:\n{$contact->message}",
+       ];
+   
+       // 4) Send mail (same flow as Tinker)
+       try {
+           Mail::to($to)->send(new Mailer($mailData));
+   
+           Log::info('Contact form: email sent.', ['contact_id' => $contact->id, 'to' => $to]);
+           Session::flash('success', get_phrase('Email Send successfully'));
+       } catch (\Throwable $e) {
+           Log::error('Contact form: email failed.', [
+               'contact_id' => $contact->id,
+               'to' => $to,
+               'error' => $e->getMessage(),
+           ]);
+   
+           Session::flash('error', 'Poruka je spremljena, ali slanje emaila nije uspjelo.');
+       }
+   
+       return back();
    }
    
     // Claim Listing

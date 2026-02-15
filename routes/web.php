@@ -23,9 +23,27 @@ use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Updater;
 use App\Http\Controllers\InstallController;
 use App\Models\Room;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
- 
+
+Route::get('/verify-email/{id}/{hash}', function (Request $request, $id, $hash) {
+    $user = User::findOrFail($id);
+
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        abort(403);
+    }
+
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+        event(new Verified($user));
+    }
+
+    return redirect('/login')->with('status', 'Email verified. You can log in now.');
+})->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
+
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/hotel', [FrontendController::class, 'hotel_home'])->name('hotel.home');
 Route::get('/car', [FrontendController::class, 'car_home'])->name('car.home');

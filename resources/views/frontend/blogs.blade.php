@@ -25,7 +25,7 @@
                         <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="mh-blog-link max-w-md-450px mx-auto">
                             <div class="mh-blog-card">
                                 <div class="mh-blog-card-image">
-                                    <img src="{{get_all_image('blog-images/'.$blog->image)}}" alt="">
+                                    <img src="{{get_all_image('blog-images/'.$blog->image)}}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </div>
                                 <div class="p-20px">
                                     <p class="at-category-badge mb-12px">{{$category_name->name}}</p>
@@ -36,7 +36,7 @@
                                     <div class="d-flex align-items-center justify-content-between mt-3 gap-3">
                                         <div class="d-flex align-items-center gap-10px">
                                             <div class="image-circle-40px">
-                                                <img src="{{ get_all_image('users/' . $usersBlog['image']) }}" alt="">
+                                                <img src="{{ get_all_image('users/' . $usersBlog['image']) }}" alt="" loading="lazy" decoding="async" width="40" height="40">
                                             </div>
                                             <div>
                                                 <h6 class="in-title-16px at-text-dark mb-2">{{$usersBlog->name}}</h6>

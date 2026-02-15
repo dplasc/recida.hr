@@ -422,10 +422,10 @@
                     <div class="col">
                         <a href="{{ route('listing.view', ['type' => $typeSlug, 'view' => 'grid']) }}" class="mh-category-link">
                             <div class="mh-single-category">
-                                <img class="banner" src="{{ get_all_image('category_type/image/' . $imageName) }}" alt="">
+                                <img class="banner" src="{{ get_all_image('category_type/image/' . $imageName) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 <div class="mh-category-content">
                                     <div class="white-iconbox-radio mb-12px mx-auto">
-                                        <img src="{{ get_all_image('category_type/logo/' . $logoName) }}" style="height:30px;" alt="">
+                                        <img src="{{ get_all_image('category_type/logo/' . $logoName) }}" style="height:30px;" alt="" loading="lazy" decoding="async" width="48" height="30">
                                     </div>
                                     <h4 class="text-white text-center mb-2 in-title-18px fw-semibold">{{ get_phrase($typeName) }}</h4>
                                     <p class="text-center text-white in-subtitle-14px fw-medium lh-1">{{ $listingCount }} {{ get_phrase('Listing') }}</p>
@@ -488,7 +488,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $hotelList->id, 'slug' => slugify($hotelList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="Hotel Image">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($hotelList->id, $hotelList->type);
@@ -566,7 +566,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'restaurant', 'id' => $restaurantList->id, 'slug' => slugify($restaurantList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="Hotel Image">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $restaurantList->is_popular }}</p>
                                 @php
@@ -628,7 +628,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'beauty', 'id' => $beautyList->id, 'slug' => slugify($beautyList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $beautyList->is_popular }}</p>
                                 @php
@@ -700,7 +700,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'real-estate', 'id' => $realEsate->id, 'slug' => slugify($realEsate->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text black-light capitalize">{{ $realEsate->status }}</p>
                                 @php
@@ -777,7 +777,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'car', 'id' => $carList->id, 'slug' => slugify($carList->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
 
                                 <p class="card-light-text theme-light capitalize">{{ $carList->is_popular }}</p>
@@ -853,7 +853,7 @@
                             <!-- Banner Slider -->
                             <div class="grid-slider-area">
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => $listing->type, 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}" alt="Hotel Image">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="Hotel Image" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);
@@ -1005,7 +1005,7 @@
                             @if (!empty($company_images) && is_array($company_images))
                                 @foreach ($company_images as $images)
                                     <li><a href="javascript:;">
-                                            <img src="{{ asset('uploads/company_logo/' . $images['image']) }}" alt="">
+                                            <img src="{{ asset('uploads/company_logo/' . $images['image']) }}" alt="" loading="lazy" decoding="async" width="120" height="40">
                                         </a></li>
                                 @endforeach
                             @endif
@@ -1043,7 +1043,7 @@
                                 <div class="mh-testimonial-single">
                                     <div class="d-flex gap-10px align-items-start mb-3">
                                         <div class="image-circle-58px">
-                                            <img src="{{ get_all_image('users/' . $users['image']) }}" alt="">
+                                            <img src="{{ get_all_image('users/' . $users['image']) }}" alt="" loading="lazy" decoding="async" width="58" height="58">
                                         </div>
                                         <div>
                                             <h6 class="in-title-16px at-text-dark mb-2">{{ $users->name }}</h6>
@@ -1103,7 +1103,7 @@
                             <a href="{{ route('blog.details', ['id' => $blog->id, 'slug' => slugify($blog->title)]) }}" class="mh-blog-link max-w-md-450px mx-auto">
                                 <div class="mh-blog-card">
                                     <div class="mh-blog-card-image">
-                                        <img src="{{ get_all_image('blog-images/' . $blog->image) }}" alt="">
+                                        <img src="{{ get_all_image('blog-images/' . $blog->image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </div>
                                     <div class="p-20px">
                                         <p class="at-category-badge mb-12px">{{ $category_name->name }}</p>
@@ -1116,7 +1116,7 @@
                                         <div class="d-flex align-items-center justify-content-between mt-3 gap-3">
                                             <div class="d-flex align-items-center gap-10px">
                                                 <div class="image-circle-40px">
-                                                    <img src="{{ get_all_image('users/' . $usersBlog['image']) }}" alt="">
+                                                    <img src="{{ get_all_image('users/' . $usersBlog['image']) }}" alt="" loading="lazy" decoding="async" width="40" height="40">
                                                 </div>
                                                 <div>
                                                     <h6 class="in-title-16px at-text-dark mb-2">{{ $usersBlog->name }}</h6>

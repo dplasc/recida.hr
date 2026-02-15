@@ -83,7 +83,7 @@
                             @foreach (json_decode($listing->image) as $key => $image)
                                 <div class="swiper-slide">
                                     <div class="atn-slide-banner">
-                                        <img src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                        <img src="{{ get_all_image('listing-images/' . $image) }}" alt="" {{ $key === 0 ? 'loading="eager" decoding="async" fetchpriority="high"' : 'loading="lazy" decoding="async"' }} width="1200" height="800">
                                     </div>
                                 </div>
                             @endforeach
@@ -220,7 +220,7 @@
                             <div class="hoteldetails-gallery-list mb-16">
                                 @foreach (json_decode($room->image) as $key => $image)
                                     <a href="{{ get_all_image('room-images/' . $image) }}">
-                                        <img src="{{ get_all_image('room-images/' . $image) }}" alt="">
+                                        <img src="{{ get_all_image('room-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                 @endforeach
                             </div>
@@ -351,7 +351,7 @@
                                 <!-- Comment -->
                                 <div class="single-comment d-flex">
                                     <div class="comment-profile">
-                                        <img src="{{ get_all_image('users/' . $users['image']) }}" alt="">
+                                        <img src="{{ get_all_image('users/' . $users['image']) }}" alt="" loading="lazy" decoding="async" width="48" height="48">
                                     </div>
                                     <div class="comment-details">
                                         <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -417,7 +417,7 @@
                                             <li>
                                                 <div class="single-comment d-flex">
                                                     <div class="comment-profile">
-                                                        <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="">
+                                                        <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="" loading="lazy" decoding="async" width="40" height="40">
                                                     </div>
                                                     <div class="comment-details">
                                                         <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -598,7 +598,7 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{route('listing.details',['type'=>$type, 'id'=>$listings->id, 'slug'=>slugify($listings->title)])}}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="320" height="220">
                                 </a>
                                 <p class="card-light-text theme-light capitalize">{{ $listings->is_popular }}</p>
                                 @php

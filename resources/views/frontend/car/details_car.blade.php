@@ -112,7 +112,7 @@
                                         break;
                                     }
                                 @endphp
-                                <img class="big-image-view" src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                <img class="big-image-view" src="{{ get_all_image('listing-images/' . $image) }}" alt="" loading="eager" decoding="async" fetchpriority="high" width="1200" height="800">
                             @endforeach
                         </div>
                         <ul class="cardetails-banner-list">
@@ -127,11 +127,11 @@
                                 @endphp
                                 @if ($key > 0 && $key <= 2)
                                     <li>
-                                        <img class="small-image-view" src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                        <img class="small-image-view" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160">
                                     </li>
                                 @else
                                     <li class="last-child small-image-view">
-                                        <img src="{{ get_all_image('listing-images/' . $image) }}" alt="">
+                                        <img src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160">
                                         <a href="javascript:;" class="see-more" data-bs-toggle="modal" data-bs-target="#imageViewModal"> {{ get_phrase('View all photos') }}</a>
                                     </li>
                                 @endif
@@ -404,7 +404,7 @@
                                         <!-- Comment -->
                                         <div class="single-comment d-flex">
                                             <div class="comment-profile">
-                                                <img src="{{ get_all_image('users/' . $users['image']) }}" alt="">
+                                                <img src="{{ get_all_image('users/' . $users['image']) }}" alt="" loading="lazy" decoding="async" width="48" height="48">
                                             </div>
                                             <div class="comment-details">
                                                 <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -468,7 +468,7 @@
                                                     <li>
                                                         <div class="single-comment d-flex">
                                                             <div class="comment-profile">
-                                                                <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="">
+                                                                <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="" loading="lazy" decoding="async" width="40" height="40">
                                                             </div>
                                                             <div class="comment-details">
                                                                 <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -716,7 +716,7 @@
                             <div class="col-lg-3 col-md-4 col-sm-6">
                                 <div class="sing-gallery">
                                     <div class="gallery-head">
-                                        <a class="veno-gallery-img" href="{{ get_all_image('listing-images/' . $image) }}"><img src="{{ get_all_image('listing-images/' . $image) }}" alt=""></a>
+                                        <a class="veno-gallery-img" href="{{ get_all_image('listing-images/' . $image) }}"><img src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="240" height="160"></a>
                                     </div>
                                     <p>{{ $listing->title }}</p>
                                 </div>
@@ -766,7 +766,7 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'car', 'id' => $listings->id, 'slug' => slugify($listings->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="320" height="220">
                                 </a>
                                 <!-- if you need featured you can use  -->
                                 @php

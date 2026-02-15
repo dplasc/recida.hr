@@ -38,7 +38,7 @@
             <a href="{{route('blog.details',['id'=>$item->id, 'slug'=>slugify($item->title)])}}" class="sml-list-post-link">
                 <div class="d-flex align-items-center gap-3">
                     <div class="sml-list-post-banner">
-                        <img src="{{get_all_image('blog-images/'.$item->image)}}" alt="'''">
+                        <img src="{{get_all_image('blog-images/'.$item->image)}}" alt="" loading="lazy" decoding="async" width="240" height="160">
                     </div>
                     <div>
                         <h5 class="in-subtitle-1 fw-semibold mb-2">{{$item->title}}</h5>

@@ -420,6 +420,11 @@ class FileUploader extends Model
             imagedestroy($sourceImage);
             imagedestroy($newImage);
 
+            // Generate thumbnail for listing images (480px width, quality 75)
+            if (str_contains($path, 'listing-images')) {
+                self::generateListingThumbnail($finalPath, $baseFileName, $fullPath, $imageType);
+            }
+
             return $baseFileName;
 
         } catch (\Exception $e) {
@@ -590,6 +595,117 @@ class FileUploader extends Model
                 Session::flash('error', get_phrase('Image upload failed.'));
                 return null;
             }
+        }
+    }
+
+    /**
+     * Generate a thumbnail for a listing image (filename_thumb.ext).
+     * Target width: 480px, quality: 75. Only runs once per file (skips if thumb exists).
+     *
+     * @param string $sourcePath Full path to the original image file
+     * @param string $baseFileName Original filename (e.g. '0-1234567890.jpg')
+     * @param string $directory Full path to the directory containing the image
+     * @param int $imageType IMAGETYPE_JPEG, IMAGETYPE_PNG, etc.
+     */
+    public static function generateListingThumbnail($sourcePath, $baseFileName, $directory, $imageType)
+    {
+        $thumbFileName = pathinfo($baseFileName, PATHINFO_FILENAME) . '_thumb.' . pathinfo($baseFileName, PATHINFO_EXTENSION);
+        $thumbPath = $directory . '/' . $thumbFileName;
+
+        if (file_exists($thumbPath) && is_file($thumbPath)) {
+            return;
+        }
+
+        if (!extension_loaded('gd')) {
+            return;
+        }
+
+        try {
+            $imageInfo = @getimagesize($sourcePath);
+            if ($imageInfo === false) {
+                return;
+            }
+
+            $originalWidth = $imageInfo[0];
+            $originalHeight = $imageInfo[1];
+            $maxWidth = 480;
+            $quality = 75;
+
+            if ($originalWidth <= $maxWidth) {
+                $newWidth = $originalWidth;
+                $newHeight = $originalHeight;
+            } else {
+                $newWidth = $maxWidth;
+                $newHeight = (int) ($originalHeight * ($maxWidth / $originalWidth));
+            }
+
+            $sourceImage = null;
+            if ($imageType == IMAGETYPE_JPEG) {
+                $sourceImage = @imagecreatefromjpeg($sourcePath);
+            } elseif ($imageType == IMAGETYPE_PNG) {
+                $sourceImage = @imagecreatefrompng($sourcePath);
+            } elseif ($imageType == IMAGETYPE_GIF) {
+                $sourceImage = @imagecreatefromgif($sourcePath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                $sourceImage = @imagecreatefromwebp($sourcePath);
+            }
+
+            if ($sourceImage === false) {
+                return;
+            }
+
+            $newImage = imagecreatetruecolor($newWidth, $newHeight);
+            if ($newImage === false) {
+                imagedestroy($sourceImage);
+                return;
+            }
+
+            if ($imageType == IMAGETYPE_PNG || $imageType == IMAGETYPE_GIF) {
+                imagealphablending($newImage, false);
+                imagesavealpha($newImage, true);
+                $transparent = imagecolorallocatealpha($newImage, 255, 255, 255, 127);
+                imagefilledrectangle($newImage, 0, 0, $newWidth, $newHeight, $transparent);
+            }
+
+            imagecopyresampled(
+                $newImage, $sourceImage,
+                0, 0, 0, 0,
+                $newWidth, $newHeight,
+                $originalWidth, $originalHeight
+            );
+
+            if ($imageType == IMAGETYPE_JPEG) {
+                imagejpeg($newImage, $thumbPath, $quality);
+            } elseif ($imageType == IMAGETYPE_PNG) {
+                imagepng($newImage, $thumbPath, 6);
+            } elseif ($imageType == IMAGETYPE_GIF) {
+                imagegif($newImage, $thumbPath);
+            } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagewebp')) {
+                imagewebp($newImage, $thumbPath, 75);
+            }
+
+            imagedestroy($sourceImage);
+            imagedestroy($newImage);
+        } catch (\Throwable $e) {
+            Log::warning('Listing thumbnail generation failed', [
+                'file' => $baseFileName,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    /**
+     * Delete thumbnail file when a listing image is removed.
+     *
+     * @param string $filename Original image filename (e.g. '0-1234567890.jpg')
+     * @param string $path Relative path (e.g. 'uploads/listing-images')
+     */
+    public static function deleteListingThumbnail($filename, $path = 'uploads/listing-images')
+    {
+        $thumbFileName = pathinfo($filename, PATHINFO_FILENAME) . '_thumb.' . pathinfo($filename, PATHINFO_EXTENSION);
+        $thumbPath = public_path($path . '/' . $thumbFileName);
+        if (file_exists($thumbPath) && is_file($thumbPath)) {
+            @unlink($thumbPath);
         }
     }
 }

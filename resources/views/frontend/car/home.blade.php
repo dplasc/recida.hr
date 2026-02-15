@@ -92,7 +92,7 @@
                                         @endphp
                                         @if ($users)
                                             <li class="image-circle-52px">
-                                                <img src="{{ get_all_image('users/' . $users->image) }}" alt="">
+                                                <img src="{{ get_all_image('users/' . $users->image) }}" alt="" loading="lazy" decoding="async" width="48" height="48">
                                             </li>
                                         @endif
                                     @endforeach
@@ -158,7 +158,7 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{route('listing.details',['type'=>'car', 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="{{ $is_in_wishlist ? get_phrase('Remove from Wishlist') : get_phrase('Add to Wishlist') }}" onclick="updateWishlist(this, '{{ $listing->id }}')" class="grid-list-bookmark ca-bookmark-hover gray-bookmark2 {{ $is_in_wishlist ? 'active' : '' }}">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -252,7 +252,7 @@
                                         $image = isset($images[0]) ? $images[0] : null;
                                     @endphp
                                     <a class="w-100 h-100" href="{{route('listing.details',['type'=>'car', 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
-                                        <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                     <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="{{ $is_in_wishlist ? get_phrase('Remove from Wishlist') : get_phrase('Add to Wishlist') }}" onclick="updateWishlist(this, '{{ $listing->id }}')" class="grid-list-bookmark ca-bookmark-hover gray-bookmark2 {{ $is_in_wishlist ? 'active' : '' }}">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -348,7 +348,7 @@
                                         $image = isset($images[0]) ? $images[0] : null;
                                     @endphp
                                     <a class="w-100 h-100" href="{{route('listing.details',['type'=>'car', 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
-                                        <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                     <a href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-title="{{ $is_in_wishlist ? get_phrase('Remove from Wishlist') : get_phrase('Add to Wishlist') }}" onclick="updateWishlist(this, '{{ $listing->id }}')" class="grid-list-bookmark ca-bookmark-hover gray-bookmark2 {{ $is_in_wishlist ? 'active' : '' }}">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

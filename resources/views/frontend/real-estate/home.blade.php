@@ -60,7 +60,7 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'real-estate')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'real-estate', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text skin6-light capitalize">{{ $listing->status }}</p>
                                 @php
@@ -185,7 +185,7 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'real-estate')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'real-estate', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text skin6-light capitalize">{{ $listing->status }}</p>
                                 @php
@@ -288,7 +288,7 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'real-estate')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'real-estate', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 <p class="card-light-text skin6-light capitalize">{{ $listing->status }}</p>
                                 @php

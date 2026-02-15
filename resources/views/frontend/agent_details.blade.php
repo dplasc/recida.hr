@@ -21,7 +21,7 @@
         <div class="row row-28 mb-90 mt-3">
             <div class=" col-lg-4">
                 <div class="gCard">
-                    <img src="{{ $users->image ? asset('uploads/users/'.$users->image) : asset('image/placeholder.png') }}" alt="">
+                    <img src="{{ $users->image ? asset('uploads/users/'.$users->image) : asset('image/placeholder.png') }}" alt="" loading="lazy" decoding="async" width="200" height="200">
                     <div class="footer-bottom-social">
                         <ul class="eSocials">
                             <li><a href="{{$users->facebook}}" target="_Blank">

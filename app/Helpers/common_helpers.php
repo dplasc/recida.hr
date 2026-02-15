@@ -56,6 +56,37 @@ if (!function_exists('get_all_image')) {
     }
 }
 
+/**
+ * Return thumbnail URL for a listing image with fallback to original.
+ * Thumb naming: filename.ext -> filename_thumb.ext
+ * If thumb exists on disk, returns thumb URL; otherwise returns original via get_all_image().
+ *
+ * @param string $path Path like 'listing-images/filename.jpg' (same format as get_all_image)
+ * @return string Thumb URL or original URL (never throws)
+ */
+if (!function_exists('get_listing_image_thumb')) {
+    function get_listing_image_thumb($path)
+    {
+        if (empty($path) || !is_string($path)) {
+            return asset('image/placeholder.png');
+        }
+        $parts = explode('/', $path, 2);
+        $folder = $parts[0] ?? 'listing-images';
+        $filename = $parts[1] ?? '';
+        if (empty($filename)) {
+            return get_all_image($path);
+        }
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $base = pathinfo($filename, PATHINFO_FILENAME);
+        $thumbFilename = $base . '_thumb.' . $ext;
+        $thumbPath = public_path('uploads/' . $folder . '/' . $thumbFilename);
+        if (is_file($thumbPath) && file_exists($thumbPath)) {
+            return asset('uploads/' . $folder . '/' . $thumbFilename);
+        }
+        return get_all_image($path);
+    }
+}
+
 if (!function_exists('get_user_image')) {
     function get_user_image($url)
     {

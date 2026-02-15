@@ -220,7 +220,7 @@
                                         $image = isset($images[0]) ? $images[0] : null;
                                     @endphp
                                     <a class="w-100 h-100" href="{{route('listing.details',['type'=>'beauty', 'id'=>$popular->id, 'slug'=>slugify($popular->title)])}}">
-                                        <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                     <p class="bt-status-badge">{{ $popular->is_popular }}</p>
                                     @php
@@ -324,7 +324,7 @@
                                         $image = isset($images[0]) ? $images[0] : null;
                                     @endphp
                                     <a class="w-100 h-100" href="{{route('listing.details',['type'=>'beauty', 'id'=>$best->id, 'slug'=>slugify($best->title)])}}">
-                                        <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                     <p class="bt-status-badge">{{ $best->is_popular }}</p>
                                     @php
@@ -427,7 +427,7 @@
                                         $image = isset($images[0]) ? $images[0] : null;
                                     @endphp
                                     <a class="w-100 h-100" href="{{route('listing.details',['type'=>'beauty', 'id'=>$wellness->id, 'slug'=>slugify($wellness->title)])}}">
-                                        <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                        <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                     </a>
                                     <p class="bt-status-badge">{{ $wellness->is_popular }}</p>
                                     @php

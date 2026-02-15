@@ -138,7 +138,7 @@
                 <a href="{{route('blog.details',['id'=>$blog->id, 'slug'=>slugify($blog->title)])}}" class="at-blog-card-link">
                     <div class="at-blog-card">
                         <div class="at-blog-card-image">
-                            <img src="{{get_all_image('blog-images/'.$blog->image)}}" alt="...">
+                            <img src="{{get_all_image('blog-images/'.$blog->image)}}" alt="..." loading="lazy" decoding="async" width="480" height="320">
                         </div>
                         <div class="at-blog-details">
                             <p class="in-subtitle-2 fw-medium mb-14px">{{date('d M Y', $blog->time)}}</p>

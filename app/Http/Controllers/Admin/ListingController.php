@@ -751,6 +751,7 @@ class ListingController extends Controller
         if (file_exists($imagePath) && is_file($imagePath)) {
             unlink($imagePath);
         }
+        \App\Models\FileUploader::deleteListingThumbnail($image, 'uploads/listing-images');
         return 1;
     }
     public function listing_floor_image_delete($type, $id, $image){
@@ -821,6 +822,7 @@ class ListingController extends Controller
             if (file_exists($imagePath) && is_file($imagePath)) {
                 unlink($imagePath);
             }
+            \App\Models\FileUploader::deleteListingThumbnail($listImage, 'uploads/listing-images');
         }
         $listing->delete();
         Session::flash('success', get_phrase('Listing deleted successfully!'));

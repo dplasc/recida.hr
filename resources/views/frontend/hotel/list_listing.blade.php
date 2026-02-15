@@ -68,7 +68,7 @@
 
                                             @endphp
                                             <a class="w-100 h-100" href="{{route('listing.details',['type'=>$type, 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
-                                                <img class="card-item-image-list" src="{{ get_all_image('listing-images/' . $image) }}">
+                                                <img class="card-item-image-list" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                             </a>
                                             <p class="card-light-text theme-light capitalize">{{ $listing->is_popular }}</p>
                                             @php

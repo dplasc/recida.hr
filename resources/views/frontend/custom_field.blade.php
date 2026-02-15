@@ -17,7 +17,7 @@
                                     <div class="col-md-4 col-sm-12">
                                         <figure class="w-100">
                                             <a href="{{ get_all_image('custom-fields/' . $image->file) }}" class="veno-gallery-img  w-100">
-                                                <img src="{{ get_all_image('custom-fields/' . $image->file) }}" class="img-fluid rounded-start w-100 " style="height: 140px;">
+                                                <img src="{{ get_all_image('custom-fields/' . $image->file) }}" class="img-fluid rounded-start w-100 " style="height: 140px;" loading="lazy" decoding="async" width="280" height="140">
                                             </a>
                                         </figure>
                                     </div>
@@ -62,7 +62,7 @@
                             @foreach(json_decode($field->custom_field)->data as $slide) 
                             <div class="swiper-slide">
                                 <div class="atn-slide-banner atnAfter">
-                                    <img src="{{ get_all_image('custom-fields/' . $slide->file) }}" alt="" style="height: 420px;">
+                                    <img src="{{ get_all_image('custom-fields/' . $slide->file) }}" alt="" style="height: 420px;" loading="lazy" decoding="async" width="840" height="420">
                                         <div class="carousel-caption">
                                             <h5>{{ $slide->title }}</h5>
                                             <p>{{ $slide->description }}</p>
@@ -155,7 +155,7 @@
                                 <div class="col-lg-3">
                                     <div class="card gsCard">
                                         <a href="{{ get_all_image('custom-fields/' . $image->file) }}" class="veno-gallery-img  ">
-                                        <img src="{{ get_all_image('custom-fields/' . $image->file) }}" class="img-fluid rounded-start w-100" style="height: 260px; object-fit: cover; border-radius: 5px;" alt="">
+                                        <img src="{{ get_all_image('custom-fields/' . $image->file) }}" class="img-fluid rounded-start w-100" style="height: 260px; object-fit: cover; border-radius: 5px;" alt="" loading="lazy" decoding="async" width="520" height="260">
                                     </a>
                                     </div>
                                 </div>

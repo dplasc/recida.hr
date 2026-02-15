@@ -49,7 +49,7 @@
                         <div class="col-sm-6 col-md-4 col-lg-3 order-1">
                             <a href="{{ route('ListingsFilter') }}?type=hotel&view=grid&country={{ $country->id }}" class="ht-grid-item max-sm-350px mx-auto mx-sm-0">
                                 <p class="ht-grid-country-name">{{ $country->name }}</p>
-                                <img src="{{ get_all_image('country-thumbnails/' . $country->thumbnail) }}" alt="{{ $country->name }}">
+                                <img src="{{ get_all_image('country-thumbnails/' . $country->thumbnail) }}" alt="{{ $country->name }}" loading="lazy" decoding="async" width="480" height="320">
                             </a>
                         </div>
                     @endif
@@ -61,7 +61,7 @@
                                     <div class="col-12">
                                         <a href="{{ route('ListingsFilter') }}?type=hotel&view=grid&country={{ $country->id }}" class="ht-grid-item max-sm-350px mx-auto mx-sm-0">
                                             <p class="ht-grid-country-name">{{ $subCountry->name }}</p>
-                                            <img src="{{ get_all_image('country-thumbnails/' . $subCountry->thumbnail) }}" alt="{{ $subCountry->name }}">
+                                            <img src="{{ get_all_image('country-thumbnails/' . $subCountry->thumbnail) }}" alt="{{ $subCountry->name }}" loading="lazy" decoding="async" width="320" height="220">
                                         </a>
                                     </div>
                                 @endforeach
@@ -77,7 +77,7 @@
                                     <div class="col-12 col-md-6 col-lg-12">
                                         <a href="{{ route('ListingsFilter') }}?type=hotel&view=grid&country={{ $country->id }}" class="ht-grid-item max-sm-350px mx-auto mx-sm-0">
                                             <p class="ht-grid-country-name">{{ $subCountry->name }}</p>
-                                            <img src="{{ get_all_image('country-thumbnails/' . $subCountry->thumbnail) }}" alt="{{ $subCountry->name }}">
+                                            <img src="{{ get_all_image('country-thumbnails/' . $subCountry->thumbnail) }}" alt="{{ $subCountry->name }}" loading="lazy" decoding="async" width="320" height="220">
                                         </a>
                                     </div>
                                 @endforeach
@@ -90,7 +90,7 @@
                         <div class="col-sm-6 col-md-4 col-lg-3 order-4 order-md-3 order-lg-4">
                             <a href="{{ route('ListingsFilter') }}?type=hotel&view=grid&country={{ $country->id }}" class="ht-grid-item max-sm-350px mx-auto mx-sm-0">
                                 <p class="ht-grid-country-name">{{ $country->name }}</p>
-                                <img src="{{ get_all_image('country-thumbnails/' . $country->thumbnail) }}" alt="{{ $country->name }}">
+                                <img src="{{ get_all_image('country-thumbnails/' . $country->thumbnail) }}" alt="{{ $country->name }}" loading="lazy" decoding="async" width="480" height="320">
                             </a>
                         </div>
                     @endif
@@ -138,7 +138,7 @@
                                     $image = isset($images[0]) ? $images[0] : null;
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);
@@ -279,7 +279,7 @@
                                     $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'hotel')->first(); 
                                 @endphp
                                 <a class="w-100 h-100" href="{{ route('listing.details', ['type' => 'hotel', 'id' => $listing->id, 'slug' => slugify($listing->title)]) }}">
-                                    <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                                    <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="480" height="320">
                                 </a>
                                 @php
                                     $is_in_wishlist = check_wishlist_status($listing->id, $listing->type);

@@ -102,7 +102,7 @@
                          @foreach (json_decode($listing->image) as $key => $image)
                             <div class="swiper-slide">
                                 <div class="atn-slide-banner">
-                                    <img src="{{ get_all_image('listing-images/'.$image) }}" alt="">
+                                    <img src="{{ get_all_image('listing-images/'.$image) }}" alt="" {{ $key === 0 ? 'loading="eager" decoding="async" fetchpriority="high"' : 'loading="lazy" decoding="async"' }} width="1200" height="800">
                                 </div>
                             </div>
                         @endforeach
@@ -171,7 +171,7 @@
                                 @foreach($menus as $menu)
                                 <div class="restdetails-menu-item d-flex">
                                     <div class="img">
-                                        <img src="{{get_all_image('menu/'.$menu->image)}}" alt="">
+                                        <img src="{{get_all_image('menu/'.$menu->image)}}" alt="" loading="lazy" decoding="async" width="120" height="120">
                                     </div>
                                     <div class="restdetails-menu-details">
                                         <h5 class="name">{{$menu->title}}</h5>
@@ -329,7 +329,7 @@
                             <!-- Comment -->
                             <div class="single-comment d-flex">
                                 <div class="comment-profile">
-                                    <img src="{{ get_all_image('users/' . $users['image']) }}" alt="">
+                                    <img src="{{ get_all_image('users/' . $users['image']) }}" alt="" loading="lazy" decoding="async" width="48" height="48">
                                 </div>
                                 <div class="comment-details">
                                     <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -395,7 +395,7 @@
                                         <li>
                                             <div class="single-comment d-flex">
                                                 <div class="comment-profile">
-                                                    <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="">
+                                                    <img src="{{ get_all_image('users/' . $reply_user['image']) }}" alt="" loading="lazy" decoding="async" width="40" height="40">
                                                 </div>
                                                 <div class="comment-details">
                                                     <div class="commentator-name-dropdown d-flex justify-content-between">
@@ -615,7 +615,7 @@
                             $claimStatus = App\Models\ClaimedListing::where('listing_id', $listing->id)->where('listing_type', 'restaurant')->first(); 
                         @endphp
                         <a class="w-100 h-100" href="{{route('listing.details',['type'=>$type, 'id'=>$listing->id, 'slug'=>slugify($listing->title)])}}">
-                            <img class="card-item-image" src="{{ get_all_image('listing-images/' . $image) }}">
+                            <img class="card-item-image" src="{{ get_listing_image_thumb('listing-images/' . $image) }}" alt="" loading="lazy" decoding="async" width="320" height="220">
                         </a>
                         <p class="card-light-text theme-light capitalize">{{$listing->is_popular}}</p>
                         @php

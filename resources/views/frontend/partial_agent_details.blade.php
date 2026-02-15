@@ -6,7 +6,7 @@
     
 @endphp
 <div class="profile">
-    <img src="{{ get_all_image('users/' . $agentInfo->image) }}" alt="">
+    <img src="{{ get_all_image('users/' . $agentInfo->image) }}" alt="" loading="lazy" decoding="async" width="80" height="80">
 </div>
 <div class="details">
     <div class="hotel-details-contacts">

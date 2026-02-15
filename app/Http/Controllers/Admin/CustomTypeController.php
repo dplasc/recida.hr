@@ -101,8 +101,8 @@ class CustomTypeController extends Controller
 {
     $validated = $request->validate([
         'name' => 'required|max:125',
-        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
     ]);
 
     $oldType = CustomType::findOrFail($id);

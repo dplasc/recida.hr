@@ -109,10 +109,10 @@ class ListingController extends Controller
 
         $request->validate([
             'listing_image' => 'nullable|array|max:' . $maxImages,
-            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
-            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'listing_floor_plan' => 'nullable|array|max:' . $maxFloorPlan,
-            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
@@ -346,10 +346,10 @@ class ListingController extends Controller
 
         $request->validate([
             'listing_image' => 'nullable|array|max:' . $remainingImages,
-            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
-            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
+            'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'listing_floor_plan' => 'nullable|array|max:' . $remainingFloorPlans,
-            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ]);
@@ -1044,7 +1044,7 @@ class ListingController extends Controller
             'price' => 'required|max:50',
             'feature' => 'required',
             'image' => 'required|array|max:10',
-            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
         ]);
         $data['title'] = sanitize($request->title);
         $data['person'] = sanitize($request->person);
@@ -1080,7 +1080,7 @@ class ListingController extends Controller
             'price' => 'required|max:50',
             'feature' => 'required',
             'image' => 'nullable|array|max:10',
-            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
         ]);
         $data['title'] = sanitize($request->title);
         $data['person'] = sanitize($request->person);
@@ -1129,7 +1129,7 @@ class ListingController extends Controller
             'title' => 'required|max:50',
             'sub_title' => 'required|max:100',
             'price' => 'required|max:50',
-            'image' => 'required|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,jpg,png,webp|max:5120',
         ]);
         $data['title'] = sanitize($request->title);
         $data['sub_title'] = sanitize($request->sub_title);
@@ -1166,7 +1166,7 @@ class ListingController extends Controller
             'title' => 'required|max:50',
             'sub_title' => 'required|max:100',
             'price' => 'required|max:50',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
         ]);
         $data['title'] = sanitize($request->title);
         $data['sub_title'] = sanitize($request->sub_title);

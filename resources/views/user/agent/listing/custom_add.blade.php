@@ -72,13 +72,13 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-2">
-                            <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}} *</label>
+                            <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}}</label>
                             <input type="text" name="latitude" id="latitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-2">
-                            <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}} *</label>
+                            <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}}</label>
                             <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
                         </div>
                     </div>
@@ -216,14 +216,6 @@
             warning('Listing address is required');
         }
         
-        var listing_latitude = $("#latitude").val();
-        if(!listing_latitude){
-            warning('Listing latitude is required');
-        }
-        var listing_longitude = $("#longitude").val();
-        if(!listing_longitude){
-            warning('Listing longitude is required');
-        }
         var listing_visibility = $("#visibility").val();
         if(!listing_visibility){
             warning('Listing visibility is required');
@@ -242,7 +234,7 @@
         var is_popular_valid = !$("#is_popular").is("select") || listing_is_popular;
 
         // 3. Završna provjera - sada koristimo 'is_popular_valid'
-        if(listing_listing_icon_image && listing_title && listing_category && listing_country && listing_city && listing_address  && listing_latitude && listing_longitude && listing_visibility  && is_popular_valid){
+        if(listing_listing_icon_image && listing_title && listing_category && listing_country && listing_city && listing_address  && listing_visibility  && is_popular_valid){
             $("#form-action").trigger('submit');
         }
         // --- KRAJ NOVE LOGIKE ---

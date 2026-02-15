@@ -113,6 +113,8 @@ class ListingController extends Controller
             'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
             'listing_floor_plan' => 'nullable|array|max:' . $maxFloorPlan,
             'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
         // Enforce storage quota before saving files
@@ -348,6 +350,8 @@ class ListingController extends Controller
             'og_image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
             'listing_floor_plan' => 'nullable|array|max:' . $remainingFloorPlans,
             'listing_floor_plan.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:2048',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
         // Enforce storage quota before saving files

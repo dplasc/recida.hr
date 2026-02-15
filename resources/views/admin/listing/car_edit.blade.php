@@ -307,13 +307,13 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}} *</label>
+                                <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}}</label>
                                 <input type="text" name="latitude" id="latitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" value="{{$listing->Latitude}}" >
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}} *</label>
+                                <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}}</label>
                                 <input type="text" name="longitude" id="longitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter longitude code')}}" value="{{$listing->Longitude}}">
                             </div>
                         </div>
@@ -728,17 +728,9 @@
                 if(!listing_post_code){
                     warning('Listing post code is required');
                 }
-                var listing_latitude = $("#latitude").val();
-                if(!listing_latitude){
-                    warning('Listing latitude is required');
-                }
-                var listing_longitude = $("#longitude").val();
-                if(!listing_longitude){
-                    warning('Listing longitude is required');
-                }
 
 
-                if(listing_category && listing_title && listing_brand && listing_model && listing_year && listing_car_type && listing_transmission && listing_fuel_type && listing_cyelinder  && listing_interior_color && listing_exterior_color && listing_drive_train && listing_trim && listing_engine_size && listing_description && listing_longitude && listing_latitude && listing_post_code && listing_address && listing_city && listing_country  && listing_price && listing_vin && listing_mileage){
+                if(listing_category && listing_title && listing_brand && listing_model && listing_year && listing_car_type && listing_transmission && listing_fuel_type && listing_cyelinder  && listing_interior_color && listing_exterior_color && listing_drive_train && listing_trim && listing_engine_size && listing_description && listing_post_code && listing_address && listing_city && listing_country  && listing_price && listing_vin && listing_mileage){
                     $("#form-action").trigger('submit');
                 }
             })

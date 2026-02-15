@@ -170,11 +170,11 @@
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}} *</label>
+                                    <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}}</label>
                                     <input type="text" name="latitude" id="latitude" class="form-control cap-form-control" value="{{$listing->Latitude}}" placeholder="{{get_phrase('Enter Latitude code')}}" >
                                 </div>
                                 <div class="mb-2">
-                                    <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}} *</label>
+                                    <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}}</label>
                                     <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" value="{{$listing->Longitude}}" placeholder="{{get_phrase('Enter longitude code')}}" >
                                 </div>
                                 <div class="mt-3">
@@ -400,14 +400,6 @@
         if(!listing_post_code){
             warning('Listing post code is required');
         }
-        var listing_latitude = $("#latitude").val();
-        if(!listing_latitude){
-            warning('Listing latitude is required');
-        }
-        var listing_longitude = $("#longitude").val();
-        if(!listing_longitude){
-            warning('Listing longitude is required');
-        }
         var listing_visibility = $("#visibility").val();
         if(!listing_visibility){
             warning('Listing visibility is required');
@@ -427,7 +419,7 @@
         // --- KRAJ NOVE LOGIKE ---
 
         // 3. Završna provjera (dodan is_popular_valid na kraj)
-        if( listing_title && listing_category && listing_country && listing_city && listing_address && listing_post_code && listing_latitude && listing_longitude && listing_visibility && is_popular_valid){
+        if( listing_title && listing_category && listing_country && listing_city && listing_address && listing_post_code && listing_visibility && is_popular_valid){
             $("#form-action").trigger('submit');
         }
     })

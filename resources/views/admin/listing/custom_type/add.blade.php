@@ -57,13 +57,13 @@
                <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}} *</label>
+                            <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}}</label>
                             <input type="text" name="latitude" id="latitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
                         </div>
                     </div>
                   <div class="col-sm-6">
                         <div class="mb-3">
-                            <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}} *</label>
+                            <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}}</label>
                             <input type="text" name="longitude" id="longitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
                         </div>
                  </div>
@@ -219,14 +219,6 @@
         if(!listing_address){
             warning('Listing address is required');
         }
-        var listing_latitude = $("#latitude").val();
-        if(!listing_latitude){
-            warning('Listing latitude is required');
-        }
-        var listing_longitude = $("#longitude").val();
-        if(!listing_longitude){
-            warning('Listing longitude is required');
-        }
         var listing_post_code = $("#post_code").val();
         if(!listing_post_code){
             warning('Listing post code is required');
@@ -236,7 +228,7 @@
             warning('Listing image is required');
         }
 
-        if(listing_category && listing_title && listing_description && listing_visibility && listing_country && listing_city && listing_address && listing_latitude && listing_longitude && listing_listing_icon_image && listing_post_code && is_popular) {
+        if(listing_category && listing_title && listing_description && listing_visibility && listing_country && listing_city && listing_address && listing_listing_icon_image && listing_post_code && is_popular) {
             $("#form-action").trigger('submit');
         }
     });

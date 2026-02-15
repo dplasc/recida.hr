@@ -95,8 +95,10 @@ Route::get('report-listing/form-show/{type}/{id}', [FrontendController::class, '
 Route::post('report-listing/store', [FrontendController::class, 'reportListingStore'])->name('reportListingStore');
 
 
-Route::get('/customer/account', [AgentController::class, 'agent_account'])->name('user.account');
-Route::post('/account/update', [AgentController::class, 'customerAccountUpdate'])->name('customerAccountUpdate');
+Route::middleware(['auth', 'verified', 'customer'])->group(function () {
+    Route::get('/customer/account', [AgentController::class, 'agent_account'])->name('user.account');
+    Route::post('/account/update', [AgentController::class, 'customerAccountUpdate'])->name('customerAccountUpdate');
+});
 Route::get('agent/country-city/{id}', [CityController::class, 'country_city'])->name('admin.country.city');
 
 Route::get('claim-submit/form-show/{type}/{id}', [FrontendController::class, 'claimForm'])->name('claimForm');

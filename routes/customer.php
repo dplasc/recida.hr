@@ -19,7 +19,7 @@ Route::prefix('{prefix}')->controller(CustomerController::class)->middleware('au
     Route::post('/messages/{code?}', 'send_message')->name('user.message.send');
 });
 
-Route::controller(CustomerController::class)->middleware('auth', 'customer')->group(function () {
+Route::controller(CustomerController::class)->middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::get('/customer/wishlist', 'wishlist')->name('customer.wishlist');
     Route::get('/customer/remove/wishlist/{id}', 'remove_wishlist')->name('customer.remove.wishlist');
     Route::get('/customer/appointment', 'appointment')->name('customer.appointment');

@@ -429,7 +429,8 @@ class FileUploader extends Model
                 return $baseFileName;
             } catch (\Exception $fallbackException) {
                 Session::flash('error', get_phrase('Image upload failed.'));
-            return null;
+                return null;
+            }
         }
     }
 
@@ -591,5 +592,4 @@ class FileUploader extends Model
             }
         }
     }
-}
 }

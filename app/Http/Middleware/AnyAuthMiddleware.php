@@ -18,6 +18,9 @@ class AnyAuthMiddleware
         if(user('role') == 2 && user('is_agent') == 1 || user('role') == 1){
             return $next($request);
         }else{
+            if (get_settings('signup_email_verification') == 1 && !user('email_verified_at')) {
+                return redirect(route('verification.notice'));
+            }
             return redirect('/');
         }
     }

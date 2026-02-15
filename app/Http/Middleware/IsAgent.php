@@ -30,6 +30,9 @@ class IsAgent
                 return redirect('/agent/subscription');
             }
         }else{
+            if (get_settings('signup_email_verification') == 1 && !user('email_verified_at')) {
+                return redirect(route('verification.notice'));
+            }
             return redirect('/');
         }
     }

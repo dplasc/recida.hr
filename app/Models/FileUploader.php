@@ -686,6 +686,58 @@ class FileUploader extends Model
 
             imagedestroy($sourceImage);
             imagedestroy($newImage);
+
+            // 960w retina variant (filename_thumb_960.ext)
+            $thumb960FileName = pathinfo($baseFileName, PATHINFO_FILENAME) . '_thumb_960.' . pathinfo($baseFileName, PATHINFO_EXTENSION);
+            $thumb960Path = $directory . '/' . $thumb960FileName;
+            if (!(file_exists($thumb960Path) && is_file($thumb960Path))) {
+                $sourceImage960 = null;
+                if ($imageType == IMAGETYPE_JPEG) {
+                    $sourceImage960 = @imagecreatefromjpeg($sourcePath);
+                } elseif ($imageType == IMAGETYPE_PNG) {
+                    $sourceImage960 = @imagecreatefrompng($sourcePath);
+                } elseif ($imageType == IMAGETYPE_GIF) {
+                    $sourceImage960 = @imagecreatefromgif($sourcePath);
+                } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagecreatefromwebp')) {
+                    $sourceImage960 = @imagecreatefromwebp($sourcePath);
+                }
+                if ($sourceImage960 !== false) {
+                    $maxWidth960 = 960;
+                    if ($originalWidth <= $maxWidth960) {
+                        $newWidth960 = $originalWidth;
+                        $newHeight960 = $originalHeight;
+                    } else {
+                        $newWidth960 = $maxWidth960;
+                        $newHeight960 = (int) ($originalHeight * ($maxWidth960 / $originalWidth));
+                    }
+                    $newImage960 = imagecreatetruecolor($newWidth960, $newHeight960);
+                    if ($newImage960 !== false) {
+                        if ($imageType == IMAGETYPE_PNG || $imageType == IMAGETYPE_GIF) {
+                            imagealphablending($newImage960, false);
+                            imagesavealpha($newImage960, true);
+                            $transparent = imagecolorallocatealpha($newImage960, 255, 255, 255, 127);
+                            imagefilledrectangle($newImage960, 0, 0, $newWidth960, $newHeight960, $transparent);
+                        }
+                        imagecopyresampled(
+                            $newImage960, $sourceImage960,
+                            0, 0, 0, 0,
+                            $newWidth960, $newHeight960,
+                            $originalWidth, $originalHeight
+                        );
+                        if ($imageType == IMAGETYPE_JPEG) {
+                            imagejpeg($newImage960, $thumb960Path, 75);
+                        } elseif ($imageType == IMAGETYPE_PNG) {
+                            imagepng($newImage960, $thumb960Path, 6);
+                        } elseif ($imageType == IMAGETYPE_GIF) {
+                            imagegif($newImage960, $thumb960Path);
+                        } elseif (defined('IMAGETYPE_WEBP') && $imageType == IMAGETYPE_WEBP && function_exists('imagewebp')) {
+                            imagewebp($newImage960, $thumb960Path, 75);
+                        }
+                        imagedestroy($newImage960);
+                    }
+                    imagedestroy($sourceImage960);
+                }
+            }
         } catch (\Throwable $e) {
             Log::warning('Listing thumbnail generation failed', [
                 'file' => $baseFileName,
@@ -702,10 +754,17 @@ class FileUploader extends Model
      */
     public static function deleteListingThumbnail($filename, $path = 'uploads/listing-images')
     {
-        $thumbFileName = pathinfo($filename, PATHINFO_FILENAME) . '_thumb.' . pathinfo($filename, PATHINFO_EXTENSION);
+        $base = pathinfo($filename, PATHINFO_FILENAME);
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        $thumbFileName = $base . '_thumb.' . $ext;
         $thumbPath = public_path($path . '/' . $thumbFileName);
         if (file_exists($thumbPath) && is_file($thumbPath)) {
             @unlink($thumbPath);
+        }
+        $thumb960FileName = $base . '_thumb_960.' . $ext;
+        $thumb960Path = public_path($path . '/' . $thumb960FileName);
+        if (file_exists($thumb960Path) && is_file($thumb960Path)) {
+            @unlink($thumb960Path);
         }
     }
 }

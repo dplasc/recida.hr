@@ -116,7 +116,7 @@
                                             {{ $isFree ? 'Osnovna kontakt forma' : 'Kontakt forma za direktne upite' }}
                                         </li>
                                     @else
-                                        <li class="at-check-listitem pf-unavailable {{ $isPremium ? 'text-white' : '' }}">
+                                        <li class="pf-unavailable {{ $isPremium ? 'text-white' : '' }}">
                                             <span class="pf-icon-no">✖</span> Kontakt forma nije uključena
                                         </li>
                                     @endif
@@ -124,7 +124,7 @@
                                     {{-- NFC BONUS (samo Premium) --}}
                                     @if(!$isFree)
                                         <li class="at-check-listitem pf-bonus {{ $isPremium ? 'text-white' : '' }}">
-                                            🎁 <strong>GRATIS NFC kartica</strong> za Google recenzije (vrijednost 30 €)
+                                            🎁 <strong>1 godina PRO digitalne vizitke (VIZI.hr)</strong> – GRATIS (vrijednost 29 €)
                                         </li>
                                     @endif
 
@@ -134,14 +134,14 @@
                                             Video prezentacija u oglasu
                                         </li>
                                     @else
-                                        <li class="at-check-listitem pf-unavailable {{ $isPremium ? 'text-white' : '' }}">
+                                        <li class="pf-unavailable {{ $isPremium ? 'text-white' : '' }}">
                                             <span class="pf-icon-no">✖</span> Video u oglasu nije uključen
                                         </li>
                                     @endif
 
                                     {{-- Featured – minus SAMO na FREE --}}
                                     @if($isFree && !$isFeatured)
-                                        <li class="at-check-listitem pf-unavailable">
+                                        <li class="pf-unavailable">
                                             <span class="pf-icon-no">✖</span> Izdvojeni oglas nije uključen
                                         </li>
                                     @endif

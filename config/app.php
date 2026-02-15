@@ -23,7 +23,7 @@ if ($hostname == '127.0.0.1:8000' || str_contains($script_name, 'valet/')) {
    
 }
 
-$app_url = $host_type . $hostname;
+$app_url = env('APP_URL') ?: ($host_type . $hostname);
 
 
 return [

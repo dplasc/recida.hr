@@ -404,7 +404,7 @@
                                                 @foreach (json_decode($listing->image) as $key => $image)
                                                     <div class="possition_relative" id="image-icon{{ $key }}">
                                                         <img class="object-fit rounded" src="{{ get_all_image('listing-images/' . $image) }}" class="rounded" height="50" width="50">
-                                                        <input type="hidden" name="listing_image[]" value="{{ $image }}">
+                                                        <input type="hidden" name="existing_listing_images[]" value="{{ $image }}">
                                                         <a href="javascript:void(0);" onclick="listing_image_delete('{{ route('user.listing.image.delete', ['type' => $listing->type, 'id' => $listing->id, 'image' => $image]) }}', '{{ $key }}')"> <i data-bs-toggle="tooltip" data-bs-title="{{ get_phrase('Delete') }}" class="fas fa-times"></i> </a>
                                                     </div>
                                                 @endforeach

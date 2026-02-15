@@ -28,6 +28,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ListingController extends Controller
 {
+    /**
+     * Get normalized listing_image files: filter null/invalid entries.
+     * Returns array of valid UploadedFile instances.
+     */
+    private function getListingImageFiles(Request $request): array
+    {
+        $files = $request->file('listing_image');
+        if (!is_array($files)) {
+            return [];
+        }
+        return array_values(array_filter($files, fn($f) => $f instanceof \Illuminate\Http\UploadedFile && $f->isValid()));
+    }
     // public function listing_list($type){
     //     if($type == 'beauty'){
     //         $page_data['listings'] = BeautyListing::get();
@@ -107,6 +119,10 @@ class ListingController extends Controller
         $quotaBytes = $limits['quota_bytes'];
         $maxFloorPlan = getUserPlanKey($ownerId) === 'premium' ? 10 : 2;
 
+        // Normalize listing_image: remove null/invalid entries before validation
+        $listingImageFiles = $this->getListingImageFiles($request);
+        $request->merge(['listing_image' => $listingImageFiles]);
+
         $request->validate([
             'listing_image' => 'nullable|array|max:' . $maxImages,
             'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
@@ -119,10 +135,8 @@ class ListingController extends Controller
 
         // Enforce storage quota before saving files
         $newFilesSize = 0;
-        if ($request->hasFile('listing_image')) {
-            foreach ($request->file('listing_image') as $file) {
-                $newFilesSize += $file->getSize();
-            }
+        foreach ($listingImageFiles as $file) {
+            $newFilesSize += $file->getSize();
         }
         if ($request->hasFile('og_image')) {
             $newFilesSize += $request->file('og_image')->getSize();
@@ -182,14 +196,12 @@ class ListingController extends Controller
         $data['contact'] = json_encode($contacts); 
 
         $listing_image = [];
-        if ($request->hasFile('listing_image')) {
-            foreach ($request->file('listing_image') as $key => $image) {
-                $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
-                // Use optimized upload for listing images
-                $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
-                if ($optimizedFileName) {
-                    array_push($listing_image, $optimizedFileName);
-                }
+        foreach ($listingImageFiles as $key => $image) {
+            $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
+            // Use optimized upload for listing images
+            $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
+            if ($optimizedFileName) {
+                array_push($listing_image, $optimizedFileName);
             }
         }
         $data['image'] = json_encode($listing_image);
@@ -327,23 +339,28 @@ class ListingController extends Controller
 
         $existingImageCount = 0;
         $existingFloorPlanCount = 0;
-        if ($listing) {
+        $existingListingImages = array_values(array_filter((array) ($request->input('existing_listing_images') ?? [])));
+        if (!empty($existingListingImages)) {
+            $existingImageCount = count($existingListingImages);
+        } elseif ($listing) {
             $existingImages = is_string($listing->image ?? null) ? json_decode($listing->image, true) : ($listing->image ?? []);
             $existingImageCount = is_array($existingImages) ? count($existingImages) : 0;
-            if (isset($listing->floor_plan)) {
-                $existingFloorPlans = is_string($listing->floor_plan) ? json_decode($listing->floor_plan, true) : $listing->floor_plan;
-                $existingFloorPlanCount = is_array($existingFloorPlans) ? count($existingFloorPlans) : 0;
-            }
+        }
+        if ($listing && isset($listing->floor_plan)) {
+            $existingFloorPlans = is_string($listing->floor_plan) ? json_decode($listing->floor_plan, true) : $listing->floor_plan;
+            $existingFloorPlanCount = is_array($existingFloorPlans) ? count($existingFloorPlans) : 0;
         }
         $remainingImages = max(0, $maxImages - $existingImageCount);
         $remainingFloorPlans = max(0, $maxFloorPlan - $existingFloorPlanCount);
 
-        if ($remainingImages === 0 && $request->hasFile('listing_image')) {
+        $listingImageFiles = $this->getListingImageFiles($request);
+        if ($remainingImages === 0 && !empty($listingImageFiles)) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'listing_image' => [get_phrase('You have reached the maximum number of images for your plan.')],
             ]);
         }
 
+        $request->merge(['listing_image' => $listingImageFiles]);
         $request->validate([
             'listing_image' => 'nullable|array|max:' . $remainingImages,
             'listing_image.*' => 'image|mimes:jpeg,jpg,png,gif,webp|max:5120',
@@ -356,10 +373,8 @@ class ListingController extends Controller
 
         // Enforce storage quota before saving files
         $newFilesSize = 0;
-        if ($request->hasFile('listing_image')) {
-            foreach ($request->file('listing_image') as $file) {
-                $newFilesSize += $file->getSize();
-            }
+        foreach ($listingImageFiles as $file) {
+            $newFilesSize += $file->getSize();
         }
         if ($request->hasFile('og_image')) {
             $newFilesSize += $request->file('og_image')->getSize();
@@ -457,21 +472,17 @@ class ListingController extends Controller
             $data['status'] = sanitize($request->status);
             $data['stock'] =sanitize($request->stock);
 
-            $listing_image = json_decode(CarListing::where('id', $id)->pluck('image')->toArray()[0])??[];
+            $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(CarListing::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
 
-            if ($request->hasFile('listing_image')) {
-                foreach ($request->file('listing_image') as $key => $image) {
+            foreach ($listingImageFiles as $key => $image) {
                     $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                     // Use optimized upload for listing images
                     $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                     if ($optimizedFileName) {
                         array_push($listing_image, $optimizedFileName);
                     }
-                }
-                $data['image'] = json_encode($listing_image);
-            }else{
-                $data['image'] = $listing_image;
             }
+            $data['image'] = json_encode($listing_image);
             
             CarListing::where('id', $id)->update($data);
             Session::flash('success', get_phrase('Listing Update successfully!'));
@@ -504,21 +515,17 @@ class ListingController extends Controller
             $data['service'] = json_encode($request->service)??[];
 
 
-            $listing_image = json_decode(BeautyListing::where('id', $id)->pluck('image')->toArray()[0])??[];
+            $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(BeautyListing::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
 
-            if ($request->hasFile('listing_image')) {
-                foreach ($request->file('listing_image') as $key => $image) {
+            foreach ($listingImageFiles as $key => $image) {
                     $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                     // Use optimized upload for listing images
                     $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                     if ($optimizedFileName) {
                         array_push($listing_image, $optimizedFileName);
                     }
-                }
-                $data['image'] = json_encode($listing_image);
-            }else{
-                $data['image'] = $listing_image;
             }
+            $data['image'] = json_encode($listing_image);
             Session::flash('success', get_phrase('Listing Update successfully!'));
             BeautyListing::where('id', $id)->update($data);
 
@@ -543,21 +550,17 @@ class ListingController extends Controller
             $data['is_popular'] = $request->is_popular ?? 0;
           
             
-            $listing_image = json_decode(HotelListing::where('id', $id)->pluck('image')->toArray()[0])??[];
+            $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(HotelListing::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
 
-            if ($request->hasFile('listing_image')) {
-                foreach ($request->file('listing_image') as $key => $image) {
+            foreach ($listingImageFiles as $key => $image) {
                     $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                     // Use optimized upload for listing images
                     $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                     if ($optimizedFileName) {
                         array_push($listing_image, $optimizedFileName);
                     }
-                }
-                $data['image'] = json_encode($listing_image);
-            }else{
-                $data['image'] = $listing_image;
             }
+            $data['image'] = json_encode($listing_image);
             
             HotelListing::where('id', $id)->update($data);
             Session::flash('success', get_phrase('Listing Update successfully!'));
@@ -586,21 +589,17 @@ class ListingController extends Controller
             $data['status'] = sanitize($request->status);
 
 
-            $listing_image = json_decode(RealEstateListing::where('id', $id)->pluck('image')->toArray()[0])??[];
+            $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(RealEstateListing::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
 
-            if ($request->hasFile('listing_image')) {
-                foreach ($request->file('listing_image') as $key => $image) {
+            foreach ($listingImageFiles as $key => $image) {
                     $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                     // Use optimized upload for listing images
                     $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                     if ($optimizedFileName) {
                         array_push($listing_image, $optimizedFileName);
                     }
-                }
-                $data['image'] = json_encode($listing_image);
-            }else{
-                $data['image'] = json_encode($listing_image);
             }
+            $data['image'] = json_encode($listing_image);
 
             // Model
             if ($request->model) {
@@ -652,21 +651,17 @@ class ListingController extends Controller
             // Encode the array into JSON format
             $data['opening_time'] = json_encode($opening_times);
             $data['amenities'] = json_encode($request->feature)??[];
-            $listing_image = json_decode(RestaurantListing::where('id', $id)->pluck('image')->toArray()[0])??[];
+            $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(RestaurantListing::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
 
-            if ($request->hasFile('listing_image')) {
-                foreach ($request->file('listing_image') as $key => $image) {
+            foreach ($listingImageFiles as $key => $image) {
                     $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                     // Use optimized upload for listing images
                     $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                     if ($optimizedFileName) {
                         array_push($listing_image, $optimizedFileName);
                     }
-                }
-                $data['image'] = json_encode($listing_image);
-            }else{
-                $data['image'] = json_encode($listing_image);
             }
+            $data['image'] = json_encode($listing_image);
             $data['menu'] = json_encode($request->menu)??[];
             RestaurantListing::where('id', $id)->update($data);
             Session::flash('success', get_phrase('Listing Update successfully!'));
@@ -680,20 +675,16 @@ class ListingController extends Controller
         // Custom listing  Update
         else {
 
-                $listing_image = json_decode(CustomListings::where('id', $id)->pluck('image')->toArray()[0])??[];
-                if ($request->hasFile('listing_image')) {
-                    foreach ($request->file('listing_image') as $key => $image) {
+                $listing_image = !empty($existingListingImages) ? $existingListingImages : (json_decode(CustomListings::where('id', $id)->pluck('image')->toArray()[0], true) ?? []);
+                foreach ($listingImageFiles as $key => $image) {
                         $imageName = $key.'-'.time() . '.' . $image->getClientOriginalExtension();
                         // Use optimized upload for listing images
                         $optimizedFileName = \App\Models\FileUploader::uploadOptimized($image, 'uploads/listing-images', $imageName);
                         if ($optimizedFileName) {
                             array_push($listing_image, $optimizedFileName);
                         }
-                    }
-                    $data['image'] = json_encode($listing_image);
-                }else{
-                    $data['image'] = $listing_image;
                 }
+                $data['image'] = json_encode($listing_image);
                 $data['is_popular'] = $request->is_popular ?? 0;
                 $data['feature'] = json_encode($request->feature)??[];
                 CustomListings::where('id', $id)->update($data);

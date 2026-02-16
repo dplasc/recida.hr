@@ -14,7 +14,9 @@
                 <div class="tabItem" onclick="showPaymentGatewayByAjax('{{ $payment_gateway->identifier }}')" id="{{ $payment_gateway->identifier }}-tab" data-bs-toggle="pill" data-bs-target="#{{ $payment_gateway->identifier }}" role="tab" aria-controls="{{ $payment_gateway->identifier }}" aria-selected="true">
                     <div class="payment_gateway_option d-flex align-items-center">
                         <div class="logo">
-                            <img width="100px" src="{{ get_image('assets/payment/' . $payment_gateway->identifier . '.png') }}" alt="" />
+                            <img width="120px"
+                                 src="{{ asset('assets/payment/' . $payment_gateway->identifier . '.png') }}"
+                                 alt="{{ ucfirst($payment_gateway->identifier) }}">
                         </div>
                         <div class="info">
                             <p class="card_no">{{ $payment_gateway->title }}</p>

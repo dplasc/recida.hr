@@ -38,7 +38,7 @@
                                 </a>
                                 <div class="switch-wrap">
                                     <div class="switch-button">
-                                        <input type="checkbox" class="switch-checkbox" {{get_frontend_settings('map_position') == 'top'?'checked':''}}>
+                                        <input type="checkbox" class="switch-checkbox">
                                         <div class="knobs">
                                             <span></span>
                                         </div>

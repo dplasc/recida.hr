@@ -332,7 +332,9 @@ class SettingController extends Controller
         ]);
 
         $phrase = trim($request->phrase);
-        Language::where('id', $id)->update(['translated' => sanitize($phrase)]);
+        $final = sanitize($phrase);
+        $valueToStore = ($final === null || $final === '') ? '' : $final;
+        Language::where('id', $id)->update(['translated' => $valueToStore]);
         return 1;
     }
 

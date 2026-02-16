@@ -40,6 +40,36 @@
                             </svg>
                         </button>
                     </div>
+
+                    @php
+                        $subscription = App\Models\Subscription::where('user_id', user('id'))
+                            ->orderBy('id','DESC')
+                            ->first();
+                    @endphp
+
+                    @if(isset($subscription->package_id))
+                        @php
+                            $currentPackage = App\Models\Pricing::find($subscription->package_id);
+                        @endphp
+
+                        @if(isset($currentPackage) && (float)$currentPackage->price == 0)
+                            <div class="ca-content-card mb-4 p-4 d-flex justify-content-between align-items-center border border-warning bg-light">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="badge bg-warning text-dark px-2 py-1">Premium</span>
+                                        <strong>Otključajte više upita uz Premium plan.</strong>
+                                    </div>
+                                    <div>
+                                        Povećajte vidljivost oglasa, dodajte video i izdvojite se od konkurencije.
+                                    </div>
+                                </div>
+                                <a href="{{ route('pricing') }}" class="btn btn-dark">
+                                    Pogledaj Premium
+                                </a>
+                            </div>
+                        @endif
+                    @endif
+
                     <div class="ca-content-card">
                         <div class="mb-20px d-flex align-items-center column-gap-3 row-gap-3 justify-content-between flex-wrap">
                             <form action="{{ route('agent.listingsFilter') }}" method="GET">

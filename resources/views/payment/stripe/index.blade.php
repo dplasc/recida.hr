@@ -51,7 +51,33 @@
 
 
 @if ($key != '')
-    <a href="{{ route('payment.create', $payment_gateway->identifier) }}" class="btn btn-primary py-2 px-3">{{ get_phrase('Pay by Stripe') }}</a>
+    <div class="border rounded-4 p-4 text-center bg-white shadow-sm">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/46/Stripe_Logo%2C_revised_2016.svg"
+             alt="Stripe"
+             style="max-height:40px; margin-bottom:15px;">
+
+        <div class="fw-semibold mb-2">
+            Sigurno online plaćanje putem Stripe-a
+        </div>
+
+        <div class="text-muted small mb-3">
+            Podaci o kartici se ne pohranjuju na našoj stranici.
+            Plaćanje je zaštićeno SSL enkripcijom.
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 mb-4">
+            <i class="fab fa-cc-visa fa-2x text-muted"></i>
+            <i class="fab fa-cc-mastercard fa-2x text-muted"></i>
+            <i class="fab fa-cc-amex fa-2x text-muted"></i>
+        </div>
+
+        <a href="{{ route('payment.create', $payment_gateway->identifier) }}"
+           class="btn btn-dark px-4 py-2 w-100">
+            🔒 Plati sigurno putem Stripe-a
+        </a>
+
+    </div>
 @else
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none;">
         <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">

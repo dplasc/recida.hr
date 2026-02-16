@@ -310,7 +310,7 @@ if (! function_exists('get_phrase')) {
                         DB::table('languages')->insert([
                             'name' => strtolower($language->name),
                             'phrase' => $phrase,
-                            'translated' => $phrase
+                            'translated' => ''
                         ]);
                     }
                 }
@@ -318,7 +318,7 @@ if (! function_exists('get_phrase')) {
                 DB::table('languages')->insert([
                     'name' => 'english',
                     'phrase' => $phrase,
-                    'translated' => $phrase
+                    'translated' => ''
                 ]);
             }
         }

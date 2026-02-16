@@ -66,11 +66,9 @@
                         </div>
                  </div>
                </div>
-            <div class="col-sm-12">
-                <link rel="stylesheet" href="{{asset('assets/backend/css/leaflet.css')}}">
-                <script src="{{asset('assets/backend/js/leaflet.js')}}"></script>
-                <div id="map" class="rounded h-400"></div>
-            </div>
+                <div class="col-sm-12">
+                    @include('partials.listing_map', ['addressInputId' => 'list_address'])
+                </div>
           
         </div>
         <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">

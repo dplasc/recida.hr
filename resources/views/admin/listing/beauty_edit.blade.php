@@ -1,8 +1,6 @@
 @extends('layouts.admin')
 @section('title', get_phrase('Update Listing'))
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/mapbox-gl.css') }}">
-    <script src="{{ asset('assets/frontend/js/mapbox-gl.js') }}"></script>
 @endpush
 @section('admin_layout')
     @include('admin.listing.listing_style')
@@ -127,33 +125,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <link rel="stylesheet" href="{{ asset('assets/backend/css/leaflet.css') }}">
-                            <script src="{{ asset('assets/backend/js/leaflet.js') }}"></script>
-                            <div id="map" class="rounded h-400"></div>
-                            <script type="text/javascript">
-                                "use strict";
-                                var map = L.map('map').setView([40.706486, -74.014700], 13);
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    maxZoom: 5,
-                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                }).addTo(map);
-
-                                // Create a popup
-                                var popup = L.popup();
-
-                                // Define a function to handle map clicks
-                                function onMapClick(e) {
-                                    var lat = e.latlng.lat.toFixed(5);
-                                    var lng = e.latlng.lng.toFixed(5);
-                                    popup
-                                        .setLatLng(e.latlng)
-                                        .setContent("You clicked at:<br>Latitude: " + lat + "<br>Longitude: " + lng)
-                                        .openOn(map);
-                                    document.getElementById('latitude').value = lat;
-                                    document.getElementById('longitude').value = lng;
-                                }
-                                map.on('click', onMapClick);
-                            </script>
+                            @include('partials.listing_map', ['latitude' => $listing->Latitude ?? '', 'longitude' => $listing->Longitude ?? '', 'addressInputId' => 'list_address'])
                         </div>
                     </div>
                     <div class="tab-pane fade show {{ $tab == 'service' ? 'active' : '' }}" id="services" role="tabpanel" aria-labelledby="services-tab">

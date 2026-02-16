@@ -135,11 +135,9 @@
                             <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <link rel="stylesheet" href="{{asset('assets/backend/css/leaflet.css')}}">
-                        <script src="{{asset('assets/backend/js/leaflet.js')}}"></script>
-                        <div id="map" class="rounded h-400"></div>
-                    </div>
+                        <div class="mt-3">
+                            @include('partials.listing_map')
+                        </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab" tabindex="0">

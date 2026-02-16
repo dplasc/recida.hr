@@ -266,9 +266,7 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <link rel="stylesheet" href="{{asset('assets/backend/css/leaflet.css')}}">
-                    <script src="{{asset('assets/backend/js/leaflet.js')}}"></script>
-                    <div id="map" class="rounded w-100 h-400" ></div>
+                    @include('partials.listing_map', ['mapClass' => 'rounded w-100 h-400'])
                 </div>
             </div>
             <div class="tab-pane fade" id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab" tabindex="0">

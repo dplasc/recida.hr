@@ -133,6 +133,19 @@ if (!function_exists('get_user_image')) {
 }
 
 
+if (! function_exists('get_mapbox_token')) {
+    /**
+     * Get Mapbox access token for map/geocoder. Prefers system settings, falls back to env.
+     */
+    function get_mapbox_token() {
+        $token = get_settings('map_access_token');
+        if (! empty($token)) {
+            return $token;
+        }
+        return env('MAPBOX_ACCESS_TOKEN', '');
+    }
+}
+
 if (! function_exists('get_settings')) {
     function get_settings($type = "", $return_type = "") {
         $value = DB::table('system_settings')->where('key', $type)->value('value');

@@ -178,9 +178,7 @@
                                     <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" value="{{$listing->Longitude}}" placeholder="{{get_phrase('Enter longitude code')}}" >
                                 </div>
                                 <div class="mt-3">
-                                    <link rel="stylesheet" href="{{asset('assets/backend/css/leaflet.css')}}">
-                                    <script src="{{asset('assets/backend/js/leaflet.js')}}"></script>
-                                    <div id="map" class="rounded h-400"></div>
+                                    @include('partials.listing_map', ['latitude' => $listing->Latitude ?? '', 'longitude' => $listing->Longitude ?? ''])
                                 </div>
                             </div>
                         </div>

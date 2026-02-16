@@ -32,7 +32,7 @@
                 <tr>
                     <td> {{$num++}} </td>
                     <td> {{$subscription->subscription_to_user->name ?? ''}} </td>
-                    <td> {{$subscription->subscription_to_pricing->name}} </td>
+                    <td> {{$subscription->subscription_to_pricing?->name ?? '-'}} </td>
                     <td> {{currency($subscription->paid_amount)}} </td>
                     <td> 
                         <div class="dropdown ol-icon-dropdown">

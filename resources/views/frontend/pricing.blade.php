@@ -64,10 +64,19 @@
 
                     $listingCount  = (int)($package->listing ?? 1);
                     $categoryCount = (int)($package->category ?? 1);
+
+                    $isCurrent = isset($subscription->package_id) && $subscription->package_id == $package->id;
                 @endphp
 
                 <div class="col-lg-4 col-md-6">
-                    <div class="at-shadow-card eShadow {{ $isPremium ? 'active' : '' }}">
+                    <div class="at-shadow-card eShadow {{ $isPremium ? 'active' : '' }} {{ $isCurrent ? 'border border-success shadow-lg' : '' }}">
+                        @if($isCurrent)
+                            <div class="position-absolute top-0 end-0 m-3">
+                                <span class="badge bg-success px-3 py-2">
+                                    Trenutni paket
+                                </span>
+                            </div>
+                        @endif
                         <div class="d-flex flex-column h-100 justify-content-between">
                             <div>
 
@@ -150,7 +159,11 @@
                             </div>
 
                             {{-- CTA --}}
-                            @if($isFree)
+                            @if($isCurrent)
+                                <button class="btn w-100 text-center btn-success" disabled>
+                                    Aktivan plan
+                                </button>
+                            @elseif($isFree)
                                 <a href="{{ route('free_subscription',['id'=>$package->id]) }}"
                                    class="theme-btn1 w-100 text-center">
                                     Isprobaj besplatno

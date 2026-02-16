@@ -113,5 +113,15 @@
     });
 
     map.addControl(geocoder, 'top-right');
+
+    var tabPane = mapEl.closest('.tab-pane');
+    if (tabPane && tabPane.id) {
+        document.addEventListener('shown.bs.tab', function tabShownHandler(e) {
+            var target = e.target.getAttribute ? e.target.getAttribute('data-bs-target') || e.target.getAttribute('href') : null;
+            if (target && (target === '#' + tabPane.id || target === tabPane.id)) {
+                if (typeof map.resize === 'function') map.resize();
+            }
+        });
+    }
 })();
 </script>

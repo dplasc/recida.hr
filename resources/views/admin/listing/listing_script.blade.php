@@ -28,28 +28,6 @@
         $('.ol-select22').select2();
     });
 
-    var map = L.map('map').setView([40.706486, -74.014700], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 5,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Create a popup
-    var popup = L.popup();
-
-    // Define a function to handle map clicks
-    function onMapClick(e) {
-        var lat = e.latlng.lat.toFixed(5);  
-        var lng = e.latlng.lng.toFixed(5);
-        popup
-            .setLatLng(e.latlng)
-            .setContent("You clicked at:<br>Latitude: " + lat + "<br>Longitude: " + lng)
-            .openOn(map);
-        document.getElementById('latitude').value = lat;
-        document.getElementById('longitude').value = lng;
-    }
-    map.on('click', onMapClick);
-
     function listing_image_delete(url, key){
         $.ajax({
             url: url,

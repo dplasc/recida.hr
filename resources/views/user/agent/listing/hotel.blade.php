@@ -92,23 +92,6 @@
                         <textarea name="description" id="description" cols="30" rows="3" placeholder="{{get_phrase('Write your description')}}" class="form-control"></textarea>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="mb-2">
-                            <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}} *</label>
-                            <input type="text" name="latitude" id="latitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="mb-2">
-                            <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}} *</label>
-                            <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-3">
-                    @include('partials.listing_map')
-                </div>
             </div>
         </div>
         <div class="tab-pane fade" id="pills-address" role="tabpanel" aria-labelledby="pills-address-tab" tabindex="0">
@@ -129,6 +112,10 @@
                         <label for="city" class="form-label cap-form-label"> {{get_phrase('City')}} *</label>
                         <select name="city" id="city" class="at-select2 cap-select2 select2-hidden-accessible" data-select2-id="select2-data-1-2ryci6" tabindex="-1" aria-hidden="true">
                             <option value=""> {{get_phrase('Select listing city')}} </option>
+                            @php $defaultCountryId = get_settings('country_id'); $cities = $defaultCountryId ? \App\Models\City::where('country', $defaultCountryId)->orderBy('name')->get() : collect(); @endphp
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -137,7 +124,23 @@
                 <label for="address" class="form-label cap-form-label"> {{get_phrase('Address')}} *</label>
                 <textarea name="address" id="address" cols="30" rows="3" class="form-control cap-form-control" placeholder="{{get_phrase('Enter listing address')}}" ></textarea>
             </div>
-            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-2">
+                        <label for="latitude" class="form-label cap-form-label"> {{get_phrase('Latitude')}} *</label>
+                        <input type="text" name="latitude" id="latitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="mb-2">
+                        <label for="longitude" class="form-label cap-form-label"> {{get_phrase('Longitude')}} *</label>
+                        <input type="text" name="longitude" id="longitude" class="form-control cap-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                @include('partials.listing_map')
+            </div>
             <div class="mb-2">
                 <label for="post_code" class="form-label cap-form-label"> {{get_phrase('Post Code')}} *</label>
                 <input type="text" name="post_code" id="post_code" class="form-control cap-form-control" placeholder="{{get_phrase('Enter post code')}}" >

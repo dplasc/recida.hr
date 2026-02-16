@@ -246,23 +246,6 @@
                 <label for="description" class="form-label ol-form-label"> {{get_phrase('Description')}} </label>
                 <textarea name="description" id="description" cols="30" rows="3" class="form-control ol-form-control" placeholder="{{get_phrase('Enter listing description')}}">{{old('description')}}</textarea>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}}</label>
-                        <input type="text" name="latitude" id="latitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="mb-3">
-                        <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}}</label>
-                        <input type="text" name="longitude" id="longitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
-                    </div>
-                </div>
-                    <div class="col-sm-12">
-                        @include('partials.listing_map', ['addressInputId' => 'list_address'])
-                    </div>
-            </div>
         </div>
         <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
             <div class="row">
@@ -282,6 +265,10 @@
                         <label for="city" class="form-label ol-form-label"> {{get_phrase('City')}} *</label>
                         <select name="city" id="city" class="form-control ol-form-control ol-select22 ol-select2"  data-minimum-results-for-search="Infinity">
                             <option value=""> {{get_phrase('Select listing city')}} </option>
+                            @php $defaultCountryId = get_settings('country_id'); $cities = $defaultCountryId ? \App\Models\City::where('country', $defaultCountryId)->orderBy('name')->get() : collect(); @endphp
+                            @foreach($cities as $city)
+                                <option value="{{ $city->id }}">{{ $city->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -289,6 +276,23 @@
             <div class="mb-3">
                 <label for="address" class="form-label ol-form-label"> {{get_phrase('Address')}} *</label>
                 <textarea name="address" id="list_address" cols="30" rows="3" class="form-control ol-form-control" placeholder="{{get_phrase('Enter listing address')}}" ></textarea>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="latitude" class="form-label ol-form-label"> {{get_phrase('Latitude')}}</label>
+                        <input type="text" name="latitude" id="latitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter Latitude code')}}" >
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="mb-3">
+                        <label for="longitude" class="form-label ol-form-label"> {{get_phrase('Longitude')}}</label>
+                        <input type="text" name="longitude" id="longitude" class="form-control ol-form-control" placeholder="{{get_phrase('Enter longitude code')}}" >
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                @include('partials.listing_map', ['addressInputId' => 'list_address'])
             </div>
             <div class="row">
                 <div class="col-sm-12">

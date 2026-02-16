@@ -7124,21 +7124,15 @@ textarea.meeting-textarea{
 
 
 /* Pricing icons - brand clean look (scoped to pricing page only) */
+/* Glavna ikona uvijek brand boja (i na active kartici) */
 .pricing-section .price-item .icon i,
 .pricing-section .price-item .icon svg,
 .pricing-section .at-shadow-card .icon i,
 .pricing-section .at-shadow-card .icon svg,
 .pricing-section .at-shadow-card .sml-radio-iconbox i,
 .pricing-section .at-shadow-card .sml-radio-iconbox svg {
-    color: var(--themeColor);
-    fill: var(--themeColor);
-}
-.pricing-section .at-shadow-card.active .icon i,
-.pricing-section .at-shadow-card.active .icon svg,
-.pricing-section .at-shadow-card.active .sml-radio-iconbox i,
-.pricing-section .at-shadow-card.active .sml-radio-iconbox svg {
-    color: #fff;
-    fill: #fff;
+    color: var(--themeColor) !important;
+    fill: var(--themeColor) !important;
 }
 
 /* Card */

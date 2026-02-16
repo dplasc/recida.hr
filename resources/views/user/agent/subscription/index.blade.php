@@ -48,7 +48,12 @@
                                         <h4 class="fz-20-sb-black pb-10">{{ get_phrase($current_package->name) . ' ' . get_phrase('Account') }}</h4>
                                         <p class="fz-15-r-gray">{{ get_phrase($current_package->sub_title) . ' - ' . ucwords(get_phrase($current_package->period)) . ' ' . get_phrase('plan') }}</p>
                                     </div>
-                                    <!-- Button -->
+                                    @if(isset($current_package) && (float)$current_package->price == 0)
+                                        <a href="{{ route('pricing') }}"
+                                           class="btn cap-btn-primary ">
+                                            Nadogradi plan
+                                        </a>
+                                    @endif
                                 </div>
                                 <p class="fz-15-r-gray">
                                     {{ get_phrase('Your current package price is') }}
@@ -74,6 +79,7 @@
                                 </div>
                             </div>
                         @endif
+                        @if(isset($current_package) && (float)$current_package->price > 0)
                         <!-- Payment Method -->
                         <div class="dl_column_item pt-22 px-30 pb-30 boxShadow-06 bg-white">
                             <!-- Title -->
@@ -88,6 +94,7 @@
                                 <p class="fz-15-r-gray">{{ ucfirst($current_subscription->payment_method ?? '') }}</p>
                             </div>
                         </div>
+                        @endif
                         <!-- Invoicing -->
                         <div class="dl_column_item pt-22 px-30 pb-30 boxShadow-06 bg-white">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">

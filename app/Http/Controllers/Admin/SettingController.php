@@ -327,7 +327,12 @@ class SettingController extends Controller
     }
 
     public function update_phrase(Request $request,$id){
-        Language::where('id', $id)->update(['translated' => $request->phrase]);
+        $request->validate([
+            'phrase' => 'required|string',
+        ]);
+
+        $phrase = trim($request->phrase);
+        Language::where('id', $id)->update(['translated' => sanitize($phrase)]);
         return 1;
     }
 

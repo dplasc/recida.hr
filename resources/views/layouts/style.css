@@ -7123,22 +7123,41 @@ textarea.meeting-textarea{
 }
 
 
-/* Pricing icons - brand clean look (scoped to pricing page only) */
-.pricing-section .price-item .icon i,
-.pricing-section .price-item .icon svg,
-.pricing-section .at-shadow-card .icon i,
-.pricing-section .at-shadow-card .icon svg,
-.pricing-section .at-shadow-card .sml-radio-iconbox i,
-.pricing-section .at-shadow-card .sml-radio-iconbox svg {
-    color: var(--themeColor);
-    fill: var(--themeColor);
+/* Pricing - professional final */
+.pricing-section .at-shadow-card:not(.active){
+    background: #fff !important;
+    color: inherit;
 }
-.pricing-section .at-shadow-card.active .icon i,
-.pricing-section .at-shadow-card.active .icon svg,
-.pricing-section .at-shadow-card.active .sml-radio-iconbox i,
-.pricing-section .at-shadow-card.active .sml-radio-iconbox svg {
+.pricing-section .at-shadow-card:not(.active):hover{
+    background: #fff !important;
+    color: inherit;
+}
+.pricing-section .at-shadow-card.active{
+    background: var(--themeColor) !important;
     color: #fff;
-    fill: #fff;
+}
+
+/* Krug iza glavne ikone uvijek bijel */
+.pricing-section .at-shadow-card .icon{
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Glavna ikona (avion/raketa) uvijek brand boja da bude vidljiva i na bijelom krugu */
+.pricing-section .at-shadow-card .icon i,
+.pricing-section .at-shadow-card .icon svg{
+    color: var(--themeColor) !important;
+    fill: var(--themeColor) !important;
+}
+
+/* Check ikone (lista featurea) - at-check-listitem koristi ::after s background-image */
+.pricing-section .at-shadow-card .at-check-listitem::after{
+    background: url(../images/icons/check-green-27.svg) no-repeat scroll center center / cover;
+}
+
+/* Na PREMIUM kartici check ikone (lista) su bijele radi kontrasta */
+.pricing-section .at-shadow-card.active .at-check-listitem::after{
+    background: url(../images/icons/check-white-27.svg) no-repeat scroll center center / cover !important;
 }
 
 /* Card */

@@ -69,7 +69,7 @@
                 @endphp
 
                 <div class="col-lg-4 col-md-6">
-                    <div class="at-shadow-card eShadow {{ $isPremium ? 'active' : '' }} {{ $isCurrent ? 'border border-success shadow-lg' : '' }}">
+                    <div class="at-shadow-card eShadow {{ ($isPremium && !$isFree) ? 'active' : '' }} {{ $isCurrent ? 'border border-success shadow-lg' : '' }}">
                         @if($isCurrent)
                             <div class="position-absolute top-0 end-0 m-3">
                                 <span class="badge bg-success px-3 py-2">

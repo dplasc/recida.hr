@@ -8,7 +8,7 @@
         ->first();
 @endphp
 
-<section class="mt-5">
+<section class="pricing-section mt-5">
     <div class="container">
 
         {{-- ===== CSS SAMO ZA PRICING STRANICU ===== --}}

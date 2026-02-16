@@ -7123,6 +7123,24 @@ textarea.meeting-textarea{
 }
 
 
+/* Pricing icons - brand clean look (scoped to pricing page only) */
+.pricing-section .price-item .icon i,
+.pricing-section .price-item .icon svg,
+.pricing-section .at-shadow-card .icon i,
+.pricing-section .at-shadow-card .icon svg,
+.pricing-section .at-shadow-card .sml-radio-iconbox i,
+.pricing-section .at-shadow-card .sml-radio-iconbox svg {
+    color: var(--themeColor);
+    fill: var(--themeColor);
+}
+.pricing-section .at-shadow-card.active .icon i,
+.pricing-section .at-shadow-card.active .icon svg,
+.pricing-section .at-shadow-card.active .sml-radio-iconbox i,
+.pricing-section .at-shadow-card.active .sml-radio-iconbox svg {
+    color: #fff;
+    fill: #fff;
+}
+
 /* Card */
 .at-shadow-card{
     box-shadow: 0 5px 40px 0 rgba(0, 0, 0, 0.1);
@@ -7877,6 +7895,24 @@ textarea.at2-form-control{
 
 /* Contact Page End ***
 *********************/
+/* Contact section - brand color icons (scoped to contact page only) */
+.contact-section .secondary-light-iconbox {
+    background: rgba(183,161,215,0.15);
+    border: 1px solid rgba(183,161,215,0.35);
+}
+.contact-section .secondary-light-iconbox i,
+.contact-section .secondary-light-iconbox svg {
+    color: var(--themeColor);
+    fill: var(--themeColor);
+}
+.contact-section .contact-social-icon {
+    color: var(--themeColor);
+    font-size: 16px;
+}
+.contact-section .contact-social-icon path {
+    fill: var(--themeColor);
+}
+
 .secondary-light-iconbox{
     width: 62px;
     flex: 0 0 62px;

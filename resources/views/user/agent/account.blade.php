@@ -85,6 +85,12 @@
                                     <input type="text" placeholder="https://www.tiktok.com/@vas_profil" class="form-control cap-form-control" id="linkedin" name="linkedin" value="{{ $user->linkedin ?? '' }}"/>
                                 </div>
                             </div>
+                            <div class="row justify-content-between align-items-center mb-3 mb-3">
+                                <label for="youtube" class="col-sm-2 cap-form-label">{{ get_phrase('YouTube') }}</label>
+                                <div class="col-sm-10 col-md-9 col-lg-10">
+                                    <input type="text" placeholder="https://www.youtube.com/@vas_profil" class="form-control cap-form-control" id="youtube" name="youtube" value="{{ $user->youtube ?? '' }}"/>
+                                </div>
+                            </div>
                             <!-- Gender -->
                             <div class="row justify-content-between align-items-center mb-3 mb-3">
                                 <label class="col-sm-2 cap-form-label">{{ get_phrase('Gender') }}</label>

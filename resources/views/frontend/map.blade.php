@@ -126,22 +126,43 @@ if (Array.isArray(coordinates) && coordinates.length > 0) {
 <script>
 "use strict";
 document.addEventListener("DOMContentLoaded", function() {
+    var STORAGE_KEY = "recida_show_map";
     var checkboxes = document.querySelectorAll(".switch-checkbox");
     var eRows = document.querySelectorAll(".eRow");
-    eRows.forEach(function(eRow) {
-        eRow.classList.remove("eShow");
-    });
+
+    function applyMapState(showMap) {
+        eRows.forEach(function(eRow) {
+            if (showMap) {
+                eRow.classList.add("eShow");
+            } else {
+                eRow.classList.remove("eShow");
+            }
+        });
+        checkboxes.forEach(function(cb) {
+            cb.checked = !showMap;
+        });
+        if (showMap && typeof map !== "undefined") {
+            requestAnimationFrame(function() {
+                requestAnimationFrame(function() {
+                    try { map.resize(); } catch (e) {}
+                });
+            });
+        }
+    }
+
+    function getStoredState() {
+        var val = localStorage.getItem(STORAGE_KEY);
+        return val === "1";
+    }
+
+    var showMap = getStoredState();
+    applyMapState(showMap);
+
     checkboxes.forEach(function(checkbox) {
         checkbox.addEventListener("change", function() {
-            if (checkbox.checked) {
-                eRows.forEach(function(eRow) {
-                    eRow.classList.remove("eShow");
-                });
-            } else {
-                eRows.forEach(function(eRow) {
-                    eRow.classList.add("eShow");
-                });
-            }
+            var showMap = !checkbox.checked;
+            localStorage.setItem(STORAGE_KEY, showMap ? "1" : "0");
+            applyMapState(showMap);
         });
     });
 });

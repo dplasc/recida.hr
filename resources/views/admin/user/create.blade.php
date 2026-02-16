@@ -77,6 +77,12 @@
             </label>
             <input type="text" class="form-control ol-form-control" name="twitter" id="twitter" placeholder="https://www.instagram.com/..." value="{{old('twitter')}}">
         </div>
+        <div class="col-sm-6 mb-3">
+            <label for="youtube" class="form-label ol-form-label"> 
+                <i class="fab fa-youtube me-2"></i> {{get_phrase('YouTube link')}} 
+            </label>
+            <input type="text" class="form-control ol-form-control" name="youtube" id="youtube" placeholder="https://www.youtube.com/@..." value="{{old('youtube')}}">
+        </div>
         
         <div class="col-sm-6 mb-3">
             <label for="password" class="form-label ol-form-label"> {{get_phrase('Password *')}} </label>

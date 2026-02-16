@@ -177,6 +177,7 @@ class AgentController extends Controller
             $updateUserInfo['facebook']=sanitize($data['facebook']);
             $updateUserInfo['twitter']=sanitize($data['twitter']);
             $updateUserInfo['linkedin']=sanitize($data['linkedin']);
+            $updateUserInfo['youtube']=sanitize($data['youtube'] ?? '');
 
 
         }elseif($data['type']=='address')

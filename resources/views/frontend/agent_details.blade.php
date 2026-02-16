@@ -24,6 +24,7 @@
                     <img src="{{ $users->image ? asset('uploads/users/'.$users->image) : asset('image/placeholder.png') }}" alt="" loading="lazy" decoding="async" width="200" height="200">
                     <div class="footer-bottom-social">
                         <ul class="eSocials">
+                            @if(!empty($users->facebook))
                             <li><a href="{{$users->facebook}}" target="_Blank">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_8_202)">
@@ -37,15 +38,25 @@
                                 </svg>         
                                 {{get_phrase('Facebook.com')}}               
                             </a></li>
-                   <li><a href="{{$users->twitter}}" target="_Blank">
+                            @endif
+                            @if(!empty($users->twitter))
+                            <li><a href="{{$users->twitter}}" target="_Blank">
                                 <i class="fab fa-instagram" style="font-size: 20px; color: white;"></i>
                                 {{get_phrase('Instagram.com')}}                          
                             </a></li>
-
+                            @endif
+                            @if(!empty($users->linkedin))
                             <li><a href="{{$users->linkedin}}" class="mb-0" target="_Blank">
                                 <i class="fab fa-tiktok" style="font-size: 20px; color: white;"></i>
                                 {{get_phrase('TikTok.com')}}                      
                             </a></li>
+                            @endif
+                            @if(!empty($users->youtube))
+                            <li><a href="{{$users->youtube}}" target="_Blank">
+                                <i class="fab fa-youtube" style="font-size: 20px; color: white;"></i>
+                                {{get_phrase('YouTube.com')}}
+                            </a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>

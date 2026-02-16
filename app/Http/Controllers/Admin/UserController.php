@@ -58,6 +58,7 @@ class UserController extends Controller
         $data['facebook'] = sanitize($request->facebook);
         $data['twitter'] = sanitize($request->twitter);
         $data['linkedin'] = sanitize($request->linkedin);
+        $data['youtube'] = sanitize($request->youtube ?? '');
 
         User::insert($data);
         Session::flash('success', get_phrase('User Created successfully!'));
@@ -131,6 +132,7 @@ class UserController extends Controller
         $data['facebook'] = sanitize($request->facebook);
         $data['twitter'] = sanitize($request->twitter);
         $data['linkedin'] = sanitize($request->linkedin);
+        $data['youtube'] = sanitize($request->youtube ?? '');
 
 
         $user->update($data);

@@ -19,7 +19,9 @@
                                  alt="{{ ucfirst($payment_gateway->identifier) }}">
                         </div>
                         <div class="info">
+                            @if (strtolower($payment_gateway->identifier) !== 'stripe')
                             <p class="card_no">{{ $payment_gateway->title }}</p>
+                            @endif
                             <p class="card_date"></p>
                         </div>
                     </div>

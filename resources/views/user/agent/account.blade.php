@@ -75,14 +75,14 @@
                           <div class="row justify-content-between align-items-center mb-3 mb-3">
                                 <label for="twitter" class="col-sm-2 cap-form-label">Instagram</label>
                                 <div class="col-sm-10 col-md-9 col-lg-10">
-                                    <input type="text" placeholder="Instagram URL" class="form-control cap-form-control" id="twitter" name="twitter" value="{{ $user->twitter ?? '' }}"/>
+                                    <input type="text" placeholder="https://www.instagram.com/username" class="form-control cap-form-control" id="twitter" name="twitter" value="{{ $user->twitter ?? '' }}"/>
                                 </div>
                             </div>
 
                             <div class="row justify-content-between align-items-center mb-3 mb-3">
                                 <label for="linkedin" class="col-sm-2 cap-form-label">TikTok</label>
                                 <div class="col-sm-10 col-md-9 col-lg-10">
-                                    <input type="text" placeholder="TikTok URL" class="form-control cap-form-control" id="linkedin" name="linkedin" value="{{ $user->linkedin ?? '' }}"/>
+                                    <input type="text" placeholder="https://www.tiktok.com/@username" class="form-control cap-form-control" id="linkedin" name="linkedin" value="{{ $user->linkedin ?? '' }}"/>
                                 </div>
                             </div>
                             <div class="row justify-content-between align-items-center mb-3 mb-3">

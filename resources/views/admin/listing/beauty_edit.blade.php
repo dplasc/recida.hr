@@ -251,9 +251,10 @@
                                     <label for="engine_size" class="form-label ol-form-label"> {{ get_phrase('Country') }} *</label>
                                     <select name="country" id="country" class="form-control ol-form-control ol-select2">
                                         <option value=""> {{ get_phrase('Select listing country') }} </option>
-                                        @foreach (App\Models\Country::get() as $country)
-                                            <option value="{{ $country->id }}" {{ $listing->country == $country->id ? 'selected' : '' }}> {{ get_phrase($country->name) }} </option>
-                                        @endforeach
+                                        @php $croatiaId = get_settings('country_id') ?: \App\Models\Country::where('code', 'HR')->value('id'); @endphp
+                                        @if($croatiaId)
+                                        <option value="{{ $croatiaId }}" {{ $listing->country == $croatiaId ? 'selected' : '' }}> {{ get_phrase('Croatia') }} </option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>

@@ -101,9 +101,10 @@
                         <label for="engine_size" class="form-label cap-form-label"> {{get_phrase('Country')}} *</label>
                         <select name="country" id="country" class="at-select2 cap-select2 select2-hidden-accessible" data-select2-id="select2-data-1-2ry6c" tabindex="-1" aria-hidden="true">
                             <option value=""> {{get_phrase('Select listing country')}} </option>
-                            @foreach (App\Models\Country::get() as $country)
-                                <option value="{{$country->id}}"> {{get_phrase($country->name)}} </option>
-                            @endforeach
+                            @php $croatiaId = get_settings('country_id') ?: \App\Models\Country::where('code', 'HR')->value('id'); @endphp
+                            @if($croatiaId)
+                            <option value="{{ $croatiaId }}" {{ $croatiaId == get_settings('country_id') ? 'selected' : '' }}> {{ get_phrase('Croatia') }} </option>
+                            @endif
                         </select>
                     </div>
                 </div>

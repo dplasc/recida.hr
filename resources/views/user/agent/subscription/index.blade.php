@@ -32,13 +32,6 @@
                             </svg>
                         </button>
                     </div>
-                    @if(isset($current_package) && (float)$current_package->price == 0)
-                        <div style="margin-bottom:20px;">
-                            <a href="{{ route('pricing') }}" class="btn btn-primary">
-                                Nadogradi na Premium
-                            </a>
-                        </div>
-                    @endif
                     <div class="dl_column_content d-flex flex-column rg-30">
                         @if ($expiry_status)
                             <div class="dl_column_item pt-22 px-30 pb-30 boxShadow-06 bg-white">

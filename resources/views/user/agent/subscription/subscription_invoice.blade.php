@@ -173,17 +173,11 @@
                     {{ $end->day }}. {{ $months[$end->month] }} {{ $end->year }} (12 mjeseci)
                 </p>
 
-                <hr style="margin: 14px 0;">
+                <hr style="margin: 10px 0 !important;">
 
-                <h4 style="margin: 0 0 6px;">Podaci za uplatu</h4>
-                <p style="margin: 0; line-height: 1.35;">
-                    <strong>IBAN:</strong> HR6023400091160622773<br>
-                    <strong>Primatelj:</strong> Oglašavaj se – obrt za marketinške usluge<br>
-                    <strong>Model i poziv na broj:</strong> HR00 {{ $subscriptionDetails->id ?? '' }}<br>
-                    <strong>Opis plaćanja:</strong> Pretplata – ReciDa.hr
-                </p>
-                <p style="margin: 10px 0 0; line-height: 1.35;">
-                    <strong>Napomena:</strong> Originalni račun bit će dostavljen na vašu e-mail adresu.
+                <h4 style="margin: 6px 0 4px !important;">Podaci o plaćanju</h4>
+                <p style="margin: 3px 0 !important; line-height: 1.2 !important;">
+                    Originalni račun bit će dostavljen na vašu e-mail adresu.
                 </p>
 
                 <hr style="margin: 14px 0;">

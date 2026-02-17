@@ -56,6 +56,10 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item fs-14px" href="{{ route('admin.edit.user', ['type' => $user->type, 'id' => $user->id]) }}"> {{ get_phrase('Edit User') }} </a></li>
+                                            @if ($type === 'customer')
+                                            <li><a class="dropdown-item fs-14px" href="{{ route('admin.subscription.assign-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Assign Premium (12 months) to this user?') }}');"> {{ get_phrase('Dodijeli Premium (12 mj)') }} </a></li>
+                                            <li><a class="dropdown-item fs-14px" href="{{ route('admin.subscription.deactivate-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Deactivate Premium for this user?') }}');"> {{ get_phrase('Deaktiviraj Premium') }} </a></li>
+                                            @endif
                                             <li><a class="dropdown-item fs-14px" onclick="delete_modal('{{ route('admin.delete.user', ['id' => $user->id]) }}')" href="javascript:void(0);"> {{ get_phrase('Delete') }} </a></a></li>
                                         </ul>
                                     </div>

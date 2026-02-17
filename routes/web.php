@@ -296,6 +296,8 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(functio
     Route::get('/subscription-list',[SubscriptionController::class, 'index'])->name('admin.subscriptions');
 
     Route::get('subscription-list/delete/{id}', [SubscriptionController::class, 'subscription_delete'])->name('admin.subscription.delete');
+    Route::get('subscription/assign-premium/{user_id}', [SubscriptionController::class, 'assignPremium'])->name('admin.subscription.assign-premium');
+    Route::get('subscription/deactivate-premium/{user_id}', [SubscriptionController::class, 'deactivatePremium'])->name('admin.subscription.deactivate-premium');
 
     
 

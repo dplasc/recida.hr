@@ -7,6 +7,7 @@ use App\Models\CustomField;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -14,10 +15,15 @@ use Illuminate\Support\Facades\Session;
 class AgentCustomFieldController extends Controller
 {
     public function customField_Create ($type,  $listing_id=""){
-         $page_data['type'] = $type;    
-         $page_data['listing_id'] = $listing_id;    
-         return view('user.agent.custom-field.create', $page_data);
-      }  
+        $isPro = has_pro_subscription();
+        Log::info('customField_Create', ['user_id' => auth()->id(), 'has_pro' => $isPro]); // TODO: remove after verification
+        if (!$isPro) {
+            return response()->view('user.agent.custom-field.upgrade-required', [], 200);
+        }
+        $page_data['type'] = $type;
+        $page_data['listing_id'] = $listing_id;
+        return view('user.agent.custom-field.create', $page_data);
+    }  
 
 
 
@@ -158,6 +164,9 @@ public function customField_store(Request $request)
 
 public function customFieldDelete($field_id, $item_id)
 {
+    if (!has_pro_subscription()) {
+        return redirect()->back()->with('error', 'Custom sekcije su dostupne samo u PRO paketu.');
+    }
     $customField = CustomField::findOrFail($field_id);
     $fieldData = json_decode($customField->custom_field, true);
     if (!is_array($fieldData) || !isset($fieldData['data'])) {
@@ -187,6 +196,9 @@ public function customFieldDelete($field_id, $item_id)
 
 public function customFieldEdit($field_id, $item_id)
 {
+    if (!has_pro_subscription()) {
+        return response()->view('user.agent.custom-field.upgrade-required', [], 200);
+    }
     $customField = CustomField::findOrFail($field_id);
     $data = json_decode($customField->custom_field, true);
 
@@ -202,6 +214,9 @@ public function customFieldEdit($field_id, $item_id)
 
 public function customFieldUpdate(Request $request, $field_id, $item_id)
 {
+    if (!has_pro_subscription()) {
+        return redirect()->back()->with('error', 'Custom sekcije su dostupne samo u PRO paketu.');
+    }
     $customField = CustomField::findOrFail($field_id);
     $fieldData = json_decode($customField->custom_field, true);
 
@@ -294,12 +309,18 @@ public function customFieldUpdate(Request $request, $field_id, $item_id)
 
 public function customSectionEdit($id)
 {
+    if (!has_pro_subscription()) {
+        return response()->view('user.agent.custom-field.upgrade-required', [], 200);
+    }
     $page_data['customField'] = CustomField::findOrFail($id);
     return view('user.agent.custom-field.section_edit', $page_data);
 }
 
 public function customSectionUpdate(Request $request, $id)
 {
+    if (!has_pro_subscription()) {
+        return redirect()->back()->with('error', 'Custom sekcije su dostupne samo u PRO paketu.');
+    }
     $customField = CustomField::findOrFail($id);
     $customField->custom_title = $request->input('custom_title');
     $customField->save();
@@ -311,6 +332,9 @@ public function customSectionUpdate(Request $request, $id)
 
 public function customSectionDelete($id)
 {
+    if (!has_pro_subscription()) {
+        return redirect()->back()->with('error', 'Custom sekcije su dostupne samo u PRO paketu.');
+    }
     $customSection = CustomField::findOrFail($id);
     $customSection->delete();
 
@@ -320,12 +344,18 @@ public function customSectionDelete($id)
 
 
 public function sectionSorting($type, $listing_id){
+    if (!has_pro_subscription()) {
+        return response()->view('user.agent.custom-field.upgrade-required', [], 200);
+    }
     $page_data['sectionSorting'] = CustomField::where('listing_type', $type)->where('listing_id', $listing_id)->orderBy('sorting', 'asc')->get();
     return view('user.agent.custom-field.section_sorting', $page_data);
 }
 
 public function SectionSortUpdate(Request $request)
 {
+    if (!has_pro_subscription()) {
+        return response()->json(['error' => 'Custom sekcije su dostupne samo u PRO paketu.'], 403);
+    }
     $order = $request->order; 
     $listing_type = $request->listing_type;
 

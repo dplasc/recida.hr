@@ -32,13 +32,6 @@
 
                 <div class="col-lg-4 col-md-6">
                     <div class="at-shadow-card price-item eShadow {{ ($isPremium && !$isFree) ? 'active pf-premium-card' : '' }} {{ $isCurrent ? 'border border-success shadow-lg' : '' }}">
-                        @if($isCurrent)
-                            <div class="position-absolute top-0 end-0 m-3">
-                                <span class="badge bg-success px-3 py-2">
-                                    Trenutni paket
-                                </span>
-                            </div>
-                        @endif
                         <div class="d-flex flex-column h-100 justify-content-between">
                             <div>
 

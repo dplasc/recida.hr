@@ -250,7 +250,7 @@ public function listing_details($type, $id, $slug)
 
 
     public function pricing(){
-        $page_data['packages'] = Pricing::get();
+        $page_data['packages'] = Pricing::whereRaw('LOWER(name) NOT LIKE ?', ['%unlimited%'])->get();
         return view('frontend.pricing', $page_data);
     }
 

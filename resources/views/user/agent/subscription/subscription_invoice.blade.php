@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
 </head>
 <style>
+    * { font-family: DejaVu Sans, sans-serif !important; }
     body, table, th, td { font-family: DejaVu Sans, sans-serif !important; }
     .table-responsive{
         margin:auto;
@@ -36,6 +37,15 @@
     .w-100{
         width:140px;
     }
+    @page { margin: 14px 18px; }
+    body {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+    }
+    p { margin: 3px 0 !important; }
+    h4 { margin: 6px 0 4px !important; }
+    table { font-size: 10px !important; }
+    hr { margin: 10px 0 !important; }
 </style>
 
 <body>
@@ -84,11 +94,13 @@
             <div class="table-responsive">
                 <table class="table table-bordered">
                        <thead>
-                            <th><p>{{ get_phrase('ID') }}</p></th>
-                            <th>{{ get_phrase('Package') }}</th>
-                            <th>{{ get_phrase('Date') }}</th>
-                            <th>{{ get_phrase('Total Amount') }}</th>
-                            <th>Pla&#263;eni iznos</th>
+                            <tr>
+                                <th><p>{{ get_phrase('ID') }}</p></th>
+                                <th>{{ get_phrase('Package') }}</th>
+                                <th>{{ get_phrase('Date') }}</th>
+                                <th>{{ get_phrase('Total Amount') }}</th>
+                                <th style="font-family: DejaVu Sans, sans-serif !important;">Plaćeni iznos</th>
+                            </tr>
                          </thead>
                         @php
                         $created_at = \Carbon\Carbon::parse($subscriptionDetails->created_at)->format('d.m.Y.');

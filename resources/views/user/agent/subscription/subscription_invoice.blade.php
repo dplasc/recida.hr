@@ -143,6 +143,16 @@
                     </table>
                 </div>
 
+                @php
+                  $start = \Carbon\Carbon::parse($subscriptionDetails->created_at)->locale('hr');
+                  $end   = \Carbon\Carbon::createFromTimestamp($subscriptionDetails->expire_date)->locale('hr');
+                @endphp
+                <p style="margin: 12px 0 0; line-height: 1.4; font-size: 13px;">
+                    Način plaćanja: Kartično plaćanje (Stripe) — plaćeno online.<br>
+                    PDV nije obračunat sukladno čl. 90. Zakona o PDV-u (nisam u sustavu PDV-a).<br>
+                    Period usluge: {{ $start->translatedFormat('d. F Y.') }} – {{ $end->translatedFormat('d. F Y.') }} (12 mjeseci)
+                </p>
+
                 <hr style="margin: 14px 0;">
 
                 <h4 style="margin: 0 0 6px;">Podaci za uplatu</h4>

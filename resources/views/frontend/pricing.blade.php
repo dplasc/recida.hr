@@ -157,4 +157,25 @@
     </div>
 </section>
 
+<section class="faq-section py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2>Često postavljana pitanja</h2>
+        </div>
+
+        @php
+            $faqs = get_settings('website_faq');
+        @endphp
+
+        @if(!empty($faqs))
+            {!! $faqs !!}
+        @else
+            <div class="text-center text-muted">
+                <p>FAQ trenutno nije postavljen.</p>
+            </div>
+        @endif
+
+    </div>
+</section>
+
 @endsection

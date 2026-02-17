@@ -28,6 +28,9 @@
                             <th> {{ get_phrase('Image') }} </th>
                             <th> {{ get_phrase('Name') }} </th>
                             <th> {{ get_phrase('Email') }} </th>
+                            @if ($type === 'agent')
+                            <th> {{ get_phrase('Plan') }} </th>
+                            @endif
                             <th> {{ get_phrase('Status') }} </th>
                             <th> {{ get_phrase('Action') }} </th>
                         </tr>
@@ -40,6 +43,15 @@
                                 <td> <img src="{{ get_user_image('users/' . $user->image) }}" class="rounded" height="50px" width="50px" alt=""></td>
                                 <td> {{ $user->name }} </td>
                                 <td> {{ $user->email }} </td>
+                                @if ($type === 'agent')
+                                <td>
+                                    @if (in_array($user->id, $activePremiumUserIds ?? []))
+                                        <span class="badge bg-primary">{{ get_phrase('PREMIUM') }}</span>
+                                    @else
+                                        <span class="badge bg-secondary">{{ get_phrase('FREE') }}</span>
+                                    @endif
+                                </td>
+                                @endif
                                 <td>
                                     @if ($user->status == 1)
                                         <span class="badge bg-success">{{ get_phrase('Active') }}</span>
@@ -56,7 +68,7 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item fs-14px" href="{{ route('admin.edit.user', ['type' => $user->type, 'id' => $user->id]) }}"> {{ get_phrase('Edit User') }} </a></li>
-                                            @if ($type === 'customer')
+                                            @if ($type === 'customer' || $type === 'agent')
                                             <li><a class="dropdown-item fs-14px" href="{{ route('admin.subscription.assign-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Assign Premium (12 months) to this user?') }}');"> {{ get_phrase('Dodijeli Premium (12 mj)') }} </a></li>
                                             <li><a class="dropdown-item fs-14px" href="{{ route('admin.subscription.deactivate-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Deactivate Premium for this user?') }}');"> {{ get_phrase('Deaktiviraj Premium') }} </a></li>
                                             @endif

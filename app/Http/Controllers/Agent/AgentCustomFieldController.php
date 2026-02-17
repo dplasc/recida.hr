@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller; 
 use App\Models\CustomField;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,15 @@ class AgentCustomFieldController extends Controller
 
 public function customField_store(Request $request)
 {
+    $hasPremium = Subscription::where('user_id', auth()->id())
+        ->where('status', '1')
+        ->where('expire_date', '>', time())
+        ->exists();
+
+    if (!$hasPremium) {
+        return redirect()->back()->with('error', 'Custom sekcije su dostupne samo u Premium paketu.');
+    }
+
     $requestData = $request->all();
     $custom_type = $request->custom_type;
     $data = [];

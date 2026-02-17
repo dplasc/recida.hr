@@ -25,12 +25,12 @@
             <label for="custom_type" class="form-label cap-form-label">{{ get_phrase('Select Type') }} *</label>
             <select name="custom_type" id="custom_type" class="form-control cap-form-control">
                 <option value="">{{ get_phrase('Select Type') }}</option>
-                <option value="image">{{ get_phrase('Image') }}</option>
-                <option value="text">{{ get_phrase('Text') }}</option>
-                <option value="slider">{{ get_phrase('Slider') }}</option>
-                <option value="video">{{ get_phrase('Video') }}</option>
-                <option value="faq">{{ get_phrase('FAQ') }}</option>
-                <option value="gallery">{{ get_phrase('Gallery') }}</option>
+                <option value="image">Sekcija slike</option>
+                <option value="text">Tekstualna sekcija</option>
+                <option value="slider">Carousel (slideshow)</option>
+                <option value="video">Video (YouTube/Vimeo)</option>
+                <option value="faq">FAQ (česta pitanja)</option>
+                <option value="gallery">Foto galerija</option>
             </select>
         </div>
         </div>

@@ -341,7 +341,7 @@
                                     @if(count($getSorting)> 0)
                                     <a href="javascript:void(0);" onclick="modal('modal-md', '{{ route('agent.section.sorting', ['prefix' => 'agent', 'type' => $type,'listing_id' => $listing->id]) }}', '{{ get_phrase(' Sort Section') }}')" class="btn ol-btn-primary fs-14px"> {{ get_phrase('Sorting') }} </a>
                                     @endif
-                                    <a href="javascript:void(0);" onclick="modal('modal-md', '{{ route('agent.custom-field.create', ['prefix' => 'agent', 'type' => $type,'listing_id' => $listing->id]) }}', '{{ get_phrase('Add Custom Section') }}')" class="btn ol-btn-primary fs-14px"> {{ get_phrase('Add Type') }} </a>
+                                    @include('user.agent.custom-field.add-button')
                                 </div>
                             </div>
                             @include('user.agent.custom-field.index')

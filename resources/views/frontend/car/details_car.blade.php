@@ -742,7 +742,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
-                        <h4 class="in-title3-24px">{{ get_phrase('More cars from this seller') }}</h4>
+                        <h4 class="in-title3-24px">{{ 'Slični oglasi' }}</h4>
                         <a href="{{ route('listing.view', ['type' => 'car', 'view' => 'grid']) }}" class="icon-link-sm2">
                             <span>{{ get_phrase('View all') }}</span>
                             <span class="mt-2px">

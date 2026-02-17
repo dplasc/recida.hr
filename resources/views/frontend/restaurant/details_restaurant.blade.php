@@ -595,7 +595,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="related-product-title mb-20">{{get_phrase('Related Hotels')}}</h1>
+                <h1 class="related-product-title mb-20">{{ 'Slični oglasi' }}</h1>
             </div>
         </div>
         <div class="row row-28 mb-80">

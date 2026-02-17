@@ -974,7 +974,7 @@ public function listing_details($type, $id, $slug)
 
         $claimListing->save();
 
-         Session::flash('success', 'Your claim request has been submitted successfully. Waiting for admin approval.');
+        Session::flash('success', 'Zahtjev je uspješno poslan. Administrator će pregledati vaš zahtjev i javiti vam se putem emaila u najkraćem roku.');
         return redirect()->back();
     }
 

@@ -13,7 +13,7 @@
            Sada BILO KOJI ulogirani korisnik vidi ovaj gumb i moze preuzeti oglas.
         --}}
         <a href="javascript:;" 
-           onclick="edit_modal('modal-md','{{ route('claimForm',['type'=>$listing->type ,'id'=>$listing->id]) }}','{{ get_phrase('Claim Listing') }}')" 
+           onclick="edit_modal('modal-md','{{ route('claimForm',['type'=>$listing->type ,'id'=>$listing->id]) }}','Preuzmi ovaj oglas')" 
            class="submit-fluid-btn2 mt-2">
             {{ get_phrase('Claim Listing') }}
         </a>

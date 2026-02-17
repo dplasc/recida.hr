@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
 </head>
 <style>
-    body { font-family: DejaVu Sans, sans-serif; }
-     .table-responsive{
+    body, table, th, td { font-family: DejaVu Sans, sans-serif !important; }
+    .table-responsive{
         margin:auto;
     }
     .table-responsive .table th{
@@ -88,7 +88,7 @@
                             <th>{{ get_phrase('Package') }}</th>
                             <th>{{ get_phrase('Date') }}</th>
                             <th>{{ get_phrase('Total Amount') }}</th>
-                            <th>{{ get_phrase('Paid Amount') }}</th>
+                            <th>Plaćeni iznos</th>
                          </thead>
                         @php
                         $created_at = date('d M Y', strtotime($subscriptionDetails->created_at));

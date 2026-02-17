@@ -7190,7 +7190,7 @@ textarea.meeting-textarea{
 }
 
 .pricing-section .feature-disabled .icon-x {
-    color: #e74c3c;
+    color: #dc3545 !important;
     font-weight: 700;
     flex-shrink: 0;
     text-decoration: none;

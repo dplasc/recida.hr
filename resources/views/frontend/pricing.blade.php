@@ -164,7 +164,7 @@
         </div>
 
         @php
-            $faqs = get_settings('website_faq');
+            $faqs = get_settings('website_faqs') ?: get_settings('webfaqs') ?: get_settings('website_faq');
         @endphp
 
         @if(!empty($faqs))

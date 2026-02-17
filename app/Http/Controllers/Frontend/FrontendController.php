@@ -945,14 +945,40 @@ public function listing_details($type, $id, $slug)
 
         $request->validate([
             'file' => 'required|mimes:jpeg,jpg,png,pdf|max:4096',
+            'description' => 'required|string|max:2000',
+            'claim_listing_id' => 'required',
+            'claim_listing_type' => 'required|string|max:50',
         ]);
 
         $data = $request->all();
         $userId = auth()->user()->id;
+        $listingId = (int) $data['claim_listing_id'];
+        $listingType = $data['claim_listing_type'];
+
+        // Server-side: listing already claimed/owned by someone
+        $listingAlreadyClaimed = ClaimedListing::where('listing_id', $listingId)
+            ->where('listing_type', $listingType)
+            ->where('status', 1)
+            ->exists();
+        if ($listingAlreadyClaimed) {
+            Session::flash('info', 'Oglas je već preuzet.');
+            return redirect()->back();
+        }
+
+        // Server-side: prevent duplicate pending request for same user+listing
+        $existingPendingClaim = Claim::where('listing_id', $listingId)
+            ->where('listing_type', $listingType)
+            ->where('user_id', $userId)
+            ->where('status', 'pending')
+            ->exists();
+        if ($existingPendingClaim) {
+            Session::flash('success', 'Zahtjev je već poslan i nalazi se na čekanju odobrenja.');
+            return redirect()->back();
+        }
 
         $claimListing = new Claim();
-        $claimListing->listing_type = $data['claim_listing_type'];
-        $claimListing->listing_id = $data['claim_listing_id'];
+        $claimListing->listing_type = $listingType;
+        $claimListing->listing_id = $listingId;
         $claimListing->user_id = $userId;
         $claimListing->description = $data['description'];
         $claimListing->status = 'pending';

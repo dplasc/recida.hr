@@ -125,6 +125,11 @@ class PaymentController extends Controller
         $sub['date_added'] = time();
         $sub['created_at'] = Carbon::now();
         $sub['updated_at'] = Carbon::now();
+
+        Subscription::where('user_id', user('id'))
+            ->where('status', 1)
+            ->update(['status' => 0]);
+
         Subscription::insert($sub);
         User::where('id', user('id'))->update(['is_agent'=>1, 'type'=> 'agent']);
         Session::flash('success', get_phrase('Subscription successfully!'));

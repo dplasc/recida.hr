@@ -52,8 +52,8 @@ class PurchasePackage extends Model
             'updated_at' => Carbon::now(),
         ];
     
-        // Deaktiviraj sve postojeće pretplate korisnika
         Subscription::where('user_id', user('id'))
+            ->where('status', 1)
             ->update(['status' => 0]);
 
         Subscription::insert($sub);

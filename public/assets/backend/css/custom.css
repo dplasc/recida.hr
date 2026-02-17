@@ -1722,3 +1722,7 @@ input.daterangepicker {
 	width: 94% !important;
 	margin-bottom: 10px;
 }
+
+/* Dropdown item text color override */
+.dropdown-menu .dropdown-item { color: #212529 !important; }
+.dropdown-menu .dropdown-item:hover { color: #212529 !important; }

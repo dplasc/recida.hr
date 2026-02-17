@@ -519,9 +519,11 @@ class SettingController extends Controller
                 $faqs[$key]['question'] = $question;
                 $faqs[$key]['answer']   = $data['answers'][$key];
             }
-            $data['value'] = json_encode($faqs);
-            $faq           = $data['value'];
-            FrontendSettings::where('key', 'website_faqs')->update(['value' => $faq]);
+            $faq = json_encode($faqs);
+            FrontendSettings::updateOrCreate(
+                ['key' => 'website_faqs'],
+                ['value' => $faq]
+            );
             Session::flash('success', get_phrase('Website Faqs update successfully!'));
         }
 

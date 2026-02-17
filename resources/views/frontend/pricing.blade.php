@@ -164,11 +164,26 @@
         </div>
 
         @php
-            $faqs = get_settings('website_faqs') ?: get_settings('webfaqs') ?: get_settings('website_faq');
+            $faqs = json_decode(get_frontend_settings('website_faqs') ?? '[]', true) ?: [];
         @endphp
 
         @if(!empty($faqs))
-            {!! $faqs !!}
+            <div class="accordion at-accordion" id="faqAccordion">
+                @foreach($faqs as $index => $faq)
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button {{ $index > 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#faq-{{ $index }}" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
+                                {{ $faq['question'] ?? '' }}
+                            </button>
+                        </h3>
+                        <div id="faq-{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                {!! nl2br(e($faq['answer'] ?? '')) !!}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @else
             <div class="text-center text-muted">
                 <p>FAQ trenutno nije postavljen.</p>

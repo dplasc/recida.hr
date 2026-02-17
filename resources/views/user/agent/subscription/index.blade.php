@@ -124,12 +124,9 @@
                                     <tbody class="ca-tbody">
                                         @foreach ($all_subscription as $row)
                                             @php
-                                                $today = date('Y-m-d');
-                                                $today_time = strtotime($today);
-                                                $expiry_status = strtotime($row->expire_date) < $today_time;
-
                                                 $created_at = date('d M Y', strtotime($row->created_at));
                                                 $expire_date = date('d M Y', $row->expire_date);
+                                                $isActiveRow = isset($activeSubscriptionId) && $row->id == $activeSubscriptionId;
                                             @endphp
                                             <tr class="ca-tr">
                                                 <td class="min-w-110px">
@@ -150,14 +147,12 @@
                                                     
                                                 </td>
                                                 <td>
-                                                    @if ($expiry_status)
+                                                    @if ($isActiveRow)
                                                         <div class="badge-success-light">
                                                             <i class="fas fa-check"></i>
                                                         </div>
                                                     @else
-                                                        <div class="badge-danger-light">
-                                                            <i class="fas fa-check"></i>
-                                                        </div>
+                                                        <span class="text-muted">—</span>
                                                     @endif
                                                 </td>
                                                 <td>

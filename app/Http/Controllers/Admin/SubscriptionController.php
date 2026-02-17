@@ -25,6 +25,14 @@ class SubscriptionController extends Controller
         $page_data['active'] = 'subscription';
         $page_data['current_subscription'] = $subscription;
         $page_data['all_subscription'] = Subscription::where('user_id', user('id'))->get();
+
+        // Only ONE row in Billing History gets green check: the currently active subscription
+        $activeSubscription = Subscription::where('user_id', user('id'))
+            ->where('status', 1)
+            ->where('expire_date', '>', time())
+            ->orderBy('id', 'DESC')
+            ->first();
+        $page_data['activeSubscriptionId'] = $activeSubscription?->id;
         // $page_data['current_package'] = Pricing::where('id', $subscription->package_id)->first();
         // $page_data['expiry_status'] = (time() < $subscription->expire_date)?1:0;
         if ($subscription) {

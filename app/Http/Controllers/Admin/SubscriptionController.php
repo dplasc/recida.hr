@@ -62,7 +62,9 @@ class SubscriptionController extends Controller
         $page_data['address'] = $address;
         $page_data['user'] = $user;
         
-        $pdf = app('dompdf.wrapper')->loadView('user.agent.subscription.subscription_invoice', $page_data);
+        $pdf = app('dompdf.wrapper');
+        $pdf->getDomPDF()->set_option('defaultFont', 'DejaVu Sans');
+        $pdf->loadView('user.agent.subscription.subscription_invoice', $page_data);
         return $pdf->download('invoice.pdf');
     }
     

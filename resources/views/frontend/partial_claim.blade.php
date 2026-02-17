@@ -7,10 +7,7 @@
 @endphp
 
 @if ($isClaimed)
-    {{-- Listing already claimed by someone — show for ALL users including guests --}}
-    <span class="badge bg-secondary text-white py-2 px-3 mt-2 d-inline-block" style="font-size: 0.9rem;">
-        Oglas je već preuzet
-    </span>
+    {{-- Listing already claimed — hide all claim UI, show only contact/booking form --}}
 @else
     @auth
         @php

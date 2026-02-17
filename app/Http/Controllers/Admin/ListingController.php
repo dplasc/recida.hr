@@ -1403,8 +1403,30 @@ class ListingController extends Controller
     {
         $claim = Claim::findOrFail($id);
 
+        // Only pending claims can be approved or rejected
+        if ($claim->status !== 'pending') {
+            Session::flash('info', get_phrase('This claim has already been processed.'));
+            return redirect()->back();
+        }
+
         if ($status == 'approve') {
-            // find listing by type
+            // Upsert claimed_listings so frontend can detect ownership (status=1)
+            $user = \App\Models\User::find($claim->user_id);
+            ClaimedListing::updateOrCreate(
+                [
+                    'listing_id' => $claim->listing_id,
+                    'listing_type' => $claim->listing_type,
+                ],
+                [
+                    'user_id' => $claim->user_id,
+                    'status' => 1,
+                    'user_name' => $user ? $user->name : '',
+                    'user_phone' => '',
+                    'additional_info' => $claim->description ?? '',
+                ]
+            );
+
+            // Update listing owner (optional, for listing display)
             if ($type == 'car') {
                 $listing = CarListing::find($listing_id);
             } elseif ($type == 'beauty') {
@@ -1432,7 +1454,7 @@ class ListingController extends Controller
 
         $claim->save();
 
-        Session::flash('success', 'Claim status updated to ' . ucfirst($status));
+        Session::flash('success', get_phrase('Claim status updated to') . ' ' . ucfirst($status) . '.');
         return redirect()->back();
     }
 

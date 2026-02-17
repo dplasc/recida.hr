@@ -150,23 +150,24 @@
                                 <span class="fi-rr-menu-dots-vertical"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item fs-14px" href="{{route('listing.details',['id'=>$listing->id,'type'=>$listing->type, 'slug'=>$listing->title])}}" target="_blank"> {{get_phrase('View frontend')}} </a></li>
+                                <li><a class="dropdown-item fs-14px" href="{{route('listing.details',['id'=>$listing->id,'type'=>$listing->type ?? $listings->listing_type, 'slug'=>$listing->title])}}" target="_blank"> {{get_phrase('View frontend')}} </a></li>
+                                @if($listings->status == 'pending')
                                 <li>
                                     <a class="dropdown-item fs-14px"
-                                        onclick="confirm_modal('{{ route('admin.claimed_update', ['id' => $listings->id, 'listing_id' => $listings->listing_id, 'type' => $listing->type, 'user_id' => $listings->user_id, 'status' => 'approve']) }}')"
+                                        onclick="confirm_modal('{{ route('admin.claimed_update', ['id' => $listings->id, 'listing_id' => $listings->listing_id, 'type' => $listings->listing_type, 'user_id' => $listings->user_id, 'status' => 'approve']) }}')"
                                         href="javascript:;">
                                             {{ get_phrase('Approve') }}
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item fs-14px"
-                                    onclick="confirm_modal('{{ route('admin.claimed_update', ['id' => $listings->id, 'listing_id' => $listings->listing_id, 'type' => $listing->type, 'user_id' => $listings->user_id, 'status' => 'reject']) }}')"
+                                    onclick="confirm_modal('{{ route('admin.claimed_update', ['id' => $listings->id, 'listing_id' => $listings->listing_id, 'type' => $listings->listing_type, 'user_id' => $listings->user_id, 'status' => 'reject']) }}')"
                                     href="javascript:;">
                                         {{ get_phrase('Reject') }}
                                     </a>
                                 </li>
-
-                              <li><a class="dropdown-item fs-14px" onclick="delete_modal('{{route('admin.claimed_delete',[ 'id'=>$listings->id])}}')" href="javascript:void(0);"> {{get_phrase('Delete')}} </a></a></li>
+                                @endif
+                              <li><a class="dropdown-item fs-14px" onclick="delete_modal('{{route('admin.claimed_delete',[ 'id'=>$listings->id])}}')" href="javascript:void(0);"> {{get_phrase('Delete')}} </a></li>
                             </ul>
                         </div>
                     </td>

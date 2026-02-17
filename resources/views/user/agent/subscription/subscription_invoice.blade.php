@@ -2,14 +2,15 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="hr">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>{{ get_phrase('Subscription Invoice') }} | {{ get_phrase('Agent Panel') }}</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
- </head>
+</head>
 <style>
+    body { font-family: DejaVu Sans, sans-serif; }
      .table-responsive{
         margin:auto;
     }
@@ -97,7 +98,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <p class="text-center">{{get_phrase('1')}}</p>
+                                    <p class="text-center">{{ get_phrase('1') }}</p>
                                 </td>
                                 <td class="w-100">
                                    <p class="text-center">{{ $package->name }}</p>
@@ -141,9 +142,32 @@
                         </tbody>
                     </table>
                 </div>
+
+                <hr style="margin: 14px 0;">
+
+                <h4 style="margin: 0 0 6px;">Podaci za uplatu</h4>
+                <p style="margin: 0; line-height: 1.35;">
+                    <strong>IBAN:</strong> HR6023400091160622773<br>
+                    <strong>Primatelj:</strong> Oglašavaj se – obrt za marketinške usluge<br>
+                    <strong>Model i poziv na broj:</strong> HR00 {{ $subscriptionDetails->id ?? '' }}<br>
+                    <strong>Opis plaćanja:</strong> Pretplata – ReciDa.hr
+                </p>
+                <p style="margin: 10px 0 0; line-height: 1.35;">
+                    <strong>Napomena:</strong> Originalni račun bit će dostavljen na vašu e-mail adresu.
+                </p>
+
+                <hr style="margin: 14px 0;">
+
+                <h4 style="margin: 0 0 6px;">Voditelj obrade</h4>
+                <p style="margin: 0; line-height: 1.35;">
+                    Voditelj obrade osobnih podataka je:<br>
+                    <strong>Oglašavaj se – obrt za marketinške usluge</strong><br>
+                    Vlasnik: Darko Plašć<br>
+                    OIB: 98808078966<br>
+                    Ivana Dončevića 7, 43000 Bjelovar, Hrvatska
+                </p>
          </div>
     </div>
- </div>
- <script src="{{ asset('assets/global/js/bootstrap.bundle.min.js') }}"></script>
-  </body>
+</div>
+</body>
 </html>

@@ -99,7 +99,7 @@
                                 <th>{{ get_phrase('Package') }}</th>
                                 <th>{{ get_phrase('Date') }}</th>
                                 <th>{{ get_phrase('Total Amount') }}</th>
-                                <th style="font-family: DejaVu Sans, sans-serif !important;">Plaćeni iznos</th>
+                                <th style="font-family: DejaVu Sans, sans-serif !important;">{!! "Pla\u{0107}eni iznos" !!}</th>
                             </tr>
                          </thead>
                         @php

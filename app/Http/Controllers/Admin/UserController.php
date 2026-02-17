@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subscription;
 use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
@@ -16,9 +15,15 @@ class UserController extends Controller
         $page_data['type'] = $type;
         $page_data['users'] = User::where('type', $type)->get();
         if ($type === 'agent' && $action === 'all') {
-            $page_data['activePremiumUserIds'] = Subscription::where('status', '1')
-                ->where('expire_date', '>', time())
-                ->pluck('user_id')
+            $page_data['activePremiumUserIds'] = \DB::table('subscriptions')
+                ->join('pricings', 'subscriptions.package_id', '=', 'pricings.id')
+                ->where('subscriptions.status', 1)
+                ->where('subscriptions.expire_date', '>', time())
+                ->where(function ($q) {
+                    $q->where('pricings.price', '>', 0)
+                        ->orWhereRaw('LOWER(pricings.name) LIKE ?', ['%unlimited%']);
+                })
+                ->pluck('subscriptions.user_id')
                 ->unique()
                 ->values()
                 ->toArray();

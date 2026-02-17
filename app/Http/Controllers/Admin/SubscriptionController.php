@@ -21,26 +21,23 @@ class SubscriptionController extends Controller
     }
 
     public function user_subscription() {
-        $subscription = Subscription::where('user_id', user('id'))->orderBy('id','DESC')->first();
         $page_data['active'] = 'subscription';
-        $page_data['current_subscription'] = $subscription;
         $page_data['all_subscription'] = Subscription::where('user_id', user('id'))->get();
 
-        // Only ONE row in Billing History gets green check: the currently active subscription
+        // Trenutni paket i prikaz: samo iz AKTIVNE pretplate (status=1, expire_date>now)
         $activeSubscription = Subscription::where('user_id', user('id'))
             ->where('status', 1)
             ->where('expire_date', '>', time())
             ->orderBy('id', 'DESC')
             ->first();
+        $page_data['current_subscription'] = $activeSubscription;
         $page_data['activeSubscriptionId'] = $activeSubscription?->id;
-        // $page_data['current_package'] = Pricing::where('id', $subscription->package_id)->first();
-        // $page_data['expiry_status'] = (time() < $subscription->expire_date)?1:0;
-        if ($subscription) {
-            $page_data['current_package'] = Pricing::where('id', $subscription->package_id ?? '')->first();
-            $page_data['expiry_status'] = (time() < $subscription->expire_date) ? 1 : 0;
+        if ($activeSubscription) {
+            $page_data['current_package'] = Pricing::where('id', $activeSubscription->package_id)->first();
+            $page_data['expiry_status'] = 1;
         } else {
             $page_data['current_package'] = null;
-            $page_data['expiry_status'] = 0; 
+            $page_data['expiry_status'] = 0;
         }
         return view('user.agent.subscription.index', $page_data);
     }

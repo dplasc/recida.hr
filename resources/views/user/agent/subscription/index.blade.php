@@ -84,7 +84,7 @@
                                 <div class="icon text-black fz-15-r-gray">
                                     <i class="fas fa-credit-card me-2"></i>
                                 </div>
-                                <p class="fz-15-r-gray">{{ ucfirst($current_subscription->payment_method ?? '') }}</p>
+                                <p class="fz-15-r-gray">{{ ucfirst($current_subscription?->payment_method ?? '') }}</p>
                             </div>
                         </div>
                         @endif
@@ -94,7 +94,7 @@
                                 <!-- Title -->
                                 <div class="tableTitle-3">
                                     <h4 class="fz-20-sb-black pb-10">{{ get_phrase('Invoicing') }}</h4>
-                                    @php $last_payment_date = date('d-m-Y', strtotime($current_subscription->created_at ?? date('d-m-Y'))); @endphp
+                                    @php $last_payment_date = date('d-m-Y', strtotime($current_subscription?->created_at ?? date('d-m-Y'))); @endphp
                                     <p class="fz-15-r-gray">{{ get_phrase('Last payment:') . ' ' }}{{ $last_payment_date }}</p>
                                 </div>
                                 <!-- Button -->

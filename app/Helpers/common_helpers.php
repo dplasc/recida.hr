@@ -429,6 +429,35 @@ if (! function_exists('nice_file_name')) {
     }
 }
 
+/**
+ * PRO subscription: aktivna pretplata (status=1, expire_date>now)
+ * AND (pricing.price > 0 OR pricing.name sadrži "unlimited" case-insensitive).
+ * Koristi se za Custom Fields i Admin badge.
+ *
+ * @param int|null $user_id User ID (default: auth user)
+ * @return bool
+ */
+if (! function_exists('has_pro_subscription')) {
+    function has_pro_subscription($user_id = null) {
+        if ($user_id === null) {
+            $user_id = auth()->id() ?? null;
+        }
+        if (!$user_id) {
+            return false;
+        }
+        return \DB::table('subscriptions')
+            ->join('pricings', 'subscriptions.package_id', '=', 'pricings.id')
+            ->where('subscriptions.user_id', $user_id)
+            ->where('subscriptions.status', 1)
+            ->where('subscriptions.expire_date', '>', time())
+            ->where(function ($q) {
+                $q->where('pricings.price', '>', 0)
+                    ->orWhereRaw('LOWER(pricings.name) LIKE ?', ['%unlimited%']);
+            })
+            ->exists();
+    }
+}
+
 // --- START: POBOLJŠANA FUNKCIJA ZA PREMIUM KORISNIKE ---
 if (! function_exists('has_paid_subscription')) {
     function has_paid_subscription($user_id = null) {

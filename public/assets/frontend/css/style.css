@@ -15101,3 +15101,18 @@ textarea.cap-form-control{
     stroke: #B7A1D7 !important; /* Za svaki slučaj ako koriste stroke */
 }
 
+/* FINAL pricing polish */
+.pricing-section .price-item:not(.pf-premium-card) h4 {
+    opacity: .85;
+}
+
+.pricing-section .price-item:not(.pf-premium-card) .btn,
+.pricing-section .price-item:not(.pf-premium-card) .theme-btn1 {
+    opacity: .9;
+}
+
+/* premium glow slightly stronger */
+.pricing-section .pf-premium-card::before {
+    opacity: .45;
+}
+

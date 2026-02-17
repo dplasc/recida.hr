@@ -29,7 +29,7 @@
                             <th> {{ get_phrase('Name') }} </th>
                             <th> {{ get_phrase('Email') }} </th>
                             @if ($type === 'agent')
-                            <th> {{ get_phrase('Plan') }} </th>
+                            <th> Paket </th>
                             @endif
                             <th> {{ get_phrase('Status') }} </th>
                             <th> {{ get_phrase('Action') }} </th>
@@ -46,9 +46,9 @@
                                 @if ($type === 'agent')
                                 <td>
                                     @if (in_array($user->id, $activePremiumUserIds ?? []))
-                                        <span class="badge bg-primary">{{ get_phrase('PREMIUM') }}</span>
+                                        <span class="badge bg-primary">PREMIUM</span>
                                     @else
-                                        <span class="badge bg-secondary">{{ get_phrase('FREE') }}</span>
+                                        <span class="badge bg-secondary">FREE</span>
                                     @endif
                                 </td>
                                 @endif
@@ -69,8 +69,8 @@
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item fs-14px" href="{{ route('admin.edit.user', ['type' => $user->type, 'id' => $user->id]) }}"> {{ get_phrase('Edit User') }} </a></li>
                                             @if ($type === 'customer' || $type === 'agent')
-                                            <li><a class="dropdown-item fs-14px text-dark" href="{{ route('admin.subscription.assign-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Assign Premium (12 months) to this user?') }}');"> {{ get_phrase('Dodijeli Premium (12 mj)') }} </a></li>
-                                            <li><a class="dropdown-item fs-14px text-dark" href="{{ route('admin.subscription.deactivate-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Deactivate Premium for this user?') }}');"> {{ get_phrase('Deaktiviraj Premium') }} </a></li>
+                                            <li><a class="dropdown-item fs-14px text-dark" href="{{ route('admin.subscription.assign-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Assign Premium (12 months) to this user?') }}');" style="color:#212529 !important;"> Dodijeli Premium (12 mj) </a></li>
+                                            <li><a class="dropdown-item fs-14px text-dark" href="{{ route('admin.subscription.deactivate-premium', ['user_id' => $user->id]) }}" onclick="return confirm('{{ get_phrase('Deactivate Premium for this user?') }}');" style="color:#212529 !important;"> Deaktiviraj Premium </a></li>
                                             @endif
                                             <li><a class="dropdown-item fs-14px" onclick="delete_modal('{{ route('admin.delete.user', ['id' => $user->id]) }}')" href="javascript:void(0);"> {{ get_phrase('Delete') }} </a></a></li>
                                         </ul>

@@ -145,6 +145,15 @@
                                     Isprobaj besplatno
                                 </a>
                                 <div class="pf-free-note">FREE je za testiranje. Za ozbiljne upite uzmi Premium.</div>
+                                <div class="pf-free-loss">
+                                    <div class="pf-loss-title">Bez Premium paketa gubite:</div>
+                                    <ul>
+                                        <li>Manju vidljivost u pretrazi</li>
+                                        <li>Manje upita od klijenata</li>
+                                        <li>Video prezentaciju oglasa</li>
+                                        <li>Automatske podsjetnike termina</li>
+                                    </ul>
+                                </div>
                             @else
                                 <a href="{{ route('payment',['id'=>$package->id]) }}"
                                    class="btn at-btn-white w-100 text-center pf-cta-premium">

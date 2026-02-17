@@ -7135,6 +7135,195 @@ textarea.meeting-textarea{
     fill: var(--themeColor) !important;
 }
 
+/* Pricing features list – ista visina za oba paketa */
+.pricing-section .pricing-features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 260px;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.pricing-section .pricing-features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding-left: 0;
+}
+
+.pricing-section .pricing-features-list li::before,
+.pricing-section .pricing-features-list li::after {
+    display: none !important;
+}
+
+/* Enabled stavka */
+.pricing-section .feature-enabled .icon-check {
+    color: #27ae60;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.pricing-section .at-shadow-card.active .feature-enabled .icon-check {
+    color: #fff;
+}
+
+/* Disabled stavka – crveni X + prekriženi tekst */
+.pricing-section .feature-disabled {
+    color: #b0b0b0;
+    text-decoration: line-through;
+    opacity: 0.75;
+}
+
+.pricing-section .feature-disabled .pf-locked {
+    opacity: 1;
+}
+
+/* Mikrocopy ispod enabled stavki */
+.pricing-section .pf-subtext {
+    font-size: 12px;
+    opacity: 0.85;
+    display: block;
+    margin-left: 22px;
+    margin-top: 2px;
+}
+
+.pricing-section .feature-disabled .icon-x {
+    color: #e74c3c;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+/* Badge "Najčešći izbor" */
+.pricing-section .pf-badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.pricing-section .pf-roi {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 6px;
+}
+
+.pricing-section .pf-free-note {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.pricing-section .pf-price-wrap {
+    margin-bottom: 8px;
+}
+
+.pricing-section .pf-old-price {
+    text-decoration: line-through;
+    opacity: 0.8;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.pricing-section .pf-deadline {
+    font-size: 12px;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* Pill "Uštedi 29 €" */
+.pricing-section .pf-pill-save {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(39, 174, 96, 0.2);
+    color: #27ae60;
+}
+
+.pricing-section .at-shadow-card.active .pf-pill-save {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+}
+
+/* Jači CTA za Premium */
+.pricing-section .pf-cta-premium {
+    font-weight: 700;
+    padding: 14px 24px;
+    font-size: 17px;
+    transition: box-shadow 0.25s ease;
+}
+
+.pricing-section .pf-cta-premium:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* PRO locked tag – mali pill na disabled stavkama */
+.pricing-section .pf-locked {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #c0c0c0;
+    color: #888;
+    background: #f5f5f5;
+    margin-left: 6px;
+    text-decoration: none !important;
+    vertical-align: middle;
+    user-select: none;
+    cursor: default;
+}
+
+/* Premium kartica – glow + hover lift */
+.pricing-section .pf-premium-card {
+    position: relative;
+    transition: transform 0.25s ease;
+}
+
+.pricing-section .pf-premium-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: var(--themeColor);
+    opacity: 0.35;
+    filter: blur(12px);
+    z-index: -1;
+}
+
+.pricing-section .pf-premium-card:hover {
+    transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pricing-section .pf-premium-card {
+        transition: none;
+    }
+    .pricing-section .pf-premium-card:hover {
+        transform: none;
+    }
+    .pricing-section .pf-premium-card::before {
+        filter: none;
+    }
+}
+
+/* Pill "Uštedi 29 €" uz 7. stavku */
+.pricing-section .pf-bonus-row .pf-pill-save {
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
 /* Card */
 .at-shadow-card{
     box-shadow: 0 5px 40px 0 rgba(0, 0, 0, 0.1);

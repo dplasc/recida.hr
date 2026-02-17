@@ -75,7 +75,7 @@
                                 <p >{{ get_phrase('Invoice no :') }}</p>
                                 <p >{{ $subscriptionDetails->id }}</p>
                                 <p>{{ get_phrase('Date :') }}</p>
-                                <p >{{ date('D, d-M-Y') }}</p>
+                                <p >{{ \Carbon\Carbon::parse($subscriptionDetails->created_at)->format('d.m.Y.') }}</p>
                             </div>
                         </td>
                     </tr>
@@ -91,7 +91,7 @@
                             <th>Plaćeni iznos</th>
                          </thead>
                         @php
-                        $created_at = date('d M Y', strtotime($subscriptionDetails->created_at));
+                        $created_at = \Carbon\Carbon::parse($subscriptionDetails->created_at)->format('d.m.Y.');
                         $expire_date = date('d M Y', strtotime($subscriptionDetails->expire_date));
                        $package = App\Models\Pricing::where('id',$subscriptionDetails->package_id)->first();
                         @endphp

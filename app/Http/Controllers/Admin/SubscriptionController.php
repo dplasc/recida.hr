@@ -74,4 +74,57 @@ class SubscriptionController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Assign Premium (12 months) to a user. Deactivates existing active subscriptions first.
+     */
+    public function assignPremium($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            Session::flash('error', get_phrase('User not found!'));
+            return redirect()->back();
+        }
+
+        $premiumPackage = Pricing::where('choice', 1)->first();
+        if (!$premiumPackage) {
+            Session::flash('error', get_phrase('Premium package not found!'));
+            return redirect()->back();
+        }
+
+        Subscription::where('user_id', $user_id)->where('status', '1')->update(['status' => '0']);
+
+        $sub = [
+            'user_id' => $user_id,
+            'package_id' => $premiumPackage->id,
+            'paid_amount' => 0,
+            'payment_method' => 'manual',
+            'transaction_keys' => null,
+            'auto_subscription' => 0,
+            'status' => '1',
+            'expire_date' => strtotime('+12 months'),
+            'date_added' => time(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ];
+
+        Subscription::insert($sub);
+        Session::flash('success', get_phrase('Premium (12 months) assigned successfully!'));
+        return redirect()->back();
+    }
+
+    /**
+     * Deactivate Premium for a user (set status=0 on active subscription).
+     */
+    public function deactivatePremium($user_id)
+    {
+        $updated = Subscription::where('user_id', $user_id)->where('status', '1')->update(['status' => '0']);
+
+        if ($updated) {
+            Session::flash('success', get_phrase('Premium deactivated successfully!'));
+        } else {
+            Session::flash('info', get_phrase('No active subscription found for this user.'));
+        }
+        return redirect()->back();
+    }
+
 }

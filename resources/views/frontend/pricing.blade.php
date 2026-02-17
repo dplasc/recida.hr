@@ -112,7 +112,47 @@
                                             <span class="icon-check">✓</span> Video prezentacija u oglasu
                                         @endif
                                     </li>
-                                    {{-- 6. Istaknuti prikaz --}}
+                                    {{-- 5a. Profesionalan oglas (PREMIUM) --}}
+                                    <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
+                                        @if($isFree)
+                                            <span class="icon-x">✗</span> Profesionalan oglas (dodatne sekcije + galerija + video) <span class="pf-locked">PRO</span>
+                                        @else
+                                            <span class="icon-check">✓</span> Profesionalan oglas (dodatne sekcije + galerija + video)
+                                        @endif
+                                    </li>
+                                    {{-- 6. Foto galerija --}}
+                                    <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
+                                        @if($isFree)
+                                            <span class="icon-x">✗</span> Foto galerija <span class="pf-locked">PRO</span>
+                                        @else
+                                            <span class="icon-check">✓</span> Foto galerija (više slika)
+                                        @endif
+                                    </li>
+                                    {{-- 7. Carousel --}}
+                                    <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
+                                        @if($isFree)
+                                            <span class="icon-x">✗</span> Carousel (slideshow) <span class="pf-locked">PRO</span>
+                                        @else
+                                            <span class="icon-check">✓</span> Carousel (slideshow sekcija)
+                                        @endif
+                                    </li>
+                                    {{-- 8. FAQ sekcija --}}
+                                    <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
+                                        @if($isFree)
+                                            <span class="icon-x">✗</span> FAQ sekcija <span class="pf-locked">PRO</span>
+                                        @else
+                                            <span class="icon-check">✓</span> FAQ sekcija (česta pitanja)
+                                        @endif
+                                    </li>
+                                    {{-- 9. Dodatne tekstualne sekcije --}}
+                                    <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
+                                        @if($isFree)
+                                            <span class="icon-x">✗</span> Dodatne tekstualne sekcije <span class="pf-locked">PRO</span>
+                                        @else
+                                            <span class="icon-check">✓</span> Dodatne tekstualne sekcije
+                                        @endif
+                                    </li>
+                                    {{-- 10. Istaknuti prikaz --}}
                                     <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
                                         @if($isFree)
                                             <span class="icon-x">✗</span> Istaknuti prikaz + prioritet u pretrazi <span class="pf-locked">PRO</span>
@@ -120,7 +160,7 @@
                                             <span class="icon-check">✓</span> Istaknuti prikaz + prioritet u pretrazi
                                         @endif
                                     </li>
-                                    {{-- 7. PRO Vizi bonus --}}
+                                    {{-- 11. PRO Vizi bonus --}}
                                     <li class="{{ $isFree ? 'feature-disabled' : 'feature-enabled' }} {{ !$isFree ? 'pf-bonus pf-bonus-row' : '' }} {{ !$isFree && $isPremium ? 'text-white' : '' }}">
                                         @if($isFree)
                                             <span class="icon-x">✗</span> 🎁 1 godina PRO Vizi kartice (vrijednost 29 €) <span class="pf-locked">PRO</span>

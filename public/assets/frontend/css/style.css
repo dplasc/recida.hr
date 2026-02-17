@@ -7221,25 +7221,6 @@ textarea.meeting-textarea{
     text-align: center;
 }
 
-.pricing-section .pf-free-loss {
-    margin-top: 18px;
-    font-size: 12px;
-    opacity: 0.85;
-}
-
-.pricing-section .pf-loss-title {
-    font-weight: 600;
-    margin-bottom: 6px;
-}
-
-.pricing-section .pf-free-loss ul {
-    padding-left: 16px;
-}
-
-.pricing-section .pf-free-loss li {
-    margin-bottom: 4px;
-}
-
 .pricing-section .pf-price-wrap {
     margin-bottom: 8px;
 }

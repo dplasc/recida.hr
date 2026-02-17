@@ -102,7 +102,6 @@
                                             <span class="icon-x">✗</span> Direktne upite bez posrednika <span class="pf-locked">PRO</span>
                                         @else
                                             <span class="icon-check">✓</span> Direktne upite bez posrednika
-                                            <span class="pf-subtext">Klijent kontaktira direktno tebe</span>
                                         @endif
                                     </li>
                                     {{-- 5. Video prezentacija --}}
@@ -119,7 +118,6 @@
                                             <span class="icon-x">✗</span> Istaknuti prikaz + prioritet u pretrazi <span class="pf-locked">PRO</span>
                                         @else
                                             <span class="icon-check">✓</span> Istaknuti prikaz + prioritet u pretrazi
-                                            <span class="pf-subtext">Više pregleda = više upita</span>
                                         @endif
                                     </li>
                                     {{-- 7. PRO Vizi bonus --}}
@@ -128,7 +126,6 @@
                                             <span class="icon-x">✗</span> 🎁 1 godina PRO Vizi kartice (vrijednost 29 €) <span class="pf-locked">PRO</span>
                                         @else
                                             <span class="icon-check">✓</span> 🎁 1 godina PRO Vizi kartice (vrijednost 29 €) <span class="pf-pill-save">Uštedi 29 €</span>
-                                            <span class="pf-subtext">Kalendar + galerija + podsjetnici (manje no-show)</span>
                                         @endif
                                     </li>
                                 </ul>
@@ -144,20 +141,11 @@
                                    class="theme-btn1 w-100 text-center">
                                     Isprobaj besplatno
                                 </a>
-                                <div class="pf-free-note">FREE je za testiranje. Za ozbiljne upite uzmi Premium.</div>
-                                <div class="pf-free-loss">
-                                    <div class="pf-loss-title">Bez Premium paketa gubite:</div>
-                                    <ul>
-                                        <li>Manju vidljivost u pretrazi</li>
-                                        <li>Manje upita od klijenata</li>
-                                        <li>Video prezentaciju oglasa</li>
-                                        <li>Automatske podsjetnike termina</li>
-                                    </ul>
-                                </div>
+                                <div class="pf-free-note">Bez prioritetnog prikaza i automatiziranih podsjetnika termina.</div>
                             @else
                                 <a href="{{ route('payment',['id'=>$package->id]) }}"
                                    class="btn at-btn-white w-100 text-center pf-cta-premium">
-                                    Aktiviraj Premium
+                                    Aktiviraj Premium (50 € / god.)
                                 </a>
                             @endif
 

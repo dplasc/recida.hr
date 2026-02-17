@@ -157,14 +157,8 @@
                                        $address = json_decode($user->address);
                                    @endphp
                                 
-                                <select name="country" id="country1" class="at-select2 cap-select2 select2-hidden-accessible" data-select2-id="select2-data-1-2ry6co" tabindex="-1" aria-hidden="true">
-                                    <option value="">{{ get_phrase('Select listing country') }}</option>
-                                    @foreach (App\Models\Country::get() as $country)
-                                        <option value="{{ $country->id }}" {{ isset($address->country) && $address->country == $country->id ? 'selected' : '' }}>
-                                            {{ get_phrase($country->name) }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="hidden" name="country" id="country1" value="54">
+<input type="text" class="form-control cap-form-control" value="Hrvatska" readonly>
                                 
                                 </div>
                             </div>
@@ -172,7 +166,7 @@
                             <input type="hidden" name="type" value="address">
                             <!-- State -->
                             <div class="row justify-content-between align-items-center mb-3">
-                                <label for="city" class="col-sm-2 cap-form-label">{{get_phrase('State')}}</label>
+                                <label for="city" class="col-sm-2 cap-form-label">{{get_phrase('City')}}</label>
                                 <div class="col-sm-10 col-md-9 col-lg-10">
                                     <select name="city" id="city" class="at-select2 cap-select2 select2-hidden-accessible" data-select2-id="select2-data-1-2ry6ci" tabindex="-1" aria-hidden="true">
                                         @if(isset($address->city) && $city = App\Models\City::find($address->city))
@@ -186,7 +180,7 @@
                             <div class="row justify-content-between align-items-center mb-3">
                                 <label for="addressline" class="col-sm-2 cap-form-label">{{ get_phrase('Address line') }}</label>
                                 <div class="col-sm-10 col-md-9 col-lg-10">
-                                    <input type="text" placeholder="New york, USA" class="form-control cap-form-control" id="addressline" name="addressline" value="{{ $user->addressline ?? "" }}" />
+                                    <input type="text" placeholder="Ulica i kućni broj" class="form-control cap-form-control" id="addressline" name="addressline" value="{{ $user->addressline ?? "" }}" />
                                 </div>
                             </div>
                         </div>
@@ -233,29 +227,39 @@
     @include('user.agent.listing.script')
     
     <script>
-         "use strict";
-        // depended country and state
-        $("#country1").on('change', function(){
-            var country = $("#country1").val();
-            var url = "{{route('admin.country.city',['id'=>':id'])}}";
-            url = url.replace(':id', country);
-            $.ajax({
-                url: url,
-                success: function(result){
-                    var cityDropdown = $("#city");
-                    cityDropdown.html($('<option>', {
-                            value: '',
-                            text: "{{get_phrase('Select  City')}}"
-                        }));
-                    $.each(result, function(index, city) {
-                        cityDropdown.append($('<option>', {
-                            value: city.id,
-                            text: city.name
-                        }));
+    "use strict";
+
+    function loadCities(countryId){
+        var url = "{{route('admin.country.city',['id'=>':id'])}}";
+        url = url.replace(":id", countryId);
+
+        $.ajax({
+            url: url,
+            success: function(result){
+                var cityDropdown = $("#city");
+                var selectedCityId = "{{ isset($address->city) ? $address->city : '' }}";
+
+                cityDropdown.html($("<option>", {
+                    value: "",
+                    text: "Odaberi grad"
+                }));
+
+                $.each(result, function(index, city) {
+                    var opt = $("<option>", {
+                        value: city.id,
+                        text: city.name
                     });
-                }
-            })
-        })
-    </script>
+                    if(selectedCityId && String(city.id) === String(selectedCityId)){
+                        opt.attr("selected", "selected");
+                    }
+                    cityDropdown.append(opt);
+                });
+            }
+        });
+    }
+
+    // auto-load Croatia cities
+    loadCities($("#country1").val() || 54);
+</script>
 
 @endsection

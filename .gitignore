@@ -13,3 +13,5 @@ _public_html.zip
 
 # Installer SQL contains secrets
 /public/assets/install.sql
+public/uploads/
+public/uploads/**

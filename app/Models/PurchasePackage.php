@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ViziProvisioner;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +59,12 @@ class PurchasePackage extends Model
 
         Subscription::insert($sub);
         User::where('id', user('id'))->update(['is_agent' => 1, 'type' => 'agent']);
+
+        $user = User::find(user('id'));
+        if ($user) {
+            (new ViziProvisioner())->provisionUser($user);
+        }
+
         Session::flash('success', get_phrase('Subscription successfully!'));
         return redirect()->route('customer.wishlist'); 
     }

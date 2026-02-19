@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'vizi' => [
+        'url' => env('VIZI_PROVISION_URL', 'https://www.vizi.hr/api/integrations/recida/provision'),
+        'secret' => env('VIZI_PROVISION_SECRET'),
+    ],
+
 ];

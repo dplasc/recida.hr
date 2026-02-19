@@ -23,7 +23,10 @@ class User extends Authenticatable
         'image',
         'role',
         'type',
-        'status'
+        'status',
+        'vizi_user_id',
+        'vizi_linked_at',
+        'vizi_last_action_link',
     ];
 
     /**
@@ -46,6 +49,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'vizi_linked_at' => 'datetime',
         ];
     }
 }

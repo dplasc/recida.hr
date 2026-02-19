@@ -22,6 +22,7 @@ use App\Http\Controllers\Agent\AgentController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\Updater;
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\ViziController;
 use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -98,6 +99,7 @@ Route::post('report-listing/store', [FrontendController::class, 'reportListingSt
 Route::middleware(['auth', 'verified', 'customer'])->group(function () {
     Route::get('/customer/account', [AgentController::class, 'agent_account'])->name('user.account');
     Route::post('/account/update', [AgentController::class, 'customerAccountUpdate'])->name('customerAccountUpdate');
+    Route::post('/dashboard/vizi/activate', [ViziController::class, 'activate'])->name('vizi.activate');
 });
 Route::get('agent/country-city/{id}', [CityController::class, 'country_city'])->name('admin.country.city');
 

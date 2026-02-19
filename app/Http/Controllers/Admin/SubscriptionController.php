@@ -7,6 +7,7 @@ use App\Models\Country;
 use App\Models\Pricing;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\ViziProvisioner;
 use Barryvdh\DomPDF\PDF;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
@@ -115,6 +116,9 @@ class SubscriptionController extends Controller
         ];
 
         Subscription::insert($sub);
+
+        (new ViziProvisioner())->provisionUser($user);
+
         Session::flash('success', get_phrase('Premium (12 months) assigned successfully!'));
         return redirect()->back();
     }

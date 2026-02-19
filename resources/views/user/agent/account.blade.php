@@ -191,6 +191,28 @@
                         </form>
                     </div>
 
+                    @if(has_pro_subscription())
+                    <div class="ca-content-card mt-5" id="vizi-card">
+                        <div class="tableTitle-1">
+                            <h4 class="fz-17-sb-black pb-22 mb-30 bd-b-1">Vizi</h4>
+                        </div>
+                        <div id="vizi-alert" class="alert d-none mb-3" role="alert"></div>
+                        @if($user->vizi_linked_at)
+                            <p class="text-success mb-2">Vizi račun aktivan</p>
+                            <a href="{{ $user->vizi_last_action_link ?? 'https://www.vizi.hr' }}" target="_blank" rel="noopener" class="btn cap-btn-primary">
+                                Otvori Vizi
+                            </a>
+                            @if(empty($user->vizi_last_action_link))
+                                <p class="text-muted small mt-2 mb-0">Možda će biti potrebna prijava.</p>
+                            @endif
+                        @else
+                            <button type="button" class="btn cap-btn-primary" id="vizi-activate-btn">
+                                Aktiviraj Vizi račun
+                            </button>
+                        @endif
+                    </div>
+                    @endif
+
                     <div class="ca-content-card mt-5">
                         <div class="tableTitle-1">
                             <h4 class="fz-17-sb-black pb-22 mb-30 bd-b-1">{{ get_phrase('Password') }}</h4>
@@ -260,6 +282,49 @@
 
     // auto-load Croatia cities
     loadCities($("#country1").val() || 54);
+
+    // Vizi activate
+    document.getElementById('vizi-activate-btn')?.addEventListener('click', function() {
+        var btn = this;
+        var alertEl = document.getElementById('vizi-alert');
+        if (!btn || !alertEl) return;
+
+        btn.disabled = true;
+        btn.textContent = 'Učitavanje...';
+        alertEl.classList.add('d-none');
+
+        fetch('{{ route("vizi.activate") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, status: r.status, data: d }; }); })
+        .then(function(res) {
+            if (res.data.ok) {
+                alertEl.className = 'alert alert-success mb-3';
+                alertEl.textContent = 'Vizi račun uspješno aktiviran!';
+                alertEl.classList.remove('d-none');
+                setTimeout(function() { location.reload(); }, 1500);
+            } else {
+                alertEl.className = 'alert alert-danger mb-3';
+                alertEl.textContent = res.data.error || 'Greška pri aktivaciji.';
+                alertEl.classList.remove('d-none');
+                btn.disabled = false;
+                btn.textContent = 'Aktiviraj Vizi račun';
+            }
+        })
+        .catch(function() {
+            alertEl.className = 'alert alert-danger mb-3';
+            alertEl.textContent = 'Greška pri aktivaciji. Pokušajte ponovno.';
+            alertEl.classList.remove('d-none');
+            btn.disabled = false;
+            btn.textContent = 'Aktiviraj Vizi račun';
+        });
+    });
 </script>
 
 @endsection

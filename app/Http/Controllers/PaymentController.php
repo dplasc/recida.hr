@@ -7,6 +7,7 @@ use App\Models\FileUploader;
 use App\Models\Pricing;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\ViziProvisioner;
 use App\Models\payment_gateway\Paystack;
 use App\Models\payment_gateway\Ccavenue;
 use App\Models\payment_gateway\Pagseguro;
@@ -233,6 +234,12 @@ class PaymentController extends Controller
 
         Subscription::insert($sub);
         User::where('id', user('id'))->update(['is_agent'=>1, 'type'=> 'agent']);
+
+        $user = User::find(user('id'));
+        if ($user) {
+            (new ViziProvisioner())->provisionUser($user);
+        }
+
         Session::flash('success', get_phrase('Subscription successfully!'));
         return redirect()->route('pricing');
     }

@@ -1443,7 +1443,7 @@ public function CompanyLogo(){
 
   public function review_edit($id)
   {
-      $page_data["review_data"] = Review::find($id);
+      $page_data["review_data"] = Review::findOrFail($id);
       $page_data['userList'] = User::where('role', 2)->get();
       return view("admin.setting.user_review_edit", $page_data);
   }

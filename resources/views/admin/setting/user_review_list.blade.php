@@ -47,7 +47,7 @@
                                         </th>
                                         <td>
                                             <div class="dAdmin_info_name min-w-150px">
-                                                <p>{{ $userInfo->name }}</p>
+                                                <p>{{ $userInfo?->name ?? '(unknown user)' }}</p>
                                             </div>
                                         </td>
                                         <td>

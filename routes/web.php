@@ -54,8 +54,10 @@ Route::post('/listing-review/{id}', [FrontendController::class, 'ListingReviews'
 Route::post('/listing-review/update/{id}', [FrontendController::class, 'ListingReviewsUpdate'])->name('listing.review.update');
 Route::post('/listing-review/reply/{id}', [FrontendController::class, 'ListingReviewsReply'])->name('listing.review.reply');
 Route::get('/listing-review/edit/{id}', [FrontendController::class, 'ListingReviewsEdit'])->name('listing.review.edit');
-Route::post('/listing/reviews/updated/{id}', [FrontendController::class, 'ListingOwnReviewsUpdated'])->name('listing.reviews.updated');
-Route::get('/listing/reviews/delete/{id}', [FrontendController::class, 'ListingOwnReviewsDelete'])->name('listing.review.delete');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/listing/reviews/updated/{id}', [FrontendController::class, 'ListingOwnReviewsUpdated'])->name('listing.reviews.updated');
+    Route::get('/listing/reviews/delete/{id}', [FrontendController::class, 'ListingOwnReviewsDelete'])->name('listing.review.delete');
+});
 
 
 // Page 
@@ -328,10 +330,11 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(functio
 
     // Admin User Review Add
 
-    Route::get('user/review', [SettingController::class, 'user_review_add'])->name('admin.review.create'); 
-    Route::post('user/review/stor', [SettingController::class, 'user_review_stor'])->name('admin.review.store'); 
-    Route::get('user/review/edit/{id}', [SettingController::class, 'review_edit'])->name('admin.review.edit'); 
-    Route::post('user/review/update/{id}', [SettingController::class, 'review_update'])->name('admin.review.update'); 
+    Route::get('user/review/list', [SettingController::class, 'user_review_list'])->name('admin.review.index');
+    Route::get('user/review', [SettingController::class, 'user_review_add'])->name('admin.review.create');
+    Route::post('user/review/stor', [SettingController::class, 'user_review_stor'])->name('admin.review.store');
+    Route::get('user/review/edit/{id}', [SettingController::class, 'review_edit'])->name('admin.review.edit');
+    Route::post('user/review/update/{id}', [SettingController::class, 'review_update'])->name('admin.review.update');
     Route::get('user/review/delete/{id}', [SettingController::class, 'review_delete'])->name('admin.review.delete'); 
 
     // Homepage Settings (Beauty, Car , Restaurant, Hotel, Real Estate)

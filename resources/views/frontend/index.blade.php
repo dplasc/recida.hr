@@ -1037,6 +1037,7 @@
 
 
     <!-- Start Testimonial Area -->
+    @if(false)
     <section>
         <div class="container">
             <div class="row">
@@ -1099,6 +1100,7 @@
             </div>
         </div>
     </section>
+    @endif
     <!-- End Testimonial Area -->
 
 

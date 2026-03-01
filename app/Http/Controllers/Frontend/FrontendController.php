@@ -344,8 +344,19 @@ public function listing_details($type, $id, $slug)
 
     public function ListingOwnReviewsUpdated(Request $request, $id)
     {
-        $data = $request->all();
+        if (!Auth::check()) {
+            abort(403);
+        }
         $review = Review::findOrFail($id);
+        $user = auth()->user();
+        if ($user->role == 1) {
+            // Super Admin — allow
+        } elseif ($review->user_id == $user->id) {
+            // Normal user — allow only own review
+        } else {
+            abort(403);
+        }
+        $data = $request->all();
         $review->review = sanitize($data['update_review']);
         $review->save();
         Session::flash('success', get_phrase('Your review was successfully submitted!'));
@@ -353,8 +364,22 @@ public function listing_details($type, $id, $slug)
     }
 
     public function ListingOwnReviewsDelete($id){
+        if (!Auth::check()) {
+            abort(403);
+        }
         $review = Review::where('id', $id)->first();
-        review::where('id', $id)->delete(); 
+        if (!$review) {
+            abort(404);
+        }
+        $user = auth()->user();
+        if ($user->role == 1) {
+            // Super Admin — allow
+        } elseif ($review->user_id == $user->id) {
+            // Normal user — allow only own review
+        } else {
+            abort(403);
+        }
+        Review::where('id', $id)->delete();
         Session::flash('success', get_phrase('Review deleted successfully!'));
         return redirect()->back();
     }

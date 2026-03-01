@@ -1423,7 +1423,10 @@ public function CompanyLogo(){
 
 
    //User Review Add 
-   public function user_review_add(){
+   public function user_review_list(){
+    return view("admin.setting.user_review_list");
+  }
+  public function user_review_add(){
     $page_data['userList'] = User::where('role', 2)->get();
     return view('admin.setting.user_review_create',$page_data);
   }

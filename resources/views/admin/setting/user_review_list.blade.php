@@ -20,15 +20,26 @@
         <div class="col-12">
             <div class="ol-card">
                 <div class="ol-card-body p-3">
-                    <form action="" method="get" class="mb-3">
-                        <div class="d-flex gap-2 flex-wrap">
-                            <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ get_phrase('Search reviews...') }}" class="form-control" style="max-width: 220px;" />
-                            <button type="submit" class="btn ol-btn-primary">{{ get_phrase('Search') }}</button>
+                    <div class="row print-d-none mb-3 mt-3 row-gap-3">
+                        <div class="col-lg-5 col-md-5 pt-2 pt-md-0"></div>
+                        <div class="col-lg-7 col-md-7">
+                            <form action="" method="get">
+                                <div class="row row-gap-3">
+                                    <div class="col-lg-9 col-md-7">
+                                        <div class="search-input">
+                                            <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ get_phrase('Search reviews...') }}" class="ol-form-control form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-5">
+                                        <button type="submit" class="btn ol-btn-primary w-100">{{ get_phrase('Search') }}</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                     <!-- Table -->
                         @if(count($user_reviews) > 0)
-                        <div class="table-responsive course_list" id="course_list">
+                        <div class="table-responsive">
                             <table class="table eTable eTable-2 print-table">
                                 <thead>
                                     <tr>
@@ -64,16 +75,9 @@
                                             </div>
                                         </td>
                                         <td class="print-d-none">
-                                            <div class="dropdown ol-icon-dropdown ol-icon-dropdown-transparent">
-                                                <button class="btn ol-btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <span class="fi-rr-menu-dots-vertical"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" >
-                                                    <li>
-                                                        <a class="dropdown-item" href="{{ route('admin.review.edit', ['id' => $review->id]) }}">{{get_phrase('Edit')}}</a>
-                                                    </li>
-                                                    <li><a class="dropdown-item" href="{{ route('admin.review.delete', ['id' => $review->id]) }}">{{ get_phrase('Delete') }}</a></li>
-                                                </ul>
+                                            <div class="adminTable-action">
+                                                <a href="{{ route('admin.review.edit', ['id' => $review->id]) }}" class="btn ol-btn-light ol-icon-btn" data-bs-toggle="tooltip" title="{{ get_phrase('Edit') }}"><i class="fi-rr-pen-clip"></i></a>
+                                                <button type="button" class="btn ol-btn-light ol-icon-btn" data-bs-toggle="tooltip" onclick="delete_modal('{{ route('admin.review.delete', ['id' => $review->id]) }}')" title="{{ get_phrase('Delete') }}"><i class="fi-rr-trash"></i></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -81,7 +85,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="mt-3">{{ $user_reviews->links() }}</div>
+                        <div class="admin-tInfo-pagi d-flex justify-content-between justify-content-center align-items-center flex-wrap gr-15">
+                            <p class="admin-tInfo">{{ get_phrase('Showing') . ' ' . count($user_reviews) . ' ' . get_phrase('of') . ' ' . $user_reviews->total() . ' ' . get_phrase('data') }}</p>
+                            {{ $user_reviews->links() }}
+                        </div>
                     @else
                        
                     @endif

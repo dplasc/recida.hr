@@ -43,6 +43,16 @@ Route::get('/__debug/session', function () {
     ]);
 });
 
+Route::get('/__debug/review-check', function () {
+    $route = \Illuminate\Support\Facades\Route::getRoutes()->match(request()->create('/admin/user/review/list', 'GET'));
+    return response()->json([
+        'matched_uri' => $route->uri(),
+        'matched_name' => $route->getName(),
+        'action' => $route->getActionName(),
+        'middleware' => $route->gatherMiddleware(),
+    ]);
+});
+
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/hotel', [FrontendController::class, 'hotel_home'])->name('hotel.home');
 Route::get('/car', [FrontendController::class, 'car_home'])->name('car.home');

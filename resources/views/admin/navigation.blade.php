@@ -337,6 +337,9 @@
                     <li class="sidebar-second-li  {{request()->is('admin/contact')?'active':''}}">
                         <a href="{{route('admin.contact')}}">  {{get_phrase('Contacts')}} </a>
                     </li>
+                    <li class="sidebar-second-li {{request()->is('admin/user/review*')?'active':''}}">
+                        <a href="{{ route('admin.review.index') }}"> {{get_phrase('Recenzije')}} </a>
+                    </li>
                     
                 </ul>
             </li>

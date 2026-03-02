@@ -211,6 +211,15 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(functio
     Route::get('/edit-country/{id}', [CityController::class, 'edit_country'])->name('admin.edit-country');
     Route::post('/update-country/{id}', [CityController::class, 'update_country'])->name('admin.update-country');
 
+    // Admin User Review Add
+
+    Route::get('user/review/list', [SettingController::class, 'user_review_list'])->name('admin.review.index');
+    Route::get('user/review', [SettingController::class, 'user_review_add'])->name('admin.review.create');
+    Route::post('user/review/stor', [SettingController::class, 'user_review_stor'])->name('admin.review.store');
+    Route::get('user/review/edit/{id}', [SettingController::class, 'review_edit'])->name('admin.review.edit');
+    Route::post('user/review/update/{id}', [SettingController::class, 'review_update'])->name('admin.review.update');
+    Route::get('user/review/delete/{id}', [SettingController::class, 'review_delete'])->name('admin.review.delete'); 
+
     // user route
     Route::get('user/{type}/{action}', [UserController::class, 'index'])->name('admin.user');
     Route::post('user/create/{type}', [UserController::class, 'user_create'])->name('admin.create.user');
@@ -350,15 +359,6 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(functio
     Route::get('/companylogo/{id}', [SettingController::class, 'CompanyLogoEdit'])->name('admin.company_logo.edit'); 
     Route::post('/companylogo/update/{id}', [SettingController::class, 'companylogoUpdate'])->name('admin.company.update'); 
     Route::get('/delete-company-logo/{id}',[SettingController::class, 'Deletecompanylogo'])->name('admin.company_logo.delete');
-
-    // Admin User Review Add
-
-    Route::get('user/review/list', [SettingController::class, 'user_review_list'])->name('admin.review.index');
-    Route::get('user/review', [SettingController::class, 'user_review_add'])->name('admin.review.create');
-    Route::post('user/review/stor', [SettingController::class, 'user_review_stor'])->name('admin.review.store');
-    Route::get('user/review/edit/{id}', [SettingController::class, 'review_edit'])->name('admin.review.edit');
-    Route::post('user/review/update/{id}', [SettingController::class, 'review_update'])->name('admin.review.update');
-    Route::get('user/review/delete/{id}', [SettingController::class, 'review_delete'])->name('admin.review.delete'); 
 
     // Homepage Settings (Beauty, Car , Restaurant, Hotel, Real Estate)
 

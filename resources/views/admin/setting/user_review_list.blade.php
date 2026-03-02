@@ -81,6 +81,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="mt-3">{{ $user_reviews->links() }}</div>
                     @else
                        
                     @endif

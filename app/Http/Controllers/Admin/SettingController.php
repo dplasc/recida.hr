@@ -1435,7 +1435,7 @@ public function CompanyLogo(){
                 ->orWhere('reviews.review', 'like', '%' . $search . '%');
         });
     }
-    $page_data['user_reviews'] = $query->get();
+    $page_data['user_reviews'] = $query->paginate(20)->withQueryString();
     return view("admin.setting.user_review_list", $page_data);
   }
   public function user_review_add(){

@@ -198,7 +198,10 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'admin'])->group(functio
     Route::get('user/review/delete/{id}', [SettingController::class, 'review_delete'])->name('admin.review.delete'); 
 
     // user route
-    Route::get('user/{type}/{action}', [UserController::class, 'index'])->name('admin.user');
+    Route::get('user/{type}/{action}', [UserController::class, 'index'])
+        ->where('type', 'agent|customer')
+        ->where('action', 'add|all')
+        ->name('admin.user');
     Route::post('user/create/{type}', [UserController::class, 'user_create'])->name('admin.create.user');
     Route::get('delete-user/{id}', [UserController::class, 'user_delete'])->name('admin.delete.user');
     Route::get('/user-status/{id}/{status}', [UserController::class, 'user_status'])->name('admin.user.status');

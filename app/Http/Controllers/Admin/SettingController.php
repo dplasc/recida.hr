@@ -1424,7 +1424,6 @@ public function CompanyLogo(){
 
    //User Review Add 
    public function user_review_list(){
-    dd('ULAZIM U user_review_list');
     return view("admin.setting.user_review_list");
   }
   public function user_review_add(){

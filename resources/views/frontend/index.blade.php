@@ -1037,7 +1037,7 @@
 
 
     <!-- Start Testimonial Area -->
-    @if(false)
+    @if(isset($reviews) && count($reviews) > 0)
     <section>
         <div class="container">
             <div class="row">

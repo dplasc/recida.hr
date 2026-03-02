@@ -30,6 +30,19 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 
+Route::get('/__debug/session', function () {
+    return response()->json([
+        'host' => request()->getHost(),
+        'url' => request()->fullUrl(),
+        'session_id' => session()->getId(),
+        'session_domain' => config('session.domain'),
+        'session_secure' => (bool) config('session.secure'),
+        'auth_check' => \Illuminate\Support\Facades\Auth::check(),
+        'user_id' => \Illuminate\Support\Facades\Auth::id(),
+        'cookie_names' => array_keys(request()->cookies->all()),
+    ]);
+});
+
 Route::get('/', [FrontendController::class, 'index'])->name('home');
 Route::get('/hotel', [FrontendController::class, 'hotel_home'])->name('hotel.home');
 Route::get('/car', [FrontendController::class, 'car_home'])->name('car.home');

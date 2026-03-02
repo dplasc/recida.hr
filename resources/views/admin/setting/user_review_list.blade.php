@@ -15,14 +15,17 @@
             </div>
         </div>
     </div>
-    @php  
-      $user_reviews = DB::table('reviews')->get();
-    @endphp
     <!-- Start Admin area -->
     <div class="row">
         <div class="col-12">
             <div class="ol-card">
                 <div class="ol-card-body p-3">
+                    <form action="" method="get" class="mb-3">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ get_phrase('Search reviews...') }}" class="form-control" style="max-width: 220px;" />
+                            <button type="submit" class="btn ol-btn-primary">{{ get_phrase('Search') }}</button>
+                        </div>
+                    </form>
                     <!-- Table -->
                         @if(count($user_reviews) > 0)
                         <div class="table-responsive course_list" id="course_list">

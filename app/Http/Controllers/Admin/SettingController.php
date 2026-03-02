@@ -1423,8 +1423,20 @@ public function CompanyLogo(){
 
 
    //User Review Add 
-   public function user_review_list(){
-    return view("admin.setting.user_review_list");
+   public function user_review_list(Request $request){
+    $search = $request->query('q');
+    $query = Review::query()
+        ->leftJoin('users', 'reviews.user_id', '=', 'users.id')
+        ->select('reviews.*')
+        ->orderBy('reviews.id', 'desc');
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('users.name', 'like', '%' . $search . '%')
+                ->orWhere('reviews.review', 'like', '%' . $search . '%');
+        });
+    }
+    $page_data['user_reviews'] = $query->get();
+    return view("admin.setting.user_review_list", $page_data);
   }
   public function user_review_add(){
     $page_data['userList'] = User::where('role', 2)->get();

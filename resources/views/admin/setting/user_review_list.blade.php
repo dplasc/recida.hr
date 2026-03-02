@@ -67,9 +67,9 @@
                                                 </button>
                                                 <ul class="dropdown-menu" >
                                                     <li>
-                                                        <a onclick="edit_modal('modal-md','{{route('admin.review.edit',['id'=>$review->id])}}','{{get_phrase('Edit Review')}}')" class="dropdown-item"  href="#">{{get_phrase('Edit')}}</a>
+                                                        <a class="dropdown-item" href="{{ route('admin.review.edit', ['id' => $review->id]) }}">{{get_phrase('Edit')}}</a>
                                                     </li>
-                                                    <li><a class="dropdown-item" href="#" onclick="delete_modal('{{route('admin.review.delete',['id'=>$review->id])}}')">{{ get_phrase('Delete') }}</a></li>
+                                                    <li><a class="dropdown-item" href="{{ route('admin.review.delete', ['id' => $review->id]) }}">{{ get_phrase('Delete') }}</a></li>
                                                 </ul>
                                             </div>
                                         </td>

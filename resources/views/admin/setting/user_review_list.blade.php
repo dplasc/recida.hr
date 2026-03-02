@@ -1,3 +1,6 @@
+@extends('layouts.admin')
+@section('title', get_phrase('Review'))
+@section('admin_layout')
 
     <!-- Mani section header and breadcrumb -->
     <div class="ol-card radius-8px">
@@ -99,3 +102,4 @@
     </div>
     <!-- End Admin area -->
 
+@endsection

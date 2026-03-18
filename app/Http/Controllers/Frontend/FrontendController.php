@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use DB;
@@ -281,16 +282,32 @@ public function listing_details($type, $id, $slug)
     // Reviews System 
     public function ListingReviews(Request $request, $listing_id)
 {
-    if (!Auth::check()) {
+    $decaySeconds = 600;
+    $maxAttempts = 3;
+    // When true, wire guest persistence (e.g. nullable user_id); IP rate limit applies to guests only then.
+    $guestReviewsAllowed = false;
+
+    if (!Auth::check() && !$guestReviewsAllowed) {
         Session::flash('warning', get_phrase('Please Login First!'));
         return redirect()->route('login');
     }
-    
-    // Validate input
+
     $request->validate([
-        'rating' => 'required|integer', 
+        'rating' => 'required|integer',
         'review' => 'required|string',
     ]);
+
+    $rateKey = Auth::check()
+        ? 'listing-review-submit:user:' . Auth::id()
+        : 'listing-review-submit:ip:' . $request->ip();
+
+    if (RateLimiter::tooManyAttempts($rateKey, $maxAttempts)) {
+        throw ValidationException::withMessages([
+            'review' => [get_phrase('Too many review submissions. Please try again in a few minutes.')],
+        ]);
+    }
+
+    RateLimiter::hit($rateKey, $decaySeconds);
 
     // Create new review
     $review = new Review;

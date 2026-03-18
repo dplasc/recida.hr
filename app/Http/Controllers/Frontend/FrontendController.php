@@ -297,6 +297,14 @@ public function listing_details($type, $id, $slug)
         'review' => 'required|string',
     ]);
 
+    if (Auth::check() && Review::where('user_id', Auth::id())
+        ->where('listing_id', $listing_id)
+        ->whereNull('reply_id')
+        ->exists()) {
+        Session::flash('warning', get_phrase('You have already submitted a review for this listing.'));
+        return redirect()->back()->withInput();
+    }
+
     $rateKey = Auth::check()
         ? 'listing-review-submit:user:' . Auth::id()
         : 'listing-review-submit:ip:' . $request->ip();

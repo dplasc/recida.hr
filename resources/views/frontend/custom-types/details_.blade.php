@@ -426,6 +426,11 @@
                                             <label for="textarea1" class="form-label smform-label2 mb-16">{{ get_phrase('Review') }}</label>
                                             <textarea class="form-control mform-control review-textarea" name="review" id="textarea1" required></textarea>
                                         </div>
+                                        @if ((string) get_settings('recaptcha_review_enable') === '1' && !empty(get_settings('recaptcha_site_key')))
+                                            <div class="mb-3">
+                                                <div class="g-recaptcha" data-sitekey="{{ get_settings('recaptcha_site_key') }}"></div>
+                                            </div>
+                                        @endif
                                         <button class="theme-btn1" type="submit">{{ get_phrase('Submit') }}</button>
                                     </div>
                                 </form>
@@ -453,6 +458,11 @@
                                             <label for="textarea1" class="form-label smform-label2 mb-16">{{ get_phrase('Review') }}</label>
                                             <textarea class="form-control mform-control review-textarea" name="review" id="textarea1" required>{{ $user_review_count->review }}</textarea>
                                         </div>
+                                        @if ((string) get_settings('recaptcha_review_enable') === '1' && !empty(get_settings('recaptcha_site_key')))
+                                            <div class="mb-3">
+                                                <div class="g-recaptcha" data-sitekey="{{ get_settings('recaptcha_site_key') }}"></div>
+                                            </div>
+                                        @endif
                                         <button class="theme-btn1" type="submit">{{ get_phrase('Update') }}</button>
                                     </div>
                                 </form>
@@ -799,9 +809,9 @@
         </script>
     @endif
 
-
-
-
+    @if ((string) get_settings('recaptcha_review_enable') === '1' && !empty(get_settings('recaptcha_site_key')))
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endif
 
 @endpush
 

@@ -279,7 +279,46 @@ public function listing_details($type, $id, $slug)
 
 
 
-    // Reviews System 
+    // Reviews System
+
+    /**
+     * Verify reCAPTCHA token when review captcha is enabled. Returns true to continue, or RedirectResponse to return.
+     */
+    private function verifyRecaptchaOrRedirect(Request $request)
+    {
+        if ((string) get_settings('recaptcha_review_enable') !== '1') {
+            return true;
+        }
+        $secret = get_settings('recaptcha_secret_key');
+        if ($secret === null || $secret === '') {
+            return true;
+        }
+        $token = $request->input('g-recaptcha-response');
+        if ($token === null || $token === '') {
+            Session::flash('warning', 'Captcha verification failed');
+            return redirect()->back()->withInput();
+        }
+        $url = 'https://www.google.com/recaptcha/api/siteverify';
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'content' => http_build_query(['secret' => $secret, 'response' => $token]),
+            ],
+        ]);
+        $response = @file_get_contents($url, false, $context);
+        if ($response === false) {
+            Session::flash('warning', 'Captcha verification failed');
+            return redirect()->back()->withInput();
+        }
+        $json = json_decode($response, true);
+        if (empty($json['success'])) {
+            Session::flash('warning', 'Captcha verification failed');
+            return redirect()->back()->withInput();
+        }
+        return true;
+    }
+
     public function ListingReviews(Request $request, $listing_id)
 {
     $decaySeconds = 600;
@@ -297,12 +336,30 @@ public function listing_details($type, $id, $slug)
         'review' => 'required|string',
     ]);
 
+    $captcha = $this->verifyRecaptchaOrRedirect($request);
+    if ($captcha !== true) {
+        return $captcha;
+    }
+
     if (Auth::check() && Review::where('user_id', Auth::id())
         ->where('listing_id', $listing_id)
         ->whereNull('reply_id')
         ->exists()) {
         Session::flash('warning', get_phrase('You have already submitted a review for this listing.'));
         return redirect()->back()->withInput();
+    }
+
+    $reviewTextLower = mb_strtolower((string) $request->review, 'UTF-8');
+    $reviewSpamMarkers = [
+        'http://', 'https://', 'www.',
+        '.com', '.ru', '.cn', '.xyz',
+        'nslookup', '<script', 'onclick=', 'href=',
+    ];
+    foreach ($reviewSpamMarkers as $marker) {
+        if (str_contains($reviewTextLower, $marker)) {
+            Session::flash('warning', get_phrase('Your review was not saved. Remove links, website references, or disallowed text and try again.'));
+            return redirect()->back()->withInput();
+        }
     }
 
     $rateKey = Auth::check()
@@ -334,7 +391,38 @@ public function listing_details($type, $id, $slug)
 
     public function ListingReviewsUpdate(Request $request, $listing_id)
     {
-       
+        $request->validate([
+            'rating' => 'required|integer',
+            'review' => 'required|string',
+        ]);
+
+        $captcha = $this->verifyRecaptchaOrRedirect($request);
+        if ($captcha !== true) {
+            return $captcha;
+        }
+
+        $reviewTextLower = mb_strtolower((string) $request->review, 'UTF-8');
+        $reviewSpamMarkers = [
+            'http://', 'https://', 'www.',
+            '.com', '.ru', '.cn', '.xyz',
+            'nslookup', '<script', 'onclick=', 'href=',
+        ];
+        foreach ($reviewSpamMarkers as $marker) {
+            if (str_contains($reviewTextLower, $marker)) {
+                Session::flash('warning', get_phrase('Your review was not saved. Remove links, website references, or disallowed text and try again.'));
+                return redirect()->back()->withInput();
+            }
+        }
+
+        $rateKey = 'listing-review-update:user:' . auth()->user()->id;
+        $decaySeconds = 600;
+        $maxAttempts = 3;
+        if (RateLimiter::tooManyAttempts($rateKey, $maxAttempts)) {
+            throw ValidationException::withMessages([
+                'review' => [get_phrase('Too many review update attempts. Please try again in a few minutes.')],
+            ]);
+        }
+        RateLimiter::hit($rateKey, $decaySeconds);
 
         $data=$request->all();
         $review=Review::where('user_id',auth()->user()->id)->where('listing_id',$listing_id)->first();
@@ -381,6 +469,12 @@ public function listing_details($type, $id, $slug)
         } else {
             abort(403);
         }
+
+        $captcha = $this->verifyRecaptchaOrRedirect($request);
+        if ($captcha !== true) {
+            return $captcha;
+        }
+
         $data = $request->all();
         $review->review = sanitize($data['update_review']);
         $review->save();

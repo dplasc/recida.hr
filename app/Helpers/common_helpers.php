@@ -570,8 +570,43 @@ if (! function_exists('getUserImageLimits')) {
 }
 
 /**
+ * Resolve listing model class by type slug (same logic as listing system).
+ *
+ * @param string $type e.g. 'beauty', 'car', 'hotel', 'real-estate', 'restaurant', or custom type slug
+ * @return string|null Model class name or null
+ */
+if (! function_exists('getListingModelClass')) {
+    function getListingModelClass($type) {
+        $map = [
+            'car' => \App\Models\CarListing::class,
+            'beauty' => \App\Models\BeautyListing::class,
+            'hotel' => \App\Models\HotelListing::class,
+            'real-estate' => \App\Models\RealEstateListing::class,
+            'restaurant' => \App\Models\RestaurantListing::class,
+        ];
+        return $map[$type] ?? \App\Models\CustomListings::class;
+    }
+}
+
+/**
+ * Returns user_id (owner) of a listing by type and id. Used for quota checks.
+ *
+ * @param string $listingType
+ * @param int $listingId
+ * @return int|null user_id or null if listing not found
+ */
+if (! function_exists('getListingOwnerId')) {
+    function getListingOwnerId($listingType, $listingId) {
+        $model = getListingModelClass($listingType);
+        $listing = $model::where('id', (int) $listingId)->first();
+        return $listing ? (int) $listing->user_id : null;
+    }
+}
+
+/**
  * Returns total storage (bytes) used by a user's listing images across all listing types.
- * Includes: listing images (image column), floor plans (real-estate), og_image, 3d model (real-estate).
+ * Includes: listing images (image column), floor plans (real-estate), og_image, 3d model (real-estate),
+ * and custom fields (image/slider/gallery) for the user's listings.
  *
  * @param int $user_id User ID
  * @return int Bytes used
@@ -590,6 +625,14 @@ if (! function_exists('getUserListingStorageUsage')) {
             \App\Models\CustomListings::class => ['image', 'og_image'],
         ];
 
+        $modelToType = [
+            \App\Models\BeautyListing::class => 'beauty',
+            \App\Models\CarListing::class => 'car',
+            \App\Models\HotelListing::class => 'hotel',
+            \App\Models\RealEstateListing::class => 'real-estate',
+            \App\Models\RestaurantListing::class => 'restaurant',
+        ];
+
         $pathMap = [
             'image' => 'uploads/listing-images',
             'floor_plan' => 'uploads/floor-plan',
@@ -597,9 +640,17 @@ if (! function_exists('getUserListingStorageUsage')) {
             'model' => 'uploads/3d',
         ];
 
+        $listingPairKeys = [];
+
         foreach ($listingModels as $model => $columns) {
             $listings = $model::where('user_id', $user_id)->get();
+            $listingType = $modelToType[$model] ?? null;
             foreach ($listings as $listing) {
+                if ($listingType !== null) {
+                    $listingPairKeys[$listingType . ':' . $listing->id] = true;
+                } else {
+                    $listingPairKeys[($listing->type ?? '') . ':' . $listing->id] = true;
+                }
                 foreach ($columns as $col) {
                     $path = $pathMap[$col] ?? 'uploads/listing-images';
                     $value = $listing->{$col} ?? null;
@@ -621,6 +672,29 @@ if (! function_exists('getUserListingStorageUsage')) {
                             $total += filesize($fp);
                         }
                     }
+                }
+            }
+        }
+
+        // Custom fields (image, slider, gallery) for this user's listings
+        $customFields = \App\Models\CustomField::whereIn('custom_type', ['image', 'slider', 'gallery'])->get();
+        $customFieldsPath = $basePath . '/uploads/custom-fields';
+        foreach ($customFields as $cf) {
+            $key = $cf->listing_type . ':' . $cf->listing_id;
+            if (! isset($listingPairKeys[$key])) {
+                continue;
+            }
+            $decoded = is_string($cf->custom_field) ? json_decode($cf->custom_field, true) : $cf->custom_field;
+            if (! is_array($decoded) || empty($decoded['data'])) {
+                continue;
+            }
+            foreach ($decoded['data'] as $item) {
+                if (empty($item['file'])) {
+                    continue;
+                }
+                $fp = $customFieldsPath . '/' . $item['file'];
+                if (is_file($fp)) {
+                    $total += filesize($fp);
                 }
             }
         }

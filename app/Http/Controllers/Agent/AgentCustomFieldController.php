@@ -40,6 +40,47 @@ public function customField_store(Request $request)
     $custom_title_key = $custom_type . '_custom_title'; 
     $custom_title = $request->input($custom_title_key); 
 
+    // Quota check for image/slider/gallery uploads (same limit as listing images)
+    if (in_array($custom_type, ['image', 'slider', 'gallery'], true)) {
+        $newFilesSize = 0;
+        if ($request->hasFile('image_file')) {
+            foreach ($request->file('image_file') as $file) {
+                if ($file && $file->isValid()) {
+                    $newFilesSize += $file->getSize();
+                }
+            }
+        }
+        if ($request->hasFile('slider_images')) {
+            foreach ($request->file('slider_images') as $file) {
+                if ($file && $file->isValid()) {
+                    $newFilesSize += $file->getSize();
+                }
+            }
+        }
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $file) {
+                if ($file && $file->isValid()) {
+                    $newFilesSize += $file->getSize();
+                }
+            }
+        }
+        if ($newFilesSize > 0) {
+            $ownerId = getListingOwnerId($request->input('type'), $request->input('listing_id'));
+            if ($ownerId === null) {
+                return redirect()->back()->with('error', get_phrase('Listing not found.'));
+            }
+            $limits = getUserImageLimits($ownerId);
+            $usedBytes = getUserListingStorageUsage($ownerId);
+            if ($usedBytes + $newFilesSize > $limits['quota_bytes']) {
+                $allowedMb = $limits['quota_bytes'] / (1024 * 1024);
+                $usedMb = round($usedBytes / (1024 * 1024), 2);
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'image_file' => [get_phrase('Storage quota exceeded. Your plan allows ') . $allowedMb . 'MB total. You have used ' . $usedMb . 'MB.'],
+                ]);
+            }
+        }
+    }
+
     if ($custom_type == 'image') {
         $images = [];
         $i = 1;
@@ -218,6 +259,35 @@ public function customFieldUpdate(Request $request, $field_id, $item_id)
     }
     $customField = CustomField::findOrFail($field_id);
     $fieldData = json_decode($customField->custom_field, true);
+
+    // Quota check when replacing image/slider/gallery file
+    if (in_array($customField->custom_type, ['image', 'slider', 'gallery'], true)) {
+        $newFile = null;
+        if ($customField->custom_type === 'image' && $request->hasFile('image_file.0')) {
+            $newFile = $request->file('image_file')[0] ?? null;
+        } elseif ($customField->custom_type === 'slider' && $request->hasFile('slider_images.0')) {
+            $newFile = $request->file('slider_images')[0] ?? null;
+        } elseif ($customField->custom_type === 'gallery' && $request->hasFile('gallery_images')) {
+            $files = $request->file('gallery_images');
+            $newFile = isset($files[0]) ? $files[0] : null;
+        }
+        if ($newFile && $newFile->isValid()) {
+            $ownerId = getListingOwnerId($customField->listing_type, $customField->listing_id);
+            if ($ownerId === null) {
+                return redirect()->back()->with('error', get_phrase('Listing not found.'));
+            }
+            $newFilesSize = $newFile->getSize();
+            $limits = getUserImageLimits($ownerId);
+            $usedBytes = getUserListingStorageUsage($ownerId);
+            if ($usedBytes + $newFilesSize > $limits['quota_bytes']) {
+                $allowedMb = $limits['quota_bytes'] / (1024 * 1024);
+                $usedMb = round($usedBytes / (1024 * 1024), 2);
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'image_file' => [get_phrase('Storage quota exceeded. Your plan allows ') . $allowedMb . 'MB total. You have used ' . $usedMb . 'MB.'],
+                ]);
+            }
+        }
+    }
 
     $updatedData = [];
 

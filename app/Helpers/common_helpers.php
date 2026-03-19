@@ -563,7 +563,7 @@ if (! function_exists('getUserImageLimits')) {
     function getUserImageLimits($user_id = null) {
         $plan = getUserPlanKey($user_id);
         if ($plan === 'premium') {
-            return ['max_images' => 30, 'quota_bytes' => 300 * 1024 * 1024]; // 300MB
+            return ['max_images' => 30, 'quota_bytes' => 100 * 1024 * 1024]; // 100MB
         }
         return ['max_images' => 3, 'quota_bytes' => 20 * 1024 * 1024]; // 20MB
     }

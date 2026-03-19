@@ -70,6 +70,23 @@
                         @endif
                     @endif
 
+                    @php
+                        $usedBytes = getUserListingStorageUsage(user('id'));
+                        $limits = getUserImageLimits(user('id'));
+                        $quotaBytes = $limits['quota_bytes'] ?? 0;
+                        $usedMb = round($usedBytes / 1048576, 2);
+                        $quotaMb = round($quotaBytes / 1048576, 2);
+                        $remainingMb = max(0, round(($quotaBytes - $usedBytes) / 1048576, 2));
+                        $usagePercent = $quotaBytes > 0 ? min(100, round(($usedBytes / $quotaBytes) * 100)) : 0;
+                    @endphp
+                    <div class="ca-content-card mb-4 p-4">
+                        <h6 class="ca-title-14px ca-text-dark mb-2">{{ get_phrase('Media storage') }}</h6>
+                        <p class="in-subtitle-14px mb-2">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+
                     <div class="ca-content-card">
                         <div class="mb-20px d-flex align-items-center column-gap-3 row-gap-3 justify-content-between flex-wrap">
                             <form action="{{ route('agent.listingsFilter') }}" method="GET">

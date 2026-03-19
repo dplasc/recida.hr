@@ -237,7 +237,42 @@ class SettingController extends Controller
                     'value' => $data['form_builder'],
                 ]);
             }
-        } 
+        }
+
+        if (System_setting::where('key', 'recaptcha_site_key')->get()->count() > 0) {
+            System_setting::where('key', 'recaptcha_site_key')->update([
+                'key' => 'recaptcha_site_key',
+                'value' => sanitize($data['recaptcha_site_key'] ?? ''),
+            ]);
+        } else {
+            System_setting::create([
+                'key' => 'recaptcha_site_key',
+                'value' => sanitize($data['recaptcha_site_key'] ?? ''),
+            ]);
+        }
+        if (System_setting::where('key', 'recaptcha_secret_key')->get()->count() > 0) {
+            System_setting::where('key', 'recaptcha_secret_key')->update([
+                'key' => 'recaptcha_secret_key',
+                'value' => sanitize($data['recaptcha_secret_key'] ?? ''),
+            ]);
+        } else {
+            System_setting::create([
+                'key' => 'recaptcha_secret_key',
+                'value' => sanitize($data['recaptcha_secret_key'] ?? ''),
+            ]);
+        }
+        $recaptchaReviewEnable = (isset($data['recaptcha_review_enable']) && $data['recaptcha_review_enable'] == '1') ? '1' : '0';
+        if (System_setting::where('key', 'recaptcha_review_enable')->get()->count() > 0) {
+            System_setting::where('key', 'recaptcha_review_enable')->update([
+                'key' => 'recaptcha_review_enable',
+                'value' => $recaptchaReviewEnable,
+            ]);
+        } else {
+            System_setting::create([
+                'key' => 'recaptcha_review_enable',
+                'value' => $recaptchaReviewEnable,
+            ]);
+        }
 
         Session::flash('success', get_phrase('Setting update successfully!'));
         return redirect()->back();

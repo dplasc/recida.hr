@@ -133,6 +133,21 @@
                     <input type="text" class="form-control ol-form-control" value="{{ get_settings('default_location') }}" id="default_location" name = "default_location" required>
                 </div>
                 <div class="mb-3">
+                    <label for="recaptcha_site_key" class="form-label ol-form-label">{{ get_phrase('Google reCAPTCHA Site Key') }}</label>
+                    <input type="text" class="form-control ol-form-control" value="{{ get_settings('recaptcha_site_key') }}" id="recaptcha_site_key" name="recaptcha_site_key" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="recaptcha_secret_key" class="form-label ol-form-label">{{ get_phrase('Google reCAPTCHA Secret Key') }}</label>
+                    <input type="text" class="form-control ol-form-control" value="{{ get_settings('recaptcha_secret_key') }}" id="recaptcha_secret_key" name="recaptcha_secret_key" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="recaptcha_review_enable" class="form-label ol-form-label">{{ get_phrase('Enable reCAPTCHA for Reviews') }}</label>
+                    <select name="recaptcha_review_enable" id="recaptcha_review_enable" class="form-control ol-form-control ol-select2">
+                        <option value="0" @if(get_settings('recaptcha_review_enable') == 0 || get_settings('recaptcha_review_enable') === null) selected @endif>{{ get_phrase('Disable') }}</option>
+                        <option value="1" @if(get_settings('recaptcha_review_enable') == 1) selected @endif>{{ get_phrase('Enable') }}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
                     <label for="footer_text" class="form-label ol-form-label">{{ get_phrase('Footer Copyright Text') }}</label>
                     <input type="text" name="footer_text" id="footer_text" class="form-control ol-form-control" value="{{ get_settings('footer_text') }}">
                 </div>

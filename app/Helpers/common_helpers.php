@@ -535,7 +535,7 @@ if (! function_exists('getActivePricingForUser')) {
  * Returns the user's plan key: 'free' or 'premium'.
  * Plan detection: based on active subscription's package (pricings).
  * - No subscription or expired => FREE
- * - pricing.price >= 0.1 => PREMIUM else FREE
+ * - PREMIUM if pricing.price >= 0.1 OR package name contains "unlimited" (case insensitive)
  * Does NOT rely on has_paid_subscription().
  *
  * @param int|null $user_id User ID (default: auth user)
@@ -547,7 +547,9 @@ if (! function_exists('getUserPlanKey')) {
         if (!$pricing) {
             return 'free';
         }
-        return ((float) $pricing->price) >= 0.1 ? 'premium' : 'free';
+        $isPremiumByPrice = ((float) $pricing->price) >= 0.1;
+        $isPremiumByName = stripos($pricing->name ?? '', 'unlimited') !== false;
+        return ($isPremiumByPrice || $isPremiumByName) ? 'premium' : 'free';
     }
 }
 

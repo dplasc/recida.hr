@@ -32,6 +32,15 @@
                             </svg>
                         </button>
                     </div>
+                    @php
+                        $usedBytes = getUserListingStorageUsage(user('id'));
+                        $limits = getUserImageLimits(user('id'));
+                        $quotaBytes = $limits['quota_bytes'] ?? 0;
+                        $usedMb = round($usedBytes / 1048576, 2);
+                        $quotaMb = round($quotaBytes / 1048576, 2);
+                        $remainingMb = max(0, round(($quotaBytes - $usedBytes) / 1048576, 2));
+                        $usagePercent = $quotaBytes > 0 ? min(100, round(($usedBytes / $quotaBytes) * 100)) : 0;
+                    @endphp
                     <div class="dl_column_content d-flex flex-column rg-30">
                         @if ($expiry_status)
                             <div class="dl_column_item pt-22 px-30 pb-30 boxShadow-06 bg-white">
@@ -53,6 +62,13 @@
                                     @php $date = date('M d, Y, h:m a', $current_subscription->expire_date); @endphp
                                     <span class="fz-24-b-black">@if ($current_package->price == 0){{get_phrase('Free')}}@else{{currency($current_package->price)}}@endif.</span> {{ get_phrase('It will expired on ') }} {{ $date }}
                                 </p>
+                                <div class="mt-25 pt-25 bd-t-1">
+                                    <h6 class="fz-15-sb-black pb-8">{{ get_phrase('Media storage') }}</h6>
+                                    <p class="fz-15-r-gray mb-10">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
                             </div>
                         @else
                             <div class="dl_column_item pt-22 px-30 pb-30 boxShadow-06 bg-white">
@@ -69,6 +85,13 @@
                                         {{ get_phrase('Your package has expired, please renew your package') }}.
                                     </p>
                                     <a href="{{ route('customer.become_an_agent') }}" onclick="renew_subscription()" class="eBtn expired-btn">{{ get_phrase('Renew Subscription') }}</a>
+                                </div>
+                                <div class="mt-25 pt-25 bd-t-1">
+                                    <h6 class="fz-15-sb-black pb-8">{{ get_phrase('Media storage') }}</h6>
+                                    <p class="fz-15-r-gray mb-10">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
                                 </div>
                             </div>
                         @endif

@@ -66,8 +66,13 @@
                                     <h6 class="fz-15-sb-black pb-8">{{ get_phrase('Media storage') }}</h6>
                                     <p class="fz-15-r-gray mb-10">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
                                     <div class="progress" style="height: 8px;">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar @if($usagePercent >= 95) bg-danger @elseif($usagePercent >= 80) bg-warning @endif" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
+                                    @if($usagePercent >= 95)
+                                        <small class="text-danger d-block mt-1">Gotovo ste dosegli limit</small>
+                                    @elseif($usagePercent >= 80)
+                                        <small class="text-warning d-block mt-1">Blizu ste limita ({{ $quotaMb }} MB)</small>
+                                    @endif
                                 </div>
                             </div>
                         @else
@@ -90,8 +95,13 @@
                                     <h6 class="fz-15-sb-black pb-8">{{ get_phrase('Media storage') }}</h6>
                                     <p class="fz-15-r-gray mb-10">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
                                     <div class="progress" style="height: 8px;">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar @if($usagePercent >= 95) bg-danger @elseif($usagePercent >= 80) bg-warning @endif" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
+                                    @if($usagePercent >= 95)
+                                        <small class="text-danger d-block mt-1">Gotovo ste dosegli limit</small>
+                                    @elseif($usagePercent >= 80)
+                                        <small class="text-warning d-block mt-1">Blizu ste limita ({{ $quotaMb }} MB)</small>
+                                    @endif
                                 </div>
                             </div>
                         @endif

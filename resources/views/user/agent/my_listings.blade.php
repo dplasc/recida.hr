@@ -83,8 +83,13 @@
                         <h6 class="ca-title-14px ca-text-dark mb-2">{{ get_phrase('Media storage') }}</h6>
                         <p class="in-subtitle-14px mb-2">{{ get_phrase('Iskorišteno') }}: {{ $usedMb }} MB / {{ $quotaMb }} MB · {{ get_phrase('Preostalo') }}: {{ $remainingMb }} MB</p>
                         <div class="progress" style="height: 8px;">
-                            <div class="progress-bar" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar @if($usagePercent >= 95) bg-danger @elseif($usagePercent >= 80) bg-warning @endif" role="progressbar" style="width: {{ $usagePercent }}%;" aria-valuenow="{{ $usagePercent }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+                        @if($usagePercent >= 95)
+                            <small class="text-danger d-block mt-1">Gotovo ste dosegli limit</small>
+                        @elseif($usagePercent >= 80)
+                            <small class="text-warning d-block mt-1">Blizu ste limita ({{ $quotaMb }} MB)</small>
+                        @endif
                     </div>
 
                     <div class="ca-content-card">

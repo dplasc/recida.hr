@@ -175,8 +175,23 @@
                                     
                                     <tr class="ca-tr">
                                       <td>
+                                          @php
+                                              $rawImages = $listing->image;
+                                              $listingImages = is_array($rawImages)
+                                                  ? $rawImages
+                                                  : (is_string($rawImages) ? (json_decode($rawImages, true) ?? []) : []);
+                                              if (! is_array($listingImages)) {
+                                                  $listingImages = [];
+                                              }
+                                              $firstListingImage = $listingImages[0] ?? null;
+                                              if ($firstListingImage !== null && ! is_string($firstListingImage)) {
+                                                  $firstListingImage = (is_scalar($firstListingImage) && ! is_bool($firstListingImage))
+                                                      ? (string) $firstListingImage
+                                                      : null;
+                                              }
+                                          @endphp
                                           <div class="sm2-banner-wrap">
-                                              <img src="{{get_all_image('listing-images/'.json_decode($listing->image)[0]??0)}}" alt="banner">
+                                              <img src="{{ get_listing_image_thumb('listing-images/' . $firstListingImage) }}" alt="banner" loading="lazy" decoding="async" width="120" height="80">
                                           </div>
                                       </td>
                                       <td class="ca-subtitle-14px ca-text-dark min-w-110px">{{$listing->title}}
@@ -185,7 +200,7 @@
                                             data-bs-title=" {{ get_phrase('This listing is verified') }}" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><linearGradient id="paint0_linear_16_1334" gradientUnits="userSpaceOnUse" x1="12" x2="12" y1="-1.2" y2="25.2"><stop offset="0" stop-color="#ce9ffc"/><stop offset=".979167" stop-color="#7367f0"/></linearGradient><path d="m3.783 2.826 8.217-1.826 8.217 1.826c.2221.04936.4207.17297.563.3504.1424.17744.22.39812.22.6256v9.987c-.0001.9877-.244 1.9602-.7101 2.831s-1.14 1.6131-1.9619 2.161l-6.328 4.219-6.328-4.219c-.82173-.5478-1.49554-1.2899-1.96165-2.1605-.46611-.8707-.71011-1.8429-.71035-2.8305v-9.988c.00004-.22748.07764-.44816.21999-.6256.14235-.17743.34095-.30104.56301-.3504zm8.217 10.674 2.939 1.545-.561-3.272 2.377-2.318-3.286-.478-1.469-2.977-1.47 2.977-3.285.478 2.377 2.318-.56 3.272z" fill="url(#paint0_linear_16_1334)"/></svg>
                                             @endif
                                       </td>
-                                      <td class="ca-subtitle-14px ca-text-dark min-w-110px">{{ucwords($listing->type)}}</td>
+                                      <td class="ca-subtitle-14px ca-text-dark min-w-110px">{{ ucwords((string) ($listing->type ?? '')) }}</td>
                                       <td class="ca-subtitle-14px ca-text-dark min-w-110px">{{$listing->address}}</td>
                                       <td>
                                           <p class="badge-{{$listing->visibility == 'hidden'?'danger':'success'}}-light">{{$listing->visibility}}</p>
@@ -197,7 +212,7 @@
                                                       <img src="{{ asset('assets/frontend/images/icons/menu-dots-vertical-14.svg') }}" alt="icon">
                                                   </button>
                                                   <ul class="dropdown-menu dropdown-menu-end at-dropdown-menu">
-                                                    <li><a class="dropdown-item" href="{{route('listing.details',['id'=>$listing->id,'type'=>$listing->type, 'slug'=>slugify($listing->title)])}}" target="__blank">{{get_phrase('View Frontend')}}</a></li>
+                                                    <li><a class="dropdown-item" href="{{route('listing.details',['id'=>$listing->id,'type'=>$listing->type, 'slug'=>slugify($listing->title ?? '')])}}" target="__blank">{{get_phrase('View Frontend')}}</a></li>
                                                     
                                                   <li><a class="dropdown-item" href="{{route('user.listing.edit',['id'=>$listing->id,'type'=>$listing->type,'tab'=>'basic'])}}">{{get_phrase('Edit Listing')}}</a></li>
 

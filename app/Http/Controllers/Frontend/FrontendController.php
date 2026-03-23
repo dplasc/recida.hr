@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use DB;
 use App\Mail\Mailer;
+use App\Services\N8nContactWebhookService;
 
 
 
@@ -968,6 +969,12 @@ public function listing_details($type, $id, $slug)
            'has_read' => 0,
            'replied'  => 0,
        ]);
+
+       // 1.1) Send to n8n webhook (fail-safe: never block contact flow)
+       (new N8nContactWebhookService())->send(
+           $contact,
+           isset($data['subject']) ? sanitize((string) $data['subject']) : null
+       );
    
        // 2) Recipient
        $to = get_settings('system_email') ?: config('mail.from.address');

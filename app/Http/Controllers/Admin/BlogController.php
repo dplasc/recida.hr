@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Blog_category;
+use App\Services\BlogImageService;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
@@ -36,10 +37,7 @@ class BlogController extends Controller
             'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/blog-images'), $imageName);
-            $data['image'] = $imageName;
+            $data['image'] = app(BlogImageService::class)->storeProcessed($request->file('image'));
         } else {
             $data['image'] = 0; 
         }
@@ -79,9 +77,7 @@ class BlogController extends Controller
             'keyword' => 'required',
         ]);
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/blog-images'), $imageName);
+            $imageName = app(BlogImageService::class)->storeProcessed($request->file('image'));
             $data['image'] = $imageName;
             $blog = Blog::where('id', $id)->first();
             if ($blog && $blog->image && is_file(public_path('uploads/blog-images/'.$blog->image))) {

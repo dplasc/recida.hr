@@ -5,6 +5,7 @@ use App\Http\Middleware\AnyAuthMiddleware;
 use App\Http\Middleware\IsCustomer;
 use App\Http\Middleware\IsAgent;
 use App\Http\Middleware\CheckDatabaseConnection;
+use App\Http\Middleware\N8nBlogAutomationAuth;
 use App\Http\Middleware\PreventBackHistory;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -60,7 +61,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'agent' => IsAgent::class,
             'anyAuth' => AnyAuthMiddleware::class,
             'CheckDatabaseConnection' => CheckDatabaseConnection::class,
-            'PreventBackHistory' => PreventBackHistory::class
+            'PreventBackHistory' => PreventBackHistory::class,
+            'n8n.blog' => N8nBlogAutomationAuth::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

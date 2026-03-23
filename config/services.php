@@ -40,4 +40,15 @@ return [
         'secret' => env('VIZI_PROVISION_SECRET'),
     ],
 
+    'n8n_contact' => [
+        'webhook_url' => env('N8N_CONTACT_WEBHOOK_URL'),
+        'webhook_secret' => env('N8N_CONTACT_WEBHOOK_SECRET'),
+        'timeout' => (int) env('N8N_CONTACT_WEBHOOK_TIMEOUT', 10),
+    ],
+
+    'n8n_blog' => [
+        'secret' => env('N8N_BLOG_SECRET'),
+        'user_id' => env('N8N_BLOG_USER_ID', 1),
+    ],
+
 ];

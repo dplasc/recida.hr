@@ -1,6 +1,6 @@
 @php
     $categories = App\Models\Blog_category::get();
-    $resent_post = App\Models\Blog::orderby('id')->limit(5)->get()
+    $resent_post = App\Models\Blog::where('status', 1)->orderBy('created_at', 'desc')->limit(5)->get()
 @endphp
 <div class="at-sidebar at-sidebar-2">
     <h4 class="in-title-5 lh-1 fw-semibold mb-3">{{get_phrase('Search')}}</h4>

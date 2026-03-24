@@ -20,6 +20,7 @@ class BlogAutomationController extends Controller
             'description' => 'required|string',
             'keyword' => 'required|string',
             'is_popular' => 'sometimes|in:0,1',
+            'status' => 'sometimes|in:0,1',
             'image' => 'required|file|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
@@ -73,7 +74,7 @@ class BlogAutomationController extends Controller
                     'category' => sanitize((string) $request->category),
                     'description' => $request->description,
                     'keyword' => sanitize($request->keyword),
-                    'status' => 0,
+                    'status' => $request->input('status', 0),
                     'time' => time(),
                     'is_popular' => $isPopular,
                     'created_at' => $now,

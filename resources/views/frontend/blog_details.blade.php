@@ -42,9 +42,7 @@
             <div class="row justify-content-center mb-80px">
                 <div class="col-xl-8 col-lg-9 col-md-10">
                     <div>
-                        <div class="in-subtitle-2 mb-30px blog-content">
-                            {!! $blog->description !!}
-                        </div>
+                        <p class="in-subtitle-2 mb-30px">{!! $blog->description !!}</p>
                         <div class="d-flex align-items-center flex-wrap gap-14px blog-share-wrap mb-3">
                             <p class="in-subtitle-1">{{get_phrase('Share On :')}}</p>
                             <ul class="d-flex align-items-center flex-wrap column-gap-20px row-gap-2">

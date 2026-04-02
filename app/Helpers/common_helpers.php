@@ -532,6 +532,21 @@ if (! function_exists('getActivePricingForUser')) {
 }
 
 /**
+ * Whether this pricing row is the internal high-storage tier (configured by ID in .env).
+ * When RECIDA_INTERNAL_STORAGE_PRICING_IDS is empty, no package matches (behavior unchanged).
+ */
+if (! function_exists('recida_pricing_is_internal_storage_quota')) {
+    function recida_pricing_is_internal_storage_quota(\App\Models\Pricing $pricing): bool {
+        $raw = trim((string) env('RECIDA_INTERNAL_STORAGE_PRICING_IDS', ''));
+        if ($raw === '') {
+            return false;
+        }
+        $ids = array_values(array_unique(array_filter(array_map('intval', explode(',', $raw)))));
+        return $ids !== [] && in_array((int) $pricing->id, $ids, true);
+    }
+}
+
+/**
  * Returns the user's plan key: 'free' or 'premium'.
  * Plan detection: based on active subscription's package (pricings).
  * - No subscription or expired => FREE
@@ -539,11 +554,20 @@ if (! function_exists('getActivePricingForUser')) {
  * Does NOT rely on has_paid_subscription().
  *
  * @param int|null $user_id User ID (default: auth user)
+ * @param \App\Models\Pricing|null $pricing Pre-fetched active package (optional; avoids duplicate DB read)
  * @return string 'free'|'premium'
  */
 if (! function_exists('getUserPlanKey')) {
-    function getUserPlanKey($user_id = null) {
-        $pricing = getActivePricingForUser($user_id);
+    function getUserPlanKey($user_id = null, $pricing = null) {
+        if ($user_id === null) {
+            $user_id = auth()->id() ?? null;
+        }
+        if (!$user_id) {
+            return 'free';
+        }
+        if ($pricing === null) {
+            $pricing = getActivePricingForUser($user_id);
+        }
         if (!$pricing) {
             return 'free';
         }
@@ -556,14 +580,25 @@ if (! function_exists('getUserPlanKey')) {
 /**
  * Returns image limits for the user's plan.
  * Free: max 3 images per listing, 20MB storage.
- * Premium: max 30 images per listing, 300MB storage.
+ * Premium: max 30 images per listing, 100MB storage.
+ * Internal (RECIDA_INTERNAL_STORAGE_PRICING_IDS): same max_images as premium, larger quota_bytes.
  *
  * @param int|null $user_id User ID (default: auth user)
  * @return array{max_images: int, quota_bytes: int}
  */
 if (! function_exists('getUserImageLimits')) {
     function getUserImageLimits($user_id = null) {
-        $plan = getUserPlanKey($user_id);
+        if ($user_id === null) {
+            $user_id = auth()->id() ?? null;
+        }
+        if (!$user_id) {
+            return ['max_images' => 3, 'quota_bytes' => 20 * 1024 * 1024]; // 20MB
+        }
+        $pricing = getActivePricingForUser($user_id);
+        if ($pricing && recida_pricing_is_internal_storage_quota($pricing)) {
+            return ['max_images' => 30, 'quota_bytes' => 5 * 1024 * 1024 * 1024]; // 5GB
+        }
+        $plan = getUserPlanKey($user_id, $pricing);
         if ($plan === 'premium') {
             return ['max_images' => 30, 'quota_bytes' => 100 * 1024 * 1024]; // 100MB
         }

@@ -482,6 +482,11 @@ class ListingController extends Controller
                         array_push($listing_image, $optimizedFileName);
                     }
             }
+            $listing_image = array_values(array_filter(array_map(function ($image) {
+                return is_string($image) ? trim($image) : null;
+            }, $listing_image), function ($image) {
+                return $image !== null && $image !== '';
+            }));
             $data['image'] = json_encode($listing_image);
             
             CarListing::where('id', $id)->update($data);
@@ -525,6 +530,11 @@ class ListingController extends Controller
                         array_push($listing_image, $optimizedFileName);
                     }
             }
+            $listing_image = array_values(array_filter(array_map(function ($image) {
+                return is_string($image) ? trim($image) : null;
+            }, $listing_image), function ($image) {
+                return $image !== null && $image !== '';
+            }));
             $data['image'] = json_encode($listing_image);
             Session::flash('success', get_phrase('Listing Update successfully!'));
             BeautyListing::where('id', $id)->update($data);
@@ -560,6 +570,11 @@ class ListingController extends Controller
                         array_push($listing_image, $optimizedFileName);
                     }
             }
+            $listing_image = array_values(array_filter(array_map(function ($image) {
+                return is_string($image) ? trim($image) : null;
+            }, $listing_image), function ($image) {
+                return $image !== null && $image !== '';
+            }));
             $data['image'] = json_encode($listing_image);
             
             HotelListing::where('id', $id)->update($data);
@@ -599,6 +614,11 @@ class ListingController extends Controller
                         array_push($listing_image, $optimizedFileName);
                     }
             }
+            $listing_image = array_values(array_filter(array_map(function ($image) {
+                return is_string($image) ? trim($image) : null;
+            }, $listing_image), function ($image) {
+                return $image !== null && $image !== '';
+            }));
             $data['image'] = json_encode($listing_image);
 
             // Model
@@ -661,6 +681,11 @@ class ListingController extends Controller
                         array_push($listing_image, $optimizedFileName);
                     }
             }
+            $listing_image = array_values(array_filter(array_map(function ($image) {
+                return is_string($image) ? trim($image) : null;
+            }, $listing_image), function ($image) {
+                return $image !== null && $image !== '';
+            }));
             $data['image'] = json_encode($listing_image);
             $data['menu'] = json_encode($request->menu)??[];
             RestaurantListing::where('id', $id)->update($data);
@@ -684,6 +709,11 @@ class ListingController extends Controller
                             array_push($listing_image, $optimizedFileName);
                         }
                 }
+                $listing_image = array_values(array_filter(array_map(function ($image) {
+                    return is_string($image) ? trim($image) : null;
+                }, $listing_image), function ($image) {
+                    return $image !== null && $image !== '';
+                }));
                 $data['image'] = json_encode($listing_image);
                 $data['is_popular'] = $request->is_popular ?? 0;
                 $data['feature'] = json_encode($request->feature)??[];

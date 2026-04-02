@@ -537,7 +537,7 @@ if (! function_exists('getActivePricingForUser')) {
  */
 if (! function_exists('recida_pricing_is_internal_storage_quota')) {
     function recida_pricing_is_internal_storage_quota(\App\Models\Pricing $pricing): bool {
-        $raw = trim((string) env('RECIDA_INTERNAL_STORAGE_PRICING_IDS', ''));
+        $raw = trim((string) config('services.recida.internal_storage_pricing_ids', ''));
         if ($raw === '') {
             return false;
         }

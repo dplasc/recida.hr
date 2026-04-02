@@ -51,4 +51,8 @@ return [
         'user_id' => env('N8N_BLOG_USER_ID', 1),
     ],
 
+    'recida' => [
+        'internal_storage_pricing_ids' => env('RECIDA_INTERNAL_STORAGE_PRICING_IDS', ''),
+    ],
+
 ];

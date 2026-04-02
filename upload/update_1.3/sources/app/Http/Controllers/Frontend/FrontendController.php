@@ -249,7 +249,7 @@ public function listing_details($type, $id, $slug)
     }
 
     public function blogs(){
-        $page_data['blogs'] = Blog::where('status', 1)->paginate(10);
+        $page_data['blogs'] = Blog::where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
         return view('frontend.blogs', $page_data);
     }
 
@@ -258,7 +258,7 @@ public function listing_details($type, $id, $slug)
         return view('frontend.blog_details', $page_data);
     }
     public function blog_category($category, $slug){
-        $page_data['blogs'] = Blog::where('category', $category)->where('status', 1)->paginate(10);
+        $page_data['blogs'] = Blog::where('category', $category)->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
         return view('frontend.blogs', $page_data);
     }
     public function blog_search(Request $request){
@@ -266,7 +266,7 @@ public function listing_details($type, $id, $slug)
             'search' => 'required|string|max:255',
         ]);
     
-        $page_data['blogs'] = Blog::where('title', 'like', '%' . $request->search . '%')->where('status', 1)->paginate(10);
+        $page_data['blogs'] = Blog::where('title', 'like', '%' . $request->search . '%')->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
         return view('frontend.blogs', $page_data);
     }
 

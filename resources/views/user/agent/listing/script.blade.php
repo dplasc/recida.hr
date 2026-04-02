@@ -101,7 +101,7 @@ document.getElementById('image-input').addEventListener('change', function(event
             url: url,
             success: function(result){
                 if(result == 1){
-                    $("#image-icon"+key).hide();
+                    $("#image-icon"+key).remove();
                 }
             }
         });
